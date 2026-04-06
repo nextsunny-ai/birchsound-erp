@@ -2,6 +2,33 @@
 // APP - Core application logic
 // ============================================
 
+// ---- 금액 포맷 (3자리 쉼표 + 한글 표시) ----
+function formatMoney(el) {
+  let v = el.value.replace(/[^\d]/g, '');
+  if (v) el.value = parseInt(v).toLocaleString();
+  else el.value = '';
+  const korEl = document.getElementById(el.id + '-korean');
+  if (korEl) korEl.textContent = v ? numberToKorean(parseInt(v)) : '';
+}
+function getMoneyValue(id) {
+  const el = document.getElementById(id);
+  if (!el) return 0;
+  return parseInt(el.value.replace(/[^\d]/g, '')) || 0;
+}
+function numberToKorean(n) {
+  if (!n || n === 0) return '';
+  const units = ['', '만', '억', '조'];
+  const parts = [];
+  let i = 0;
+  while (n > 0) {
+    const part = n % 10000;
+    if (part > 0) parts.unshift(part.toLocaleString() + units[i]);
+    n = Math.floor(n / 10000);
+    i++;
+  }
+  return parts.join(' ') + '원';
+}
+
 // ---- Role-Based Permission System ----
 const ROLE_PERMISSIONS = {
   ceo: ['dashboard','attendance','approval','messages','travel','ip','contract','project','calendar','tickets','crm','concert-settle','overseas-settle','notice','resources','accounts','hr','admin','settings','report','finance'],
@@ -52,8 +79,8 @@ function isManager(user) {
   if (!user || !user.profile) return false;
   const name = user.profile.name || '';
   const role = user.profile.role || '';
-  // 육연식, 유희정, 박정미만 ADMIN 접근 가능
-  if (name === '육연식' || name === '유희정' || name === '박정미') return true;
+  // 김한수, 필립 리, 관리자만 ADMIN 접근 가능
+  if (name === '김한수' || name === '필립 리' || name === '관리자') return true;
   if (role === 'ceo' || role === 'admin') return true;
   return false;
 }
@@ -393,13 +420,13 @@ async function loadApprovalApprovers() {
   if (!select) return;
   const { data } = await sb.from('profiles').select('id, name, role').order('name');
   if (!data) return;
-  // 결재자: 육연식(기본), 유희정만 표시
-  const approvers = data.filter(p => p.role === 'ceo' || p.name === '육연식' || p.name === '유희정');
+  // 결재자: 김한수(기본), 필립 리만 표시
+  const approvers = data.filter(p => p.role === 'ceo' || p.name === '김한수' || p.name === '필립 리');
   if (approvers.length === 0) {
     // 프로필에 없으면 전체 표시
     select.innerHTML = data.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
   } else {
-    select.innerHTML = approvers.map(p => `<option value="${p.id}" ${p.name === '육연식' ? 'selected' : ''}>${p.name} (대표)</option>`).join('');
+    select.innerHTML = approvers.map(p => `<option value="${p.id}" ${p.name === '김한수' ? 'selected' : ''}>${p.name} (대표)</option>`).join('');
   }
 }
 
@@ -2965,7 +2992,7 @@ function getCalendarStore() {
       endDate: '',
       time: '',
       location: '사무실',
-      manager: '박정미',
+      manager: '관리자',
       memo: '',
       color: '#DC2626',
       createdAt: '2026-03-25T00:00:00.000Z'
@@ -2978,7 +3005,7 @@ function getCalendarStore() {
       endDate: '',
       time: '14:00',
       location: '사무실',
-      manager: '육연식',
+      manager: '김한수',
       memo: '',
       color: '#EAB308',
       createdAt: '2026-03-25T00:00:00.000Z'
