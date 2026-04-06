@@ -746,7 +746,7 @@ function navigateTo(page) {
     case 'settlement': loadSettlements(); break;
     case 'notice': loadNotices(); break;
     case 'resources': loadResources(); break;
-    case 'admin': navigateTo('hr'); return;
+    case 'admin': loadMembers(); break;
     case 'hr': loadHRList(); loadMembers(); break;
     case 'project': loadProjects(); break;
     case 'accounts': loadAccounts(); loadContacts(); loadParttimeContacts(); break;
@@ -2509,23 +2509,9 @@ function getAccountStore() {
     if (data !== null) return data;
   } catch (e) {}
 
-  // Default accounts
+  // Default accounts (샘플)
   const defaults = [
-    { name: '잡코리아/알바몬', purpose: '채용 사이트', username: 'birchsound', password: 'goods151', manager: '박정미 본부장' },
-    { name: '공용 이메일', purpose: '컨택 등', username: 'biz@birchsound.com', password: 'goods151151', manager: '박정미 본부장' },
-    { name: '공용 이메일', purpose: 'CS응대', username: 'cs@birchsound.com', password: 'goods151151', manager: '박정미 본부장' },
-    { name: '홈택스', purpose: '세무', username: 'birchsound@hometax.go.kr', password: '', manager: '박정미 본부장' },
-    { name: '싸인오케이', purpose: '전자계약', username: 'birchsound100@gmail.com', password: '85748574tt*', manager: '' },
-    { name: '애플', purpose: 'SNS 운영용', username: '공용 이메일 연동', password: 'Goods151!', manager: '이다비 디자이너' },
-    { name: '네이버', purpose: '', username: 'birchsound', password: 'goods151!', manager: '이슬 PM' },
-    { name: '트위터(X)', purpose: '', username: 'goods_moment', password: 'Goods151!', manager: '이다비 디자이너' },
-    { name: '인스타그램', purpose: '', username: 'goods_moment', password: '!o9o9o9o9', manager: '이다비 디자이너' },
-    { name: '회사 공용', purpose: '업무용', username: 'birchsound_corp', password: '', manager: '' },
-    { name: '네이버 스마트플레이스', purpose: '예약', username: 'forrest777', password: 'goods151!', manager: '' },
-    { name: '와우프레스', purpose: '발주', username: 'birchsound', password: '17691769yys*', manager: '' },
-    { name: '에이프린트', purpose: '발주', username: 'biz@birchsound.com', password: '17691769yys*', manager: '' },
-    { name: '비즈하우스', purpose: '발주', username: 'birchsound@naver.com', password: '17691769yys*', manager: '' },
-    { name: '이케아', purpose: '구매', username: 'biz@birchsound.com', password: 'Goods151!', manager: '' }
+    { name: '[샘플] 회사 공용 이메일', purpose: '업무용', username: 'sample@company.com', password: '(비밀번호 입력)', manager: '관리자' }
   ];
   localStorage.setItem('bs_accounts', JSON.stringify(defaults));
   return defaults;
@@ -2538,12 +2524,7 @@ function getContactStore() {
   } catch (e) {}
 
   const defaults = [
-    { name: '육연식', nameEn: 'YUK YOEN SIK', position: 'CEO / 대표', team: 'IP사업본부', email: 'yys@birchsound.com', phone: '010-4433-8574' },
-    { name: '유희정', nameEn: 'SUNNY RYU', position: 'CCO / 대표', team: 'IP사업본부', email: 'rhj@birchsound.com', phone: '010-9120-2393' },
-    { name: '박정미', nameEn: 'PARK JEONG MI', position: 'Director / 본부장', team: 'IP사업본부', email: 'pjm@birchsound.com', phone: '010-6271-1005' },
-    { name: '김민수', nameEn: '', position: '기획팀장', team: '기획', email: '', phone: '' },
-    { name: '이지현', nameEn: '', position: 'PD', team: '제작', email: '', phone: '' },
-    { name: '박서연', nameEn: '', position: '마케팅 매니저', team: '마케팅', email: '', phone: '' }
+    { name: '[샘플] 홍길동', nameEn: 'HONG GILDONG', position: 'CEO', team: '경영', email: 'sample@birchsound.com', phone: '010-0000-0000' }
   ];
   localStorage.setItem('bs_contacts', JSON.stringify(defaults));
   return defaults;
@@ -2556,12 +2537,7 @@ function getParttimeStore() {
   } catch (e) {}
 
   const defaults = [
-    { name: '장주빈', phone: '010-7541-9840', note: '1차' },
-    { name: '김아현', phone: '010-5056-6711', note: '1차' },
-    { name: '양현지', phone: '010-5012-1656', note: '1차' },
-    { name: '박성환', phone: '010-9980-3648', note: '1차' },
-    { name: '전여림', phone: '010-8285-3295', note: '1차' },
-    { name: '차진아', phone: '010-3110-6208', note: '1차' },
+    { name: '[샘플] 김인턴', phone: '010-0000-0000', note: '샘플 데이터' },
     { name: '이지한', phone: '010-2622-7836', note: '1차' },
     { name: '이재경', phone: '010-7666-7502', note: '1차' }
   ];
