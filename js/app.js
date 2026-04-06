@@ -3702,31 +3702,47 @@ function getIPStore() {
   const d = localStorage.getItem('bs_ip_data');
   if (d) return JSON.parse(d);
   const defaults = [
-    { id: 'ip1', type: 'artist', name: 'Sample Artist', genre: 'K-Pop', agency: 'Sample Ent.', status: 'active', nextEvent: '2026 Summer Festival', contact: 'artist@email.com', memo: '' }
+    { id: 'ip1', type: 'artist', name: '[샘플] BTS', genre: 'K-Pop', agency: 'HYBE', status: 'confirmed', nextEvent: '2026 Summer Festival', contact: 'booking@hybe.com', memo: '헤드라이너 후보', fee: '500000000' },
+    { id: 'ip2', type: 'artist', name: '[샘플] Dua Lipa', genre: 'Pop', agency: 'TAP Music', status: 'negotiating', nextEvent: '', contact: 'agent@tapmusic.com', memo: '출연료 협상 중', fee: '800000000' },
+    { id: 'ip3', type: 'artist', name: '[샘플] BLACKPINK', genre: 'K-Pop', agency: 'YG Entertainment', status: 'contacting', nextEvent: '', contact: '', memo: '에이전시 컨택 예정', fee: '' },
+    { id: 'ip4', type: 'show', name: '[샘플] 2026 Summer Music Festival', genre: 'Festival', agency: '', status: 'confirmed', nextEvent: '2026-07-15 ~ 07-17', contact: '', memo: '메인 페스티벌' },
+    { id: 'ip5', type: 'content', name: '[샘플] Festival Documentary', genre: '영상', agency: '제작사 미정', status: 'candidate', nextEvent: '', contact: '', memo: '다큐멘터리 기획 중' }
   ];
   localStorage.setItem('bs_ip_data', JSON.stringify(defaults));
   return defaults;
 }
+const IP_STATUS = {
+  candidate: { label: '후보', cls: 'badge-rejected', color: '#DC2626' },
+  contacting: { label: '컨택 예정', cls: 'badge-pending', color: '#B8860B' },
+  contacted: { label: '컨택 중', cls: 'badge-pending', color: '#EA580C' },
+  negotiating: { label: '협상 중', cls: 'badge-pending', color: '#2563EB' },
+  confirmed: { label: '확정', cls: 'badge-approved', color: '#16A34A' },
+  rejected: { label: '거절/보류', cls: 'badge-rejected', color: '#6B7280' }
+};
 function renderIPTable() {
   const items = getIPStore().filter(i => i.type === currentIPTab);
   const tbody = document.getElementById('ip-table-body');
   if (!tbody) return;
-  const headers = { artist: ['이름','장르','소속','계약상태','다음 일정','연락처'], show: ['공연명','장르','아티스트','일시','장소','상태'], content: ['콘텐츠명','유형','IP','상태','수익','메모'] };
+  const headers = { artist: ['아티스트','장르','에이전시','섭외 상태','예상 출연료','연락처'], show: ['공연명','장르','기간','장소','상태','메모'], content: ['콘텐츠명','유형','상태','담당','메모',''], portfolio: ['아티스트','장르','에이전시','공연','콘텐츠',''] };
   const headerRow = document.getElementById('ip-table-header');
   if (headerRow) headerRow.innerHTML = (headers[currentIPTab] || headers.artist).map(h => '<th>' + h + '</th>').join('');
   if (items.length === 0) { tbody.innerHTML = '<tr><td colspan="6" class="empty-state">데이터가 없습니다. + IP 등록 버튼으로 추가하세요.</td></tr>'; return; }
-  tbody.innerHTML = items.map((item, i) => '<tr style="cursor:pointer;" onclick="editIP(' + i + ')">' +
+  tbody.innerHTML = items.map((item, i) => {
+    const st = IP_STATUS[item.status] || IP_STATUS.candidate;
+    const feeStr = item.fee ? '₩' + parseInt(item.fee).toLocaleString() : '-';
+    return '<tr style="cursor:pointer;" onclick="editIP(' + i + ')">' +
     '<td style="font-weight:600;">' + (item.name || '') + '</td>' +
     '<td>' + (item.genre || '') + '</td>' +
-    '<td>' + (item.agency || '') + '</td>' +
-    '<td><span class="badge ' + (item.status === 'active' ? 'badge-approved' : item.status === 'negotiating' ? 'badge-pending' : 'badge-rejected') + '">' + (item.status === 'active' ? '활동중' : item.status === 'negotiating' ? '협상중' : '완료') + '</span></td>' +
-    '<td>' + (item.nextEvent || '-') + '</td>' +
-    '<td>' + (item.contact || '-') + '</td></tr>').join('');
+    '<td>' + (item.agency || '-') + '</td>' +
+    '<td><span class="badge" style="background:' + st.color + '20; color:' + st.color + ';">' + st.label + '</span></td>' +
+    (currentIPTab === 'artist' ? '<td>' + feeStr + '</td>' : '<td>' + (item.nextEvent || '-') + '</td>') +
+    '<td>' + (item.contact || '-') + '</td></tr>';
+  }).join('');
 }
 function openIPModal() { closeModal('ip-modal'); document.getElementById('ip-modal').classList.add('active'); }
 function editIP(idx) { openIPModal(); /* TODO: fill form */ }
 function saveIP() {
-  const item = { id: 'ip_' + Date.now(), type: document.getElementById('ip-type')?.value || 'artist', name: document.getElementById('ip-name')?.value || '', genre: document.getElementById('ip-genre')?.value || '', agency: document.getElementById('ip-agency')?.value || '', status: document.getElementById('ip-status')?.value || 'active', nextEvent: document.getElementById('ip-next-event')?.value || '', contact: document.getElementById('ip-contact')?.value || '', memo: document.getElementById('ip-memo')?.value || '' };
+  const item = { id: 'ip_' + Date.now(), type: document.getElementById('ip-type')?.value || 'artist', name: document.getElementById('ip-name')?.value || '', genre: document.getElementById('ip-genre')?.value || '', agency: document.getElementById('ip-agency')?.value || '', status: document.getElementById('ip-status')?.value || 'candidate', nextEvent: document.getElementById('ip-next-event')?.value || '', contact: document.getElementById('ip-contact')?.value || '', fee: document.getElementById('ip-fee')?.value || '', memo: document.getElementById('ip-memo')?.value || '' };
   if (!item.name) { showToast('이름을 입력하세요', 'error'); return; }
   const store = getIPStore(); store.push(item); localStorage.setItem('bs_ip_data', JSON.stringify(store));
   closeModal('ip-modal'); renderIPTable(); showToast('IP 등록 완료', 'success');
@@ -3852,4 +3868,246 @@ function deleteAccount() {
   if (!confirm('정말 계정을 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) return;
   if (!confirm('마지막 확인: 모든 데이터가 삭제됩니다. 계속하시겠습니까?')) return;
   showToast('관리자에게 탈퇴를 요청해주세요.', 'info');
+}
+
+// ============================================
+// CONCERT SETTLEMENT (공연 정산)
+// ============================================
+function getConcertSettleStore() {
+  const d = localStorage.getItem('bs_concert_settle');
+  return d ? JSON.parse(d) : [];
+}
+function loadConcertSettle() { renderConcertSettle(); }
+function renderConcertSettle() {
+  const items = getConcertSettleStore();
+  const tbody = document.getElementById('concert-settle-table');
+  if (!tbody) return;
+  if (items.length === 0) { tbody.innerHTML = '<tr><td colspan="7" class="empty-state">공연 정산을 등록하세요.</td></tr>'; return; }
+  tbody.innerHTML = items.map(item => {
+    const statusMap = { draft: ['초안','badge-pending'], confirmed: ['확정','badge-approved'], paid: ['지급완료','badge-approved'] };
+    const [label, cls] = statusMap[item.status] || ['초안','badge-pending'];
+    return '<tr><td style="font-weight:600;">' + (item.name || '-') + '</td><td>' + (item.date || '-') + '</td><td style="font-weight:700; color:var(--primary);">' + fmtWon(item.totalRevenue) + '</td><td style="color:var(--red);">' + fmtWon(item.totalCost) + '</td><td>' + fmtWon(item.artistAmount) + ' (' + (item.artistRate || 0) + '%)</td><td style="font-weight:700; color:var(--green);">' + fmtWon(item.netProfit) + '</td><td><span class="badge ' + cls + '">' + label + '</span></td></tr>';
+  }).join('');
+}
+function fmtWon(v) { return '₩' + (parseInt(v) || 0).toLocaleString(); }
+function calcConcertSettle() {
+  const v = id => parseInt(document.getElementById(id)?.value) || 0;
+  const totalRevenue = v('cs-ticket') + v('cs-sponsor') + v('cs-md');
+  const totalCost = v('cs-cost-venue') + v('cs-cost-equip') + v('cs-cost-labor') + v('cs-cost-other');
+  const artistRate = v('cs-artist-rate');
+  const artistAmount = Math.round(totalRevenue * artistRate / 100);
+  const netProfit = totalRevenue - totalCost - artistAmount;
+  const el = id => document.getElementById(id);
+  if (el('cs-total-revenue')) el('cs-total-revenue').value = fmtWon(totalRevenue);
+  if (el('cs-artist-amount')) el('cs-artist-amount').value = fmtWon(artistAmount);
+  if (el('cs-net-profit')) el('cs-net-profit').value = fmtWon(netProfit);
+}
+function openConcertSettleModal() {
+  ['cs-name','cs-date','cs-ticket','cs-sponsor','cs-md','cs-cost-venue','cs-cost-equip','cs-cost-labor','cs-cost-other','cs-artist-rate','cs-memo'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  ['cs-total-revenue','cs-artist-amount','cs-net-profit'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  closeModal('concert-settle-modal'); document.getElementById('concert-settle-modal').classList.add('active');
+}
+function saveConcertSettle() {
+  const v = id => document.getElementById(id)?.value || '';
+  const n = id => parseInt(document.getElementById(id)?.value) || 0;
+  const name = v('cs-name');
+  if (!name) { showToast('공연명을 입력하세요', 'error'); return; }
+  const totalRevenue = n('cs-ticket') + n('cs-sponsor') + n('cs-md');
+  const totalCost = n('cs-cost-venue') + n('cs-cost-equip') + n('cs-cost-labor') + n('cs-cost-other');
+  const artistRate = n('cs-artist-rate');
+  const artistAmount = Math.round(totalRevenue * artistRate / 100);
+  const netProfit = totalRevenue - totalCost - artistAmount;
+  const item = { id: 'cs_' + Date.now(), name: name, date: v('cs-date'), ticketRevenue: n('cs-ticket'), sponsorRevenue: n('cs-sponsor'), mdRevenue: n('cs-md'), totalRevenue: totalRevenue, costVenue: n('cs-cost-venue'), costEquip: n('cs-cost-equip'), costLabor: n('cs-cost-labor'), costOther: n('cs-cost-other'), totalCost: totalCost, artistRate: artistRate, artistAmount: artistAmount, netProfit: netProfit, status: v('cs-status') || 'draft', memo: v('cs-memo') };
+  const store = getConcertSettleStore(); store.push(item); localStorage.setItem('bs_concert_settle', JSON.stringify(store));
+  closeModal('concert-settle-modal'); renderConcertSettle(); showToast('공연 정산 등록 완료', 'success');
+}
+
+// ============================================
+// OVERSEAS SETTLEMENT (해외 정산)
+// ============================================
+function getOverseasSettleStore() {
+  const d = localStorage.getItem('bs_overseas_settle');
+  return d ? JSON.parse(d) : [];
+}
+function loadOverseasSettle() { renderOverseasSettle(); }
+function renderOverseasSettle() {
+  const items = getOverseasSettleStore();
+  const tbody = document.getElementById('overseas-settle-table');
+  if (!tbody) return;
+  if (items.length === 0) { tbody.innerHTML = '<tr><td colspan="8" class="empty-state">해외 정산을 등록하세요.</td></tr>'; return; }
+  tbody.innerHTML = items.map(item => {
+    return '<tr><td style="font-weight:600;">' + (item.name || '-') + '</td><td>' + (item.country || '-') + '</td><td>' + (item.currency || '-') + '</td><td>' + (parseInt(item.localRevenue) || 0).toLocaleString() + '</td><td>' + (parseFloat(item.exchangeRate) || 0) + '</td><td style="font-weight:700; color:var(--primary);">' + fmtWon(item.krwAmount) + '</td><td style="color:var(--red);">' + fmtWon(item.localTax) + '</td><td style="font-weight:700; color:var(--green);">' + fmtWon(item.netRevenue) + '</td></tr>';
+  }).join('');
+}
+function calcOverseasSettle() {
+  const v = id => parseFloat(document.getElementById(id)?.value) || 0;
+  const localRevenue = v('os-local-revenue');
+  const rate = v('os-exchange-rate');
+  const krwAmount = Math.round(localRevenue * rate);
+  const localTax = v('os-local-tax');
+  const withholding = v('os-withholding');
+  const netRevenue = krwAmount - Math.round(localTax * rate) - Math.round(withholding * rate);
+  const el = id => document.getElementById(id);
+  if (el('os-krw-amount')) el('os-krw-amount').value = fmtWon(krwAmount);
+  if (el('os-net-revenue')) el('os-net-revenue').value = fmtWon(netRevenue);
+}
+function openOverseasSettleModal() {
+  ['os-name','os-local-revenue','os-exchange-rate','os-local-tax','os-withholding','os-memo'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  ['os-krw-amount','os-net-revenue'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  closeModal('overseas-settle-modal'); document.getElementById('overseas-settle-modal').classList.add('active');
+}
+function saveOverseasSettle() {
+  const v = id => document.getElementById(id)?.value || '';
+  const n = id => parseFloat(document.getElementById(id)?.value) || 0;
+  const name = v('os-name');
+  if (!name) { showToast('프로젝트명을 입력하세요', 'error'); return; }
+  const localRevenue = n('os-local-revenue');
+  const rate = n('os-exchange-rate');
+  const krwAmount = Math.round(localRevenue * rate);
+  const localTax = n('os-local-tax');
+  const withholding = n('os-withholding');
+  const netRevenue = krwAmount - Math.round(localTax * rate) - Math.round(withholding * rate);
+  const item = { id: 'os_' + Date.now(), name: name, country: v('os-country'), currency: v('os-currency'), localRevenue: localRevenue, exchangeRate: rate, krwAmount: krwAmount, localTax: localTax, withholding: withholding, netRevenue: netRevenue, memo: v('os-memo') };
+  const store = getOverseasSettleStore(); store.push(item); localStorage.setItem('bs_overseas_settle', JSON.stringify(store));
+  closeModal('overseas-settle-modal'); renderOverseasSettle(); showToast('해외 정산 등록 완료', 'success');
+}
+
+// ============================================
+// TICKETS (티켓/판매)
+// ============================================
+function getTicketStore() {
+  const d = localStorage.getItem('bs_tickets');
+  return d ? JSON.parse(d) : [];
+}
+function loadTickets() { renderTickets(); }
+function renderTickets() {
+  const items = getTicketStore();
+  const tbody = document.getElementById('ticket-table');
+  if (!tbody) return;
+  // Update stats
+  const totalSold = items.reduce((s, t) => s + (parseInt(t.sold) || 0), 0);
+  const totalRevenue = items.reduce((s, t) => s + (parseInt(t.revenue) || 0), 0);
+  const totalSeats = items.reduce((s, t) => s + (parseInt(t.totalSeats) || 0), 0);
+  const avgPrice = items.length > 0 ? Math.round(totalRevenue / Math.max(totalSold, 1)) : 0;
+  const sellRate = totalSeats > 0 ? Math.round(totalSold / totalSeats * 100) : 0;
+  const el = id => document.getElementById(id);
+  if (el('ticket-total-sold')) el('ticket-total-sold').textContent = totalSold.toLocaleString();
+  if (el('ticket-total-revenue')) el('ticket-total-revenue').textContent = fmtWon(totalRevenue);
+  if (el('ticket-avg-price')) el('ticket-avg-price').textContent = fmtWon(avgPrice);
+  if (el('ticket-sell-rate')) el('ticket-sell-rate').textContent = sellRate + '%';
+  if (items.length === 0) { tbody.innerHTML = '<tr><td colspan="7" class="empty-state">티켓 판매 데이터를 등록하세요.</td></tr>'; return; }
+  tbody.innerHTML = items.map(t => {
+    const rate = (parseInt(t.totalSeats) || 0) > 0 ? Math.round((parseInt(t.sold) || 0) / parseInt(t.totalSeats) * 100) : 0;
+    return '<tr><td style="font-weight:600;">' + (t.name || '-') + '</td><td>' + (t.platform || '-') + '</td><td>' + (parseInt(t.totalSeats) || 0).toLocaleString() + '</td><td>' + (parseInt(t.sold) || 0).toLocaleString() + '</td><td>' + rate + '%</td><td style="font-weight:700; color:var(--green);">' + fmtWon(t.revenue) + '</td><td>' + (t.date || '-') + '</td></tr>';
+  }).join('');
+}
+function calcTicket() {
+  const sold = parseInt(document.getElementById('tk-sold')?.value) || 0;
+  const price = parseInt(document.getElementById('tk-price')?.value) || 0;
+  const rev = sold * price;
+  const el = document.getElementById('tk-revenue');
+  if (el) el.value = fmtWon(rev);
+}
+function openTicketModal() {
+  ['tk-name','tk-total-seats','tk-sold','tk-price','tk-date','tk-memo'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  const el = document.getElementById('tk-revenue'); if (el) el.value = '';
+  closeModal('ticket-modal'); document.getElementById('ticket-modal').classList.add('active');
+}
+function saveTicket() {
+  const v = id => document.getElementById(id)?.value || '';
+  const n = id => parseInt(document.getElementById(id)?.value) || 0;
+  const name = v('tk-name');
+  if (!name) { showToast('공연명을 입력하세요', 'error'); return; }
+  const sold = n('tk-sold');
+  const price = n('tk-price');
+  const item = { id: 'tk_' + Date.now(), name: name, platform: v('tk-platform'), totalSeats: n('tk-total-seats'), sold: sold, price: price, revenue: sold * price, date: v('tk-date'), memo: v('tk-memo') };
+  const store = getTicketStore(); store.push(item); localStorage.setItem('bs_tickets', JSON.stringify(store));
+  closeModal('ticket-modal'); renderTickets(); showToast('티켓 데이터 등록 완료', 'success');
+}
+
+// ============================================
+// TRAVEL (출장 관리)
+// ============================================
+function getTravelStore() {
+  const d = localStorage.getItem('bs_travel');
+  if (d) return JSON.parse(d);
+  const defaults = [
+    { id: 'tv_sample1', name: '[샘플] 싱가포르 공연장 답사', country: '싱가포르', city: 'Marina Bay', startDate: '2026-05-15', endDate: '2026-05-18', purpose: '공연장섭외', estimatedCost: 5000000, actualCost: 0, status: 'planned', assignee: '', memo: 'Marina Bay Sands 공연장 계약 미팅' }
+  ];
+  localStorage.setItem('bs_travel', JSON.stringify(defaults));
+  return defaults;
+}
+function loadTravel() { renderTravel(); }
+function renderTravel() {
+  const items = getTravelStore();
+  const tbody = document.getElementById('travel-table');
+  if (!tbody) return;
+  if (items.length === 0) { tbody.innerHTML = '<tr><td colspan="8" class="empty-state">출장 정보를 등록하세요.</td></tr>'; return; }
+  const statusMap = { planned: ['계획','badge-pending'], approved: ['승인','badge-approved'], ongoing: ['진행중','badge-pending'], completed: ['완료','badge-approved'], cancelled: ['취소','badge-rejected'] };
+  const purposeMap = { '공연장섭외': '공연장 섭외', '파트너미팅': '파트너 미팅', '투자미팅': '투자 미팅', '아티스트미팅': '아티스트 미팅', '현장답사': '현장 답사', '기타': '기타' };
+  tbody.innerHTML = items.map(t => {
+    const [label, cls] = statusMap[t.status] || ['계획','badge-pending'];
+    return '<tr><td style="font-weight:600;">' + (t.name || '-') + '</td><td>' + (t.country || '') + ' ' + (t.city || '') + '</td><td style="font-size:12px;">' + (t.startDate || '') + ' ~ ' + (t.endDate || '') + '</td><td>' + (purposeMap[t.purpose] || t.purpose || '-') + '</td><td>' + fmtWon(t.estimatedCost) + '</td><td>' + (t.actualCost ? fmtWon(t.actualCost) : '-') + '</td><td><span class="badge ' + cls + '">' + label + '</span></td><td>' + (t.assignee || '-') + '</td></tr>';
+  }).join('');
+}
+function openTravelModal() {
+  ['tv-name','tv-city','tv-start','tv-end','tv-est-cost','tv-act-cost','tv-assignee','tv-memo'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  closeModal('travel-modal'); document.getElementById('travel-modal').classList.add('active');
+}
+function saveTravel() {
+  const v = id => document.getElementById(id)?.value || '';
+  const n = id => parseInt(document.getElementById(id)?.value) || 0;
+  const name = v('tv-name');
+  if (!name) { showToast('출장명을 입력하세요', 'error'); return; }
+  const item = { id: 'tv_' + Date.now(), name: name, country: v('tv-country'), city: v('tv-city'), startDate: v('tv-start'), endDate: v('tv-end'), purpose: v('tv-purpose'), estimatedCost: n('tv-est-cost'), actualCost: n('tv-act-cost'), status: v('tv-status') || 'planned', assignee: v('tv-assignee'), memo: v('tv-memo') };
+  const store = getTravelStore(); store.push(item); localStorage.setItem('bs_travel', JSON.stringify(store));
+  closeModal('travel-modal'); renderTravel(); showToast('출장 등록 완료', 'success');
+}
+
+// ============================================
+// CRM (파트너/스폰서 관계 관리)
+// ============================================
+let currentCRMTab = 'all';
+function getCRMStore() {
+  const d = localStorage.getItem('bs_crm');
+  if (d) return JSON.parse(d);
+  const defaults = [
+    { id: 'crm_s1', company: '[샘플] Marina Bay Sands', type: 'venue', country: '싱가포르', contact: 'John Lee', title: 'Event Manager', email: 'events@mbs.com', phone: '', lastMeeting: '2026-04-01', nextMeeting: '2026-05-15', status: 'active', memo: '2026 페스티벌 공연장 후보' },
+    { id: 'crm_s2', company: '[샘플] Global Sound Tech', type: 'partner', country: '미국', contact: 'Mike Johnson', title: 'CEO', email: 'mike@gst.com', phone: '', lastMeeting: '', nextMeeting: '', status: 'new', memo: '공연기술 외주 업체' }
+  ];
+  localStorage.setItem('bs_crm', JSON.stringify(defaults));
+  return defaults;
+}
+function loadCRM() { renderCRM(); }
+function switchCRMTab(tab) {
+  currentCRMTab = tab;
+  document.querySelectorAll('[id^="crm-tab-"]').forEach(b => b.className = 'btn btn-sm btn-secondary');
+  const active = document.getElementById('crm-tab-' + tab);
+  if (active) active.className = 'btn btn-sm btn-primary';
+  renderCRM();
+}
+function renderCRM() {
+  const all = getCRMStore();
+  const items = currentCRMTab === 'all' ? all : all.filter(c => c.type === currentCRMTab);
+  const tbody = document.getElementById('crm-table');
+  if (!tbody) return;
+  const typeMap = { partner: '파트너', sponsor: '스폰서', investor: '투자자', venue: '공연장', agency: '에이전시', media: '미디어' };
+  const statusMap = { 'new': ['신규','badge-pending'], active: ['활성','badge-approved'], inactive: ['비활성','badge-rejected'], vip: ['VIP','badge-approved'] };
+  if (items.length === 0) { tbody.innerHTML = '<tr><td colspan="8" class="empty-state">파트너 정보를 등록하세요.</td></tr>'; return; }
+  tbody.innerHTML = items.map(c => {
+    const [statusLabel, statusCls] = statusMap[c.status] || ['신규','badge-pending'];
+    return '<tr><td style="font-weight:600;">' + (c.company || '-') + '</td><td>' + (typeMap[c.type] || c.type) + '</td><td>' + (c.country || '-') + '</td><td>' + (c.contact || '-') + '</td><td style="font-size:12px;">' + (c.email || c.phone || '-') + '</td><td>' + (c.lastMeeting || '-') + '</td><td><span class="badge ' + statusCls + '">' + statusLabel + '</span></td><td style="font-size:12px; max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">' + (c.memo || '-') + '</td></tr>';
+  }).join('');
+}
+function openCRMModal() {
+  ['crm-company','crm-country','crm-contact','crm-title','crm-email','crm-phone','crm-last-meeting','crm-next-meeting','crm-memo'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  closeModal('crm-modal'); document.getElementById('crm-modal').classList.add('active');
+}
+function saveCRM() {
+  const v = id => document.getElementById(id)?.value || '';
+  const company = v('crm-company');
+  if (!company) { showToast('회사/이름을 입력하세요', 'error'); return; }
+  const item = { id: 'crm_' + Date.now(), company: company, type: v('crm-type') || 'partner', country: v('crm-country'), contact: v('crm-contact'), title: v('crm-title'), email: v('crm-email'), phone: v('crm-phone'), lastMeeting: v('crm-last-meeting'), nextMeeting: v('crm-next-meeting'), status: v('crm-status') || 'new', memo: v('crm-memo') };
+  const store = getCRMStore(); store.push(item); localStorage.setItem('bs_crm', JSON.stringify(store));
+  closeModal('crm-modal'); renderCRM(); showToast('CRM 등록 완료', 'success');
 }
