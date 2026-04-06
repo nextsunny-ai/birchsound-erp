@@ -50,6 +50,20 @@ async function checkSession() {
   } catch (e) {}
 }
 
+let currentUser = null;
+let currentProfile = null;
+
+async function getCurrentUser() {
+  try {
+    const { data: { session } } = await getSB().auth.getSession();
+    if (!session) return null;
+    currentUser = session.user;
+    const { data: profile } = await getSB().from('profiles').select('*').eq('id', session.user.id).single();
+    currentProfile = profile;
+    return { ...session.user, profile };
+  } catch (e) { return null; }
+}
+
 async function checkAuth() {
   try {
     const { data } = await getSB().auth.getSession();
