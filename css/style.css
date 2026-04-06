@@ -1243,3 +1243,15 @@ table tbody tr:last-child td {
   /* Landscape for calendar */
   @page { size: A4 landscape; margin: 10mm; }
 }
+
+/* Make ghost buttons more visible as clickable */
+.btn-ghost {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  color: var(--gray-700);
+  font-weight: 600;
+}
+.btn-ghost:hover {
+  background: var(--gray-100);
+  border-color: var(--gray-300);
+}
