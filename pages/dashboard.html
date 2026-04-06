@@ -1511,6 +1511,29 @@
           </div>
 
           <div class="card" style="margin-bottom:16px;">
+            <div class="card-header"><h3>직원 권한 관리</h3></div>
+            <div class="card-body">
+              <p style="font-size:13px; color:var(--gray-500); margin-bottom:16px;">직원의 역할을 변경하면 접근 가능한 메뉴가 달라집니다.</p>
+              <div class="table-container">
+                <table>
+                  <thead><tr><th>이름</th><th>이메일</th><th>부서</th><th>현재 권한</th><th>변경</th></tr></thead>
+                  <tbody id="permission-table"></tbody>
+                </table>
+              </div>
+              <div style="margin-top:16px; padding:16px; background:var(--gray-50); border-radius:8px; font-size:13px;">
+                <div style="font-weight:700; margin-bottom:8px;">권한 등급 설명</div>
+                <div style="display:grid; grid-template-columns:100px 1fr; gap:4px 12px;">
+                  <div style="font-weight:600; color:var(--primary);">대표</div><div>모든 기능 접근</div>
+                  <div style="font-weight:600; color:var(--blue);">관리자</div><div>설정 제외 모든 기능</div>
+                  <div style="font-weight:600; color:var(--green);">팀장</div><div>Main + Business (정산/인사 제외)</div>
+                  <div style="font-weight:600;">팀원</div><div>기본 기능 (대시보드, 결재, 메시지, 프로젝트, 일정)</div>
+                  <div style="font-weight:600; color:var(--gray-500);">게스트</div><div>배정된 프로젝트 + 메시지만</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:16px;">
             <div class="card-header"><h3>계정 관리</h3></div>
             <div class="card-body">
               <div style="display:flex; flex-direction:column; gap:12px;">
@@ -2558,6 +2581,7 @@
 
       await initSidebar();
       if (typeof applyLang === 'function') applyLang();
+      if (typeof applyPermissions === 'function') applyPermissions();
       if (typeof applySettings === 'function') applySettings();
       navigateTo('dashboard');
 

@@ -2,6 +2,51 @@
 // APP - Core application logic
 // ============================================
 
+// ---- Role-Based Permission System ----
+const ROLE_PERMISSIONS = {
+  ceo: ['dashboard','attendance','approval','messages','travel','ip','contract','project','calendar','tickets','crm','concert-settle','overseas-settle','notice','resources','accounts','hr','admin','settings','report','finance'],
+  admin: ['dashboard','attendance','approval','messages','travel','ip','contract','project','calendar','tickets','crm','concert-settle','overseas-settle','notice','resources','accounts','hr','admin','report','finance'],
+  manager: ['dashboard','attendance','approval','messages','travel','ip','contract','project','calendar','tickets','crm','notice','resources','accounts'],
+  member: ['dashboard','attendance','approval','messages','travel','project','calendar','notice','resources'],
+  guest: ['dashboard','messages','project']
+};
+
+function applyPermissions() {
+  try {
+    const role = (currentProfile && currentProfile.role) || 'member';
+    const allowed = ROLE_PERMISSIONS[role] || ROLE_PERMISSIONS.member;
+
+    // Hide/show nav items based on permissions
+    document.querySelectorAll('.nav-item[data-page]').forEach(item => {
+      const page = item.getAttribute('data-page');
+      if (page) {
+        item.style.display = allowed.includes(page) ? '' : 'none';
+      }
+    });
+
+    // Hide entire nav sections if all items are hidden
+    document.querySelectorAll('.nav-section').forEach(section => {
+      const items = section.querySelectorAll('.nav-item[data-page]');
+      const visibleItems = Array.from(items).filter(i => i.style.display !== 'none');
+      const title = section.querySelector('.nav-section-title');
+      if (title && items.length > 0) {
+        section.style.display = visibleItems.length === 0 ? 'none' : '';
+      }
+    });
+
+    // Show role badge in sidebar
+    const roleEl = document.getElementById('user-display-role');
+    const roleLabels = { ceo: '대표', admin: '관리자', manager: '팀장', member: '팀원', guest: '게스트 (외주)' };
+    if (roleEl) {
+      const dept = (currentProfile && currentProfile.department) || '';
+      roleEl.textContent = (dept ? dept + ' · ' : '') + (roleLabels[role] || role);
+    }
+  } catch (e) {
+    // Fail-open: if applyPermissions fails, everything stays visible
+    console.warn('applyPermissions failed:', e);
+  }
+}
+
 // ---- Permission Helper ----
 function isManager(user) {
   if (!user || !user.profile) return false;
@@ -730,6 +775,14 @@ function closeModal(id) {
 
 // ---- Sidebar Navigation ----
 function navigateTo(page) {
+  // Permission check
+  const role = (currentProfile && currentProfile.role) || 'member';
+  const allowed = ROLE_PERMISSIONS[role] || ROLE_PERMISSIONS.member;
+  if (!allowed.includes(page) && page !== 'dashboard') {
+    showToast('접근 권한이 없습니다.', 'error');
+    return;
+  }
+
   document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.page-section').forEach(el => el.style.display = 'none');
 
@@ -3832,6 +3885,52 @@ function loadSettings() {
     const el = document.getElementById('setting-' + f);
     if (el) el.checked = settings[f] !== false; // default true
   });
+  loadPermissionTable();
+}
+
+async function loadPermissionTable() {
+  const tbody = document.getElementById('permission-table');
+  if (!tbody) return;
+
+  try {
+    const { data: profiles } = await getSB().from('profiles').select('*').order('name');
+    if (!profiles || profiles.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="empty-state">등록된 직원이 없습니다.</td></tr>';
+      return;
+    }
+
+    const roleLabels = { ceo: '대표', admin: '관리자', manager: '팀장', member: '팀원', guest: '게스트' };
+    const roleColors = { ceo: 'var(--primary)', admin: 'var(--blue)', manager: 'var(--green)', member: 'var(--gray-600)', guest: 'var(--gray-400)' };
+
+    tbody.innerHTML = profiles.map(p => `<tr>
+      <td style="font-weight:600;">${p.name || '-'}${p.id === (currentUser && currentUser.id) ? ' (나)' : ''}</td>
+      <td style="font-size:12px;">${p.email || '-'}</td>
+      <td>${p.department || '-'}</td>
+      <td><span style="color:${roleColors[p.role] || 'inherit'}; font-weight:600;">${roleLabels[p.role] || p.role}</span></td>
+      <td>
+        <select onchange="changeUserRole('${p.id}', this.value)" style="padding:6px 10px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:13px;" ${p.id === (currentUser && currentUser.id) ? 'disabled title="본인 권한은 변경할 수 없습니다"' : ''}>
+          <option value="ceo" ${p.role === 'ceo' ? 'selected' : ''}>대표</option>
+          <option value="admin" ${p.role === 'admin' ? 'selected' : ''}>관리자</option>
+          <option value="manager" ${p.role === 'manager' ? 'selected' : ''}>팀장</option>
+          <option value="member" ${p.role === 'member' ? 'selected' : ''}>팀원</option>
+          <option value="guest" ${p.role === 'guest' ? 'selected' : ''}>게스트</option>
+        </select>
+      </td>
+    </tr>`).join('');
+  } catch (e) {
+    tbody.innerHTML = '<tr><td colspan="5" class="empty-state">데이터를 불러올 수 없습니다.</td></tr>';
+  }
+}
+
+async function changeUserRole(userId, newRole) {
+  try {
+    const { error } = await getSB().from('profiles').update({ role: newRole }).eq('id', userId);
+    if (error) throw error;
+    showToast('권한이 변경되었습니다.', 'success');
+    loadPermissionTable();
+  } catch (e) {
+    showToast('권한 변경 실패: ' + e.message, 'error');
+  }
 }
 
 function saveSettings() {
@@ -4110,4 +4209,16 @@ function saveCRM() {
   const item = { id: 'crm_' + Date.now(), company: company, type: v('crm-type') || 'partner', country: v('crm-country'), contact: v('crm-contact'), title: v('crm-title'), email: v('crm-email'), phone: v('crm-phone'), lastMeeting: v('crm-last-meeting'), nextMeeting: v('crm-next-meeting'), status: v('crm-status') || 'new', memo: v('crm-memo') };
   const store = getCRMStore(); store.push(item); localStorage.setItem('bs_crm', JSON.stringify(store));
   closeModal('crm-modal'); renderCRM(); showToast('CRM 등록 완료', 'success');
+}
+
+// Stub functions for removed features (prevent console errors)
+function deleteClient() {}
+function openClientModal() {}
+function saveClient() {}
+function switchClientTab() {}
+function generateAllPayslips() {
+  const hrData = JSON.parse(localStorage.getItem('bs_hr_data') || '{}');
+  Object.keys(hrData).forEach((id, i) => {
+    setTimeout(() => { if (typeof downloadPayslip === 'function') downloadPayslip(id); }, i * 300);
+  });
 }
