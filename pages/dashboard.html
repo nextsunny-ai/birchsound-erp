@@ -366,7 +366,7 @@
           <!-- Settlement Tabs -->
           <div class="tabs" style="margin-bottom:16px; display:flex; gap:0; border-bottom:2px solid var(--gray-200);">
             <div class="tab-item active" onclick="switchSettleTab('publisher')" id="settle-tab-btn-publisher" style="padding:10px 20px; font-weight:600; font-size:14px; cursor:pointer; border-bottom:2px solid var(--primary); margin-bottom:-2px; color:var(--primary);">공연 수익</div>
-            <div class="tab-item" onclick="switchSettleTab('urban')" id="settle-tab-btn-urban" style="padding:10px 20px; font-weight:600; font-size:14px; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; color:var(--gray-500);">광고 수익</div>
+            <div class="tab-item" onclick="switchSettleTab('ad')" id="settle-tab-btn-ad" style="padding:10px 20px; font-weight:600; font-size:14px; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; color:var(--gray-500);">광고 수익</div>
             <div class="tab-item" onclick="switchSettleTab('popup')" id="settle-tab-btn-popup" style="padding:10px 20px; font-weight:600; font-size:14px; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; color:var(--gray-500);">굿즈 판매</div>
             <div class="tab-item" onclick="switchSettleTab('overseas')" id="settle-tab-btn-overseas" style="padding:10px 20px; font-weight:600; font-size:14px; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; color:var(--gray-500);">해외 수익</div>
           </div>
@@ -490,7 +490,7 @@
           </div><!-- /settle-tab-publisher -->
 
           <!-- Urban Play Settlement Tab -->
-          <div id="settle-tab-urban" style="display:none;">
+          <div id="settle-tab-ad" style="display:none;">
             <div class="card" style="margin-bottom:24px;">
               <div class="card-header">
                 <h3>광고 수익 정산</h3>
@@ -504,7 +504,7 @@
                 <div class="empty-state" style="padding:24px;"><p style="color:var(--gray-400);">광고 수익 정산 기능 준비 중</p></div>
               </div>
             </div>
-          </div><!-- /settle-tab-urban -->
+          </div><!-- /settle-tab-ad -->
 
           <!-- Goods Settlement Tab -->
           <div id="settle-tab-popup" style="display:none;">
@@ -1293,8 +1293,8 @@
             </div>
             <div class="card" style="border:none; box-shadow:none; background:var(--yellow-bg);">
               <div class="card-body" style="padding:14px; text-align:center;">
-                <div style="font-size:11px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-urban">기타 정산</div>
-                <div style="font-size:22px; font-weight:800; color:#B8860B;" id="report-year-urban">₩0</div>
+                <div style="font-size:11px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-ad">기타 정산</div>
+                <div style="font-size:22px; font-weight:800; color:#B8860B;" id="report-year-ad">₩0</div>
               </div>
             </div>
           </div>
@@ -1336,8 +1336,8 @@
                   <div style="font-size:18px; font-weight:800; color:#B8860B;" id="report-total-supplies">-</div>
                 </div>
                 <div style="background:var(--blue-bg); padding:12px; border-radius:8px; text-align:center;">
-                  <div style="font-size:11px; color:var(--gray-500);" id="report-cost-label-urban">기타 비용</div>
-                  <div style="font-size:18px; font-weight:800; color:var(--blue);" id="report-total-urban-pay">-</div>
+                  <div style="font-size:11px; color:var(--gray-500);" id="report-cost-label-ad">기타 비용</div>
+                  <div style="font-size:18px; font-weight:800; color:var(--blue);" id="report-total-ad-pay">-</div>
                 </div>
                 <div style="background:var(--green-bg); padding:12px; border-radius:8px; text-align:center;">
                   <div style="font-size:11px; color:var(--gray-500);" id="report-cost-label-gm">순수익</div>
@@ -1366,7 +1366,7 @@
                       <td id="report-cost-foot-labor">-</td>
                       <td id="report-cost-foot-supplies">-</td>
                       <td id="report-cost-foot-mgmt">-</td>
-                      <td id="report-cost-foot-urban">-</td>
+                      <td id="report-cost-foot-ad">-</td>
                       <td id="report-cost-foot-gm" style="color:var(--green);">-</td>
                     </tr>
                   </tfoot>
@@ -2297,7 +2297,7 @@
         schedEl.style.color = 'var(--red)';
         timeEl.textContent = '정기 휴무';
       } else if (myEntry) {
-        schedEl.textContent = myEntry.floor + ' 근무';
+        schedEl.textContent = myEntry.team + ' 근무';
         schedEl.style.color = 'var(--black)';
         timeEl.textContent = myEntry.startTime + ' ~ ' + myEntry.endTime + ' (휴게 ' + myEntry.breakMin + '분)';
       } else {
@@ -2306,29 +2306,29 @@
         timeEl.textContent = '';
       }
 
-      // --- 2. Floor status (who's on each floor today) ---
-      const floors = { 1: [], 2: [], 3: [], 4: [] };
+      // --- 2. Team status (who's on each team today) ---
+      const teams = { 1: [], 2: [], 3: [], 4: [] };
       if (dayOfWeek === 3) {
         for (let f = 1; f <= 4; f++) {
-          const el = document.getElementById('dash-floor-' + f);
+          const el = document.getElementById('dash-team-' + f);
           if (el) { el.textContent = '휴무'; el.style.color = 'var(--red)'; el.style.fontSize = '13px'; }
         }
       } else {
         todayEntries.forEach(e => {
           const shortName = e.name ? e.name.replace(/[MPT]/g, '') : e.name;
-          if (e.floor === '전체') {
-            [1,2,3,4].forEach(f => floors[f].push(shortName));
+          if (e.team === '전체') {
+            [1,2,3,4].forEach(f => teams[f].push(shortName));
           } else {
-            const fNum = parseInt(e.floor);
-            if (fNum >= 1 && fNum <= 4) floors[fNum].push(shortName);
+            const fNum = parseInt(e.team);
+            if (fNum >= 1 && fNum <= 4) teams[fNum].push(shortName);
           }
         });
         for (let f = 1; f <= 4; f++) {
-          const el = document.getElementById('dash-floor-' + f);
+          const el = document.getElementById('dash-team-' + f);
           if (el) {
-            el.textContent = floors[f].length > 0 ? floors[f].join(', ') : '-';
-            el.style.color = floors[f].length > 0 ? 'var(--black)' : 'var(--gray-400)';
-            el.style.fontSize = floors[f].length > 2 ? '12px' : '14px';
+            el.textContent = teams[f].length > 0 ? teams[f].join(', ') : '-';
+            el.style.color = teams[f].length > 0 ? 'var(--black)' : 'var(--gray-400)';
+            el.style.fontSize = teams[f].length > 2 ? '12px' : '14px';
           }
         }
       }
@@ -2355,16 +2355,16 @@
             return userName === e.name || userName.includes(clean) || e.name.includes(userName) || clean.includes(userName);
           });
 
-          let floorText = '-';
-          let floorColor = 'var(--gray-400)';
-          if (isWed) { floorText = '휴무'; floorColor = 'var(--red)'; }
-          else if (myDayEntry) { floorText = myDayEntry.floor; floorColor = 'var(--black)'; }
+          let teamText = '-';
+          let teamColor = 'var(--gray-400)';
+          if (isWed) { teamText = '휴무'; teamColor = 'var(--red)'; }
+          else if (myDayEntry) { teamText = myDayEntry.team; teamColor = 'var(--black)'; }
 
           const borderStyle = isToday ? 'border:2px solid var(--primary);' : 'border:1px solid var(--gray-200);';
           const bgStyle = isToday ? 'background:var(--primary-bg);' : '';
           html += `<div style="padding:6px 2px; border-radius:6px; ${borderStyle} ${bgStyle}">
             <div style="font-size:11px; color:${isToday ? 'var(--primary)' : 'var(--gray-500)'}; font-weight:${isToday ? '700' : '500'};">${dayNames[i]}</div>
-            <div style="font-size:12px; font-weight:700; color:${floorColor}; margin-top:2px;">${floorText}</div>
+            <div style="font-size:12px; font-weight:700; color:${teamColor}; margin-top:2px;">${teamText}</div>
           </div>`;
         }
         weekEl.innerHTML = html;

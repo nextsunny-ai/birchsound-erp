@@ -331,7 +331,7 @@ function downloadAllSettlements() {
 
 // ---- 탭 전환 ----
 function switchSettleTab(tab) {
-  const tabs = ['publisher', 'urban', 'popup', 'overseas'];
+  const tabs = ['publisher', 'ad', 'popup', 'overseas'];
   tabs.forEach(t => {
     const el = document.getElementById('settle-tab-' + t);
     const btn = document.getElementById('settle-tab-btn-' + t);

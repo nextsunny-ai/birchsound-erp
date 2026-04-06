@@ -1179,23 +1179,23 @@ function getScheduleStore() {
       const dateStr = '2026-04-' + String(d).padStart(2, '0');
       if (!defaults[dateStr]) defaults[dateStr] = [];
 
-      let floor, startTime, endTime, breakMin;
+      let team, startTime, endTime, breakMin;
 
       if (val === '4h') {
-        // 4h shift - use floor from context or default
-        floor = '전체';
+        // 4h shift - use team from context or default
+        team = '전체';
         startTime = '14:00';
         endTime = '18:30';
         breakMin = 30;
       } else if (val === 'O') {
-        floor = '전체';
+        team = '전체';
         startTime = '09:00';
         endTime = '18:00';
         breakMin = 60;
       } else {
-        // numeric floor
-        const floorNum = parseInt(val);
-        floor = floorNum + '층';
+        // numeric team
+        const teamNum = parseInt(val);
+        team = floorNum + '팀';
         startTime = '09:00';
         endTime = '18:00';
         breakMin = 60;
@@ -1203,7 +1203,7 @@ function getScheduleStore() {
 
       defaults[dateStr].push({
         name: name,
-        floor: floor,
+        team: team,
         startTime: startTime,
         endTime: endTime,
         breakMin: breakMin,
@@ -1235,16 +1235,16 @@ function getScheduleStore() {
       const dateStr = '2026-05-' + String(d).padStart(2, '0');
       if (!defaults[dateStr]) defaults[dateStr] = [];
 
-      let floor, startTime, endTime, breakMin;
+      let team, startTime, endTime, breakMin;
       if (val === '4h') {
-        floor = '전체'; startTime = '14:00'; endTime = '18:30'; breakMin = 30;
+        team = '전체'; startTime = '14:00'; endTime = '18:30'; breakMin = 30;
       } else if (val === 'O') {
-        floor = '전체'; startTime = '09:00'; endTime = '18:00'; breakMin = 60;
+        team = '전체'; startTime = '09:00'; endTime = '18:00'; breakMin = 60;
       } else {
-        floor = parseInt(val) + '층'; startTime = '09:00'; endTime = '18:00'; breakMin = 60;
+        team = parseInt(val) + '팀'; startTime = '09:00'; endTime = '18:00'; breakMin = 60;
       }
 
-      defaults[dateStr].push({ name, floor, startTime, endTime, breakMin, memo: '' });
+      defaults[dateStr].push({ name, team, startTime, endTime, breakMin, memo: '' });
     }
   }
 
@@ -1267,9 +1267,9 @@ function loadSchedule() {
     entries.forEach(entry => {
       if (!scheduleGridData[entry.name]) scheduleGridData[entry.name] = {};
       // Convert back to simple value
-      let val = entry.floor;
+      let val = entry.team;
       if (val === '전체') val = 'O';
-      else if (val.endsWith('층')) val = val.replace('층', '');
+      else if (val.endsWith('팀')) val = val.replace('팀', '');
       if (entry.startTime === '14:00') val = '4h';
       scheduleGridData[entry.name][dateStr] = val;
     });
@@ -1512,16 +1512,16 @@ function saveScheduleGrid() {
 
       if (!store[dateStr]) store[dateStr] = [];
 
-      let floor, startTime, endTime, breakMin;
+      let team, startTime, endTime, breakMin;
       if (val === '4h') {
-        floor = '전체'; startTime = '14:00'; endTime = '18:30'; breakMin = 30;
+        team = '전체'; startTime = '14:00'; endTime = '18:30'; breakMin = 30;
       } else if (val === 'O') {
-        floor = '전체'; startTime = '09:00'; endTime = '18:00'; breakMin = 60;
+        team = '전체'; startTime = '09:00'; endTime = '18:00'; breakMin = 60;
       } else {
-        floor = val + '층'; startTime = '09:00'; endTime = '18:00'; breakMin = 60;
+        team = val + '팀'; startTime = '09:00'; endTime = '18:00'; breakMin = 60;
       }
 
-      store[dateStr].push({ name, floor, startTime, endTime, breakMin, memo: '' });
+      store[dateStr].push({ name, team, startTime, endTime, breakMin, memo: '' });
     });
   });
 
@@ -1976,7 +1976,7 @@ function getProjectStore() {
       status: 'active',
       startDate: '2026-07-15',
       endDate: '2026-07-17',
-      floor: '',
+      team: '',
       operationType: 'concert',
       requiredAlba: 20,
       assignedStaff: '',
@@ -1998,7 +1998,7 @@ function getProjectStore() {
       status: 'preparing',
       startDate: '2026-09-01',
       endDate: '2026-09-01',
-      floor: '',
+      team: '',
       operationType: 'concert',
       requiredAlba: 8,
       assignedStaff: '',
@@ -2073,7 +2073,7 @@ function loadProjects() {
             </div>
             <div style="display:flex; gap:16px; flex-wrap:wrap; font-size:13px; color:var(--gray-500);">
               <span>IP: ${proj.ip || '-'}</span>
-              <span>${proj.floor || '-'}</span>
+              <span>${proj.team || '-'}</span>
               <span>${proj.startDate || '-'} ~ ${proj.endDate || '-'}</span>
               <span>알바 ${workerCount}명</span>
             </div>
@@ -2118,8 +2118,8 @@ function loadProjects() {
                 <div style="font-weight:700; margin-top:4px;">${proj.startDate || '-'} ~ ${proj.endDate || '-'}</div>
               </div>
               <div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;">
-                <div style="font-size:11px; color:var(--gray-500); font-weight:600;">층</div>
-                <div style="font-weight:700; margin-top:4px;">${proj.floor || '-'}</div>
+                <div style="font-size:11px; color:var(--gray-500); font-weight:600;">팀</div>
+                <div style="font-weight:700; margin-top:4px;">${proj.team || '-'}</div>
               </div>
               <div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;">
                 <div style="font-size:11px; color:var(--gray-500); font-weight:600;">투입 인력</div>
@@ -2273,8 +2273,8 @@ function openProjectModal(projectId) {
   document.getElementById('project-name').value = '';
   document.getElementById('project-ip').value = '';
   document.getElementById('project-status').value = 'preparing';
-  // Reset floor checkboxes
-  document.querySelectorAll('.project-floor-cb').forEach(cb => cb.checked = false);
+  // Reset team checkboxes
+  document.querySelectorAll('.project-team-cb').forEach(cb => cb.checked = false);
   document.getElementById('project-operation-type').value = 'alba';
   document.getElementById('project-start-date').value = '';
   document.getElementById('project-end-date').value = '';
@@ -2299,10 +2299,10 @@ function openProjectModal(projectId) {
       document.getElementById('project-name').value = proj.name || '';
       document.getElementById('project-ip').value = proj.ip || '';
       document.getElementById('project-status').value = proj.status || 'preparing';
-      // Set floor checkboxes
-      const floorVal = proj.floor || '';
-      document.querySelectorAll('.project-floor-cb').forEach(cb => {
-        cb.checked = floorVal.includes(cb.value);
+      // Set team checkboxes
+      const teamVal = proj.team || '';
+      document.querySelectorAll('.project-team-cb').forEach(cb => {
+        cb.checked = teamVal.includes(cb.value);
       });
       document.getElementById('project-operation-type').value = proj.operationType || 'alba';
       document.getElementById('project-start-date').value = proj.startDate || '';
@@ -2340,10 +2340,10 @@ function saveProject() {
   const name = document.getElementById('project-name').value.trim();
   const ip = document.getElementById('project-ip').value.trim();
   const status = document.getElementById('project-status').value;
-  // Collect floor checkboxes
-  const floorArr = [];
-  document.querySelectorAll('.project-floor-cb:checked').forEach(cb => floorArr.push(cb.value));
-  const floor = floorArr.join(', ');
+  // Collect team checkboxes
+  const teamArr = [];
+  document.querySelectorAll('.project-team-cb:checked').forEach(cb => teamArr.push(cb.value));
+  const team = teamArr.join(', ');
   const operationType = document.getElementById('project-operation-type').value;
   const startDate = document.getElementById('project-start-date').value;
   const endDate = document.getElementById('project-end-date').value;
@@ -2369,7 +2369,7 @@ function saveProject() {
       projects[idx].name = name;
       projects[idx].ip = ip;
       projects[idx].status = status;
-      projects[idx].floor = floor;
+      projects[idx].team = floor;
       projects[idx].operationType = operationType;
       projects[idx].startDate = startDate;
       projects[idx].endDate = endDate;
@@ -2393,7 +2393,7 @@ function saveProject() {
       status: status,
       startDate: startDate,
       endDate: endDate,
-      floor: floor,
+      team: team,
       operationType: operationType,
       requiredAlba: requiredAlba,
       assignedStaff: assignedStaff,
