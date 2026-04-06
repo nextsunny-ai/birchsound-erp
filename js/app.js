@@ -197,10 +197,10 @@ async function clockIn() {
   if (!user) return;
   const today = new Date().toISOString().split('T')[0];
 
-  const { data: existing } = await sb.from('attendance').select('*').eq('user_id', user.id).eq('date', today).single();
+  const { data: existing } = await getSB().from('attendance').select('*').eq('user_id', user.id).eq('date', today).single();
   if (existing && existing.clock_in) { showToast('이미 출근 처리되었습니다.', 'error'); return; }
 
-  const { error } = await sb.from('attendance').upsert({ user_id: user.id, date: today, clock_in: new Date().toISOString(), status: 'working' });
+  const { error } = await getSB().from('attendance').upsert({ user_id: user.id, date: today, clock_in: new Date().toISOString(), status: 'working' });
   if (error) { showToast('출근 실패: ' + error.message, 'error'); return; }
   showToast('출근 완료!', 'success');
   updateAttendanceUI();
@@ -211,7 +211,7 @@ async function clockOut() {
   if (!user) return;
   const today = new Date().toISOString().split('T')[0];
 
-  const { data: existing } = await sb.from('attendance').select('*').eq('user_id', user.id).eq('date', today).single();
+  const { data: existing } = await getSB().from('attendance').select('*').eq('user_id', user.id).eq('date', today).single();
   if (!existing || !existing.clock_in) { showToast('먼저 출근하세요.', 'error'); return; }
   if (existing.clock_out) { showToast('이미 퇴근했습니다.', 'error'); return; }
 
@@ -221,7 +221,7 @@ async function clockOut() {
   const workMins = totalMins - breakMins;
   const workHours = (workMins / 60).toFixed(1);
 
-  const { error } = await sb.from('attendance').update({
+  const { error } = await getSB().from('attendance').update({
     clock_out: now.toISOString(),
     work_hours: parseFloat(workHours),
     status: 'done'
@@ -237,7 +237,7 @@ async function updateAttendanceUI() {
   if (!user) return;
   const today = new Date().toISOString().split('T')[0];
 
-  const { data } = await sb.from('attendance').select('*').eq('user_id', user.id).eq('date', today).single();
+  const { data } = await getSB().from('attendance').select('*').eq('user_id', user.id).eq('date', today).single();
 
   const btnIn = document.getElementById('btn-clock-in');
   const btnOut = document.getElementById('btn-clock-out');
@@ -360,7 +360,7 @@ async function createNotice(title, content, tag) {
   const user = await getCurrentUser();
   if (!user) return;
 
-  const { error } = await sb.from('notices').insert({
+  const { error } = await getSB().from('notices').insert({
     title,
     content,
     tag,
@@ -418,7 +418,7 @@ function onApprovalTypeChange() {
 async function loadApprovalApprovers() {
   const select = document.getElementById('approval-approver');
   if (!select) return;
-  const { data } = await sb.from('profiles').select('id, name, role').order('name');
+  const { data } = await getSB().from('profiles').select('id, name, role').order('name');
   if (!data) return;
   // 결재자: 김한수(기본), 필립 리만 표시
   const approvers = data.filter(p => p.role === 'ceo' || p.name === '김한수' || p.name === '필립 리');
@@ -526,7 +526,7 @@ async function createApproval(type, title, content, extras = {}) {
     status: 'pending'
   };
 
-  const { error } = await sb.from('approvals').insert(insertData);
+  const { error } = await getSB().from('approvals').insert(insertData);
 
   if (error) {
     showToast('결재 요청 실패: ' + error.message, 'error');
@@ -732,7 +732,7 @@ async function createSettlement(project, description, amount) {
   const user = await getCurrentUser();
   if (!user) return;
 
-  const { error } = await sb.from('settlements').insert({
+  const { error } = await getSB().from('settlements').insert({
     user_id: user.id,
     project,
     description,
@@ -3660,7 +3660,7 @@ async function openMessageModal() {
 
   // Populate recipients from profiles
   try {
-    var result = await sb.from('profiles').select('id, name, department').order('name');
+    var result = await getSB().from('profiles').select('id, name, department').order('name');
     var members = result.data;
     if (members && members.length > 0) {
       toSelect.innerHTML = '<option value="all">전체</option>' +
@@ -3699,7 +3699,7 @@ async function sendMessage() {
   var toName = toValue === 'all' ? '전체' : (selectedOption.getAttribute('data-name') || toValue);
 
   var isBroadcast = (toValue === 'all');
-  var { error } = await sb.from('messages').insert({
+  var { error } = await getSB().from('messages').insert({
     from_id: fromId,
     from_name: fromName,
     to_id: isBroadcast ? null : toValue,
