@@ -49,3 +49,22 @@ async function checkSession() {
     if (data.session) window.location.href = 'pages/dashboard.html';
   } catch (e) {}
 }
+
+async function checkAuth() {
+  try {
+    const { data } = await getSB().auth.getSession();
+    if (!data.session) {
+      window.location.href = '../index.html';
+      return null;
+    }
+    return data.session;
+  } catch (e) {
+    window.location.href = '../index.html';
+    return null;
+  }
+}
+
+async function logout() {
+  await getSB().auth.signOut();
+  window.location.href = '../index.html';
+}
