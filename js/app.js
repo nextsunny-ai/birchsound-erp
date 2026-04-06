@@ -80,7 +80,7 @@ function isManager(user) {
   const name = user.profile.name || '';
   const role = user.profile.role || '';
   // 김한수, 필립 리, 관리자만 ADMIN 접근 가능
-  if (name === '김한수' || name === '필립 리' || name === '관리자') return true;
+  if (name === '김한수' || name === '필립 리' || name === '감독') return true;
   if (role === 'ceo' || role === 'admin') return true;
   return false;
 }
@@ -427,8 +427,9 @@ async function loadApprovalApprovers() {
   if (!select) return;
   const { data } = await getSB().from('profiles').select('id, name, role').order('name');
   if (!data) return;
-  // 결재자: 김한수(기본), 필립 리만 표시
-  const approvers = data.filter(p => p.role === 'ceo' || p.name === '김한수' || p.name === '필립 리');
+  // 결재자: 김한수(기본), 필립 리만 표시 (본인 제외)
+  const myId = currentUser ? currentUser.id : '';
+  const approvers = data.filter(p => p.id !== myId && (p.role === 'ceo' || p.name === '김한수' || p.name === '필립 리'));
   if (approvers.length === 0) {
     // 프로필에 없으면 전체 표시
     select.innerHTML = data.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
