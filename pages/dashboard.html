@@ -238,24 +238,20 @@
         </div>
         <div class="page-body">
 
-          <!-- 출퇴근 (심플) -->
+          <!-- 출퇴근 -->
           <div class="card" style="margin-bottom:16px;">
-            <div class="card-body" style="padding:20px;">
-              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-                <div style="display:flex; align-items:center; gap:16px;">
-                  <div id="current-time" style="font-size:32px; font-weight:800; font-variant-numeric:tabular-nums;"></div>
-                  <div id="current-date" style="font-size:13px; color:var(--gray-500);"></div>
-                </div>
-                <div style="display:flex; align-items:center; gap:8px;">
-                  <span id="attendance-status" style="font-size:13px; color:var(--gray-500);"></span>
-                  <button class="btn btn-primary btn-sm" id="btn-clock-in" onclick="clockIn()">출근</button>
-                  <button class="btn btn-secondary btn-sm" id="btn-clock-out" onclick="clockOut()" disabled>퇴근</button>
-                </div>
+            <div class="card-body" style="padding:48px 20px; text-align:center;">
+              <div id="current-time" style="font-size:56px; font-weight:800; font-variant-numeric:tabular-nums; letter-spacing:-2px;"></div>
+              <div id="current-date" style="font-size:15px; color:var(--gray-500); margin-top:4px; margin-bottom:32px;"></div>
+              <div style="display:flex; justify-content:center; gap:16px; margin-bottom:24px;">
+                <button id="btn-clock-in" onclick="clockIn()" style="padding:16px 48px; font-size:16px; font-weight:700; border:none; border-radius:12px; cursor:pointer; font-family:inherit; background:var(--primary); color:white;">출근하기</button>
+                <button id="btn-clock-out" onclick="clockOut()" disabled style="padding:16px 48px; font-size:16px; font-weight:700; border:none; border-radius:12px; cursor:pointer; font-family:inherit; background:var(--gray-900); color:white;">퇴근하기</button>
               </div>
-              <div id="today-status-detail" style="display:none; margin-top:12px; display:flex; gap:16px; font-size:13px; color:var(--gray-500);">
-                <span>출근: <strong id="today-clock-in">-</strong></span>
-                <span>퇴근: <strong id="today-clock-out">-</strong></span>
-                <span>근무: <strong id="today-work-hours" style="color:var(--green);">-</strong></span>
+              <div id="attendance-status" style="margin-bottom:16px;"></div>
+              <div id="today-status-detail" style="display:inline-flex; gap:24px; font-size:14px; color:var(--gray-500); background:var(--gray-50); padding:12px 24px; border-radius:8px;">
+                <span>출근 <strong id="today-clock-in" style="color:var(--black);">-</strong></span>
+                <span>퇴근 <strong id="today-clock-out" style="color:var(--black);">-</strong></span>
+                <span>근무 <strong id="today-work-hours" style="color:var(--green);">-</strong></span>
               </div>
             </div>
           </div>
