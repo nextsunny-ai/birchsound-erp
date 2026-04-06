@@ -63,7 +63,7 @@ function applyPermissions() {
 
     // Show role badge in sidebar
     const roleEl = document.getElementById('user-display-role');
-    const roleLabels = { ceo: '대표', admin: '관리자', manager: '팀장', member: '팀원', guest: '게스트 (외주)' };
+    const roleLabels = { ceo: 'Level 5 (전체)', admin: 'Level 4 (관리)', manager: 'Level 3 (업무)', member: 'Level 2 (기본)', guest: 'Level 1 (제한)' };
     if (roleEl) {
       const dept = (currentProfile && currentProfile.department) || '';
       roleEl.textContent = (dept ? dept + ' · ' : '') + (roleLabels[role] || role);
@@ -866,7 +866,7 @@ async function initSidebar() {
 
   if (nameEl) nameEl.textContent = user.profile.name;
   if (roleEl) {
-    const roleMap = { ceo: '대표', admin: '관리자', manager: '팀장', member: '팀원' };
+    const roleMap = { ceo: 'Level 5 (전체)', admin: 'Level 4 (관리)', manager: 'Level 3 (업무)', member: 'Level 2 (기본)' };
     roleEl.textContent = `${user.profile.department || ''} · ${roleMap[user.profile.role] || user.profile.role}`;
   }
   if (avatarEl) avatarEl.textContent = getInitials(user.profile.name);
@@ -913,7 +913,7 @@ async function loadMembers() {
   if (el('stat-total-members')) el('stat-total-members').textContent = members.length;
   if (el('stat-today-working')) el('stat-today-working').textContent = todayAttendance ? todayAttendance.filter(a => a.status === 'working').length : 0;
 
-  const roleMap = { ceo: '대표', admin: '관리자', manager: '팀장', member: '팀원' };
+  const roleMap = { ceo: 'Level 5 (전체)', admin: 'Level 4 (관리)', manager: 'Level 3 (업무)', member: 'Level 2 (기본)' };
 
   tbody.innerHTML = members.map(m => {
     const att = attendanceMap[m.id];
@@ -1083,7 +1083,7 @@ async function loadHRList() {
     });
   }
 
-  const roleMap = { ceo: '대표', admin: '관리자', manager: '팀장', member: '팀원' };
+  const roleMap = { ceo: 'Level 5 (전체)', admin: 'Level 4 (관리)', manager: 'Level 3 (업무)', member: 'Level 2 (기본)' };
 
   // Calculate stats
   let totalPay = 0, salaryPay = 0, hourlyPay = 0, totalHours = 0, hourlyCount = 0;
@@ -3985,7 +3985,7 @@ async function loadPermissionTable() {
       return;
     }
 
-    const roleLabels = { ceo: '대표', admin: '관리자', manager: '팀장', member: '팀원', guest: '게스트' };
+    const roleLabels = { ceo: 'Level 5 (전체)', admin: 'Level 4 (관리)', manager: 'Level 3 (업무)', member: 'Level 2 (기본)', guest: 'Level 1 (제한)' };
     const roleColors = { ceo: 'var(--primary)', admin: 'var(--blue)', manager: 'var(--green)', member: 'var(--gray-600)', guest: 'var(--gray-400)' };
 
     tbody.innerHTML = profiles.map(p => `<tr>

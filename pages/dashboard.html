@@ -1501,11 +1501,11 @@
               <div style="margin-top:16px; padding:16px; background:var(--gray-50); border-radius:8px; font-size:14px;">
                 <div style="font-weight:700; margin-bottom:8px;">권한 등급 설명</div>
                 <div style="display:grid; grid-template-columns:100px 1fr; gap:4px 12px;">
-                  <div style="font-weight:600; color:var(--primary);">대표</div><div>모든 기능 접근</div>
-                  <div style="font-weight:600; color:var(--blue);">관리자</div><div>설정 제외 모든 기능</div>
-                  <div style="font-weight:600; color:var(--green);">팀장</div><div>Main + Business (정산/인사 제외)</div>
-                  <div style="font-weight:600;">팀원</div><div>기본 기능 (대시보드, 결재, 메시지, 프로젝트, 일정)</div>
-                  <div style="font-weight:600; color:var(--gray-500);">게스트</div><div>배정된 프로젝트 + 메시지만</div>
+                  <div style="font-weight:600; color:var(--primary);">Level 5 (전체)</div><div>모든 기능 접근</div>
+                  <div style="font-weight:600; color:var(--blue);">Level 4 (관리)</div><div>설정 제외 모든 기능</div>
+                  <div style="font-weight:600; color:var(--green);">Level 3 (업무)</div><div>Main + Business (정산/인사 제외)</div>
+                  <div style="font-weight:600;">Level 2 (기본)</div><div>기본 기능 (대시보드, 결재, 메시지, 프로젝트, 일정)</div>
+                  <div style="font-weight:600; color:var(--gray-500);">Level 1 (제한)</div><div>배정된 프로젝트 + 메시지만</div>
                 </div>
               </div>
             </div>
@@ -1722,10 +1722,10 @@
           <div class="form-group">
             <label>직급</label>
             <select id="hr-role">
-              <option value="ceo">대표</option>
-              <option value="admin">관리자</option>
-              <option value="manager">팀장</option>
-              <option value="member">팀원</option>
+              <option value="ceo">Level 5 (전체)</option>
+              <option value="admin">Level 4 (관리)</option>
+              <option value="manager">Level 3 (업무)</option>
+              <option value="member">Level 2 (기본)</option>
             </select>
           </div>
           <div class="form-group">
