@@ -49,6 +49,10 @@
             전자결재
             <span class="nav-badge" id="nav-badge-approval" style="display:none">0</span>
           </a>
+          <a class="nav-item" data-page="travel" onclick="navigateTo('travel')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            출장 관리
+          </a>
           <a class="nav-item" data-page="messages" onclick="navigateTo('messages')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
             메시지
@@ -73,9 +77,27 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             전체 일정
           </a>
+          <a class="nav-item" data-page="tickets" onclick="navigateTo('tickets')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h6l2-7 4 14 2-7h6"/></svg>
+            티켓/판매
+          </a>
+          <a class="nav-item" data-page="crm" onclick="navigateTo('crm')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            CRM
+          </a>
         </div>
 
-        <!-- FINANCE: 공연 정산 준비되면 활성화 -->
+        <div class="nav-section">
+          <div class="nav-section-title">FINANCE</div>
+          <a class="nav-item" data-page="concert-settle" onclick="navigateTo('concert-settle')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            공연 정산
+          </a>
+          <a class="nav-item" data-page="overseas-settle" onclick="navigateTo('overseas-settle')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            해외 정산
+          </a>
+        </div>
 
         <div class="nav-section">
           <div class="nav-section-title">COMMUNITY</div>
@@ -102,6 +124,10 @@
           <a class="nav-item" data-page="admin" onclick="navigateTo('admin')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
             조직관리
+          </a>
+          <a class="nav-item" data-page="settings" onclick="navigateTo('settings')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            설정
           </a>
         </div>
       </nav>
@@ -785,7 +811,7 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               </div>
               <div class="stat-value" id="hr-stat-hourly-pay">-</div>
-              <div class="stat-label">알바 급여</div>
+              <div class="stat-label">외주 급여</div>
             </div>
             <div class="stat-card">
               <div class="stat-icon green">
@@ -924,7 +950,7 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/></svg>
               </div>
               <div class="stat-value" id="proj-stat-workers">0명</div>
-              <div class="stat-label">투입 알바 수</div>
+              <div class="stat-label">투입 인력 수</div>
             </div>
             <div class="stat-card">
               <div class="stat-icon red">
@@ -1391,6 +1417,7 @@
             <button class="btn btn-sm btn-primary" onclick="switchIPTab('artist')" id="ip-tab-artist">아티스트</button>
             <button class="btn btn-sm btn-secondary" onclick="switchIPTab('show')" id="ip-tab-show">공연</button>
             <button class="btn btn-sm btn-secondary" onclick="switchIPTab('content')" id="ip-tab-content">콘텐츠</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchIPTab('portfolio')" id="ip-tab-portfolio">포트폴리오</button>
           </div>
           <div class="card"><div class="table-container">
             <table><thead><tr id="ip-table-header"><th>이름</th><th>장르</th><th>계약 상태</th><th>다음 일정</th><th>연락처</th></tr></thead>
@@ -1441,6 +1468,148 @@
           <div class="card"><div class="table-container">
             <table><thead><tr id="finance-table-header"><th>날짜</th><th>구분</th><th>항목</th><th>금액</th><th>프로젝트</th><th>비고</th></tr></thead>
             <tbody id="finance-table-body"><tr><td colspan="6" class="empty-state">거래 데이터를 등록하면 여기서 확인할 수 있습니다.</td></tr></tbody></table>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- ===== Settings (설정) ===== -->
+      <div id="section-settings" class="page-section" style="display:none;">
+        <div class="page-header"><div><h1>설정</h1><div class="header-sub">시스템 설정 및 관리</div></div></div>
+        <div class="page-body">
+
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-header"><h3>기능 설정</h3></div>
+            <div class="card-body">
+              <p style="font-size:13px; color:var(--gray-500); margin-bottom:16px;">사용할 기능을 선택하세요. 비활성화하면 모든 직원에게 해당 메뉴가 숨겨집니다.</p>
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <label style="display:flex; align-items:center; gap:12px; padding:12px; background:var(--gray-50); border-radius:8px; cursor:pointer;">
+                  <input type="checkbox" id="setting-attendance" checked onchange="saveSettings()" style="width:18px; height:18px;">
+                  <div><div style="font-weight:600;">출퇴근</div><div style="font-size:12px; color:var(--gray-500);">출근/퇴근 기록</div></div>
+                </label>
+                <label style="display:flex; align-items:center; gap:12px; padding:12px; background:var(--gray-50); border-radius:8px; cursor:pointer;">
+                  <input type="checkbox" id="setting-approval" checked onchange="saveSettings()" style="width:18px; height:18px;">
+                  <div><div style="font-weight:600;">전자결재</div><div style="font-size:12px; color:var(--gray-500);">연차/휴가/지출 등 결재 요청</div></div>
+                </label>
+                <label style="display:flex; align-items:center; gap:12px; padding:12px; background:var(--gray-50); border-radius:8px; cursor:pointer;">
+                  <input type="checkbox" id="setting-messages" checked onchange="saveSettings()" style="width:18px; height:18px;">
+                  <div><div style="font-weight:600;">메시지</div><div style="font-size:12px; color:var(--gray-500);">직원 간 메시지</div></div>
+                </label>
+                <label style="display:flex; align-items:center; gap:12px; padding:12px; background:var(--gray-50); border-radius:8px; cursor:pointer;">
+                  <input type="checkbox" id="setting-ip" checked onchange="saveSettings()" style="width:18px; height:18px;">
+                  <div><div style="font-weight:600;">IP 관리</div><div style="font-size:12px; color:var(--gray-500);">아티스트/공연/콘텐츠 관리</div></div>
+                </label>
+                <label style="display:flex; align-items:center; gap:12px; padding:12px; background:var(--gray-50); border-radius:8px; cursor:pointer;">
+                  <input type="checkbox" id="setting-contract" checked onchange="saveSettings()" style="width:18px; height:18px;">
+                  <div><div style="font-weight:600;">계약 관리</div><div style="font-size:12px; color:var(--gray-500);">계약 현황 및 만료 알림</div></div>
+                </label>
+                <label style="display:flex; align-items:center; gap:12px; padding:12px; background:var(--gray-50); border-radius:8px; cursor:pointer;">
+                  <input type="checkbox" id="setting-settlement" checked onchange="saveSettings()" style="width:18px; height:18px;">
+                  <div><div style="font-weight:600;">정산</div><div style="font-size:12px; color:var(--gray-500);">수익원별 정산 (현재 비활성)</div></div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-header"><h3>계정 관리</h3></div>
+            <div class="card-body">
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <div style="padding:12px; background:var(--gray-50); border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
+                  <div><div style="font-weight:600;">비밀번호 변경</div><div style="font-size:12px; color:var(--gray-500);">현재 로그인 계정의 비밀번호 변경</div></div>
+                  <button class="btn btn-secondary btn-sm" onclick="openPasswordModal()">변경</button>
+                </div>
+                <div style="padding:12px; background:var(--gray-50); border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
+                  <div><div style="font-weight:600; color:var(--red);">계정 탈퇴</div><div style="font-size:12px; color:var(--gray-500);">모든 데이터가 삭제됩니다</div></div>
+                  <button class="btn btn-sm" style="background:#FEE2E2; color:var(--red); border:none; font-weight:600; padding:8px 16px; border-radius:8px; cursor:pointer;" onclick="deleteAccount()">탈퇴</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3>시스템 정보</h3></div>
+            <div class="card-body" style="font-size:13px; color:var(--gray-500);">
+              <div style="display:grid; grid-template-columns:120px 1fr; gap:8px;">
+                <div style="font-weight:600;">버전</div><div>V2.0</div>
+                <div style="font-weight:600;">플랫폼</div><div>Supabase + GitHub Pages</div>
+                <div style="font-weight:600;">언어</div><div id="setting-lang-display">한국어</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===== CONCERT SETTLEMENT (공연 정산) ===== -->
+      <div id="section-concert-settle" class="page-section" style="display:none;">
+        <div class="page-header"><div><h1>공연 ���산</h1><div class="header-sub">공연별 매출/비용/아티스트 배분</div></div>
+        <div class="header-actions"><button class="btn btn-primary btn-sm" onclick="openConcertSettleModal()">+ 정산 등록</button></div></div>
+        <div class="page-body">
+          <div class="card"><div class="table-container">
+            <table><thead><tr><th>공연명</th><th>날짜</th><th>총매출</th><th>비용</th><th>아티스트 배분</th><th>순익</th><th>상태</th></tr></thead>
+            <tbody id="concert-settle-table"><tr><td colspan="7" class="empty-state">공연 정산을 등록하세요.</td></tr></tbody></table>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- ===== OVERSEAS SETTLEMENT (해외 정산) ===== -->
+      <div id="section-overseas-settle" class="page-section" style="display:none;">
+        <div class="page-header"><div><h1>해외 정산</h1><div class="header-sub">다국가 통화 및 세금 처리</div></div>
+        <div class="header-actions"><button class="btn btn-primary btn-sm" onclick="openOverseasSettleModal()">+ 해외 정산 등록</button></div></div>
+        <div class="page-body">
+          <div class="card"><div class="table-container">
+            <table><thead><tr><th>공연/프로젝트</th><th>국가</th><th>통화</th><th>현지 매출</th><th>환율</th><th>원화 환산</th><th>현지세금</th><th>순수익</th></tr></thead>
+            <tbody id="overseas-settle-table"><tr><td colspan="8" class="empty-state">해외 정산�� 등록하세요.</td></tr></tbody></table>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- ===== TICKETS (티켓/판매) ===== -->
+      <div id="section-tickets" class="page-section" style="display:none;">
+        <div class="page-header"><div><h1>��켓/판매</h1><div class="header-sub">티켓 판매 현황 및 데이터</div></div>
+        <div class="header-actions"><button class="btn btn-primary btn-sm" onclick="openTicketModal()">+ 판매 데이�� 등록</button></div></div>
+        <div class="page-body">
+          <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px;">
+            <div class="card" style="border:none; background:var(--primary-bg);"><div class="card-body" style="padding:12px; text-align:center;"><div style="font-size:20px; font-weight:800; color:var(--primary);" id="ticket-total-sold">0</div><div style="font-size:11px; color:var(--gray-500);">총 판매</div></div></div>
+            <div class="card" style="border:none; background:var(--green-bg);"><div class="card-body" style="padding:12px; text-align:center;"><div style="font-size:20px; font-weight:800; color:var(--green);" id="ticket-total-revenue">&#8361;0</div><div style="font-size:11px; color:var(--gray-500);">총 매출</div></div></div>
+            <div class="card" style="border:none; background:var(--blue-bg);"><div class="card-body" style="padding:12px; text-align:center;"><div style="font-size:20px; font-weight:800; color:var(--blue);" id="ticket-avg-price">&#8361;0</div><div style="font-size:11px; color:var(--gray-500);">평균 티켓가</div></div></div>
+            <div class="card" style="border:none; background:var(--yellow-bg);"><div class="card-body" style="padding:12px; text-align:center;"><div style="font-size:20px; font-weight:800; color:#B8860B;" id="ticket-sell-rate">0%</div><div style="font-size:11px; color:var(--gray-500);">판매율</div></div></div>
+          </div>
+          <div class="card"><div class="table-container">
+            <table><thead><tr><th>공연명</th><th>플랫폼</th><th>좌석수</th><th>판매수</th><th>판매율</th><th>매출</th><th>날짜</th></tr></thead>
+            <tbody id="ticket-table"><tr><td colspan="7" class="empty-state">티켓 판매 데이터�� 등록하세요.</td></tr></tbody></table>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- ===== TRAVEL (출장 관리) ===== -->
+      <div id="section-travel" class="page-section" style="display:none;">
+        <div class="page-header"><div><h1>출장 관리</h1><div class="header-sub">국내/해외 출장 일정 및 경비</div></div>
+        <div class="header-actions"><button class="btn btn-primary btn-sm" onclick="openTravelModal()">+ 출장 등록</button></div></div>
+        <div class="page-body">
+          <div class="card"><div class="table-container">
+            <table><thead><tr><th>출장명</th><th>국가/도시</th><th>기간</th><th>목적</th><th>예상 경비</th><th>실 경비</th><th>상태</th><th>담당자</th></tr></thead>
+            <tbody id="travel-table"><tr><td colspan="8" class="empty-state">출장 정보를 ��록하세요.</td></tr></tbody></table>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- ===== CRM (파트너/스폰서 관계 관리) ===== -->
+      <div id="section-crm" class="page-section" style="display:none;">
+        <div class="page-header"><div><h1>CRM</h1><div class="header-sub">파트너, 스폰서, 투자자 관�� 관리</div></div>
+        <div class="header-actions"><button class="btn btn-primary btn-sm" onclick="openCRMModal()">+ 관계 등록</button></div></div>
+        <div class="page-body">
+          <div style="display:flex; gap:8px; margin-bottom:16px;">
+            <button class="btn btn-sm btn-primary" onclick="switchCRMTab('all')" id="crm-tab-all">전체</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchCRMTab('partner')" id="crm-tab-partner">파트너</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchCRMTab('sponsor')" id="crm-tab-sponsor">스폰서</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchCRMTab('investor')" id="crm-tab-investor">투자자</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchCRMTab('venue')" id="crm-tab-venue">공연장</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchCRMTab('agency')" id="crm-tab-agency">에이전시</button>
+          </div>
+          <div class="card"><div class="table-container">
+            <table><thead><tr><th>이름/회사</th><th>유형</th><th>국가</th><th>담당자</th><th>연락처</th><th>최근 미팅</th><th>상태</th><th>메모</th></tr></thead>
+            <tbody id="crm-table"><tr><td colspan="8" class="empty-state">파트너 정보를 등록하세요.</td></tr></tbody></table>
           </div></div>
         </div>
       </div>
@@ -1500,7 +1669,7 @@
             <select id="hr-contract-type">
               <option value="정규직">정규직</option>
               <option value="계약직">계약직</option>
-              <option value="알바">알바</option>
+              <option value="프리랜서">프리랜서</option>
             </select>
           </div>
           <div class="form-group">
@@ -1755,6 +1924,7 @@
               <option value="concert">공연</option>
               <option value="festival">페스티벌</option>
               <option value="showcase">쇼케이스</option>
+              <option value="production">제작</option>
               <option value="other">기타</option>
             </select>
           </div>
@@ -1780,8 +1950,8 @@
         <div style="font-size:12px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin:20px 0 8px;">인원 계획</div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
           <div class="form-group">
-            <label>필요 알바 수</label>
-            <input type="number" id="project-required-alba" placeholder="0" min="0">
+            <label>필요 인력 수</label>
+            <input type="number" id="project-required-staff" placeholder="0" min="0">
           </div>
           <div class="form-group">
             <label>정직원 배정 (담당자)</label>
@@ -1841,33 +2011,47 @@
 
   <!-- Project Worker Modal -->
   <div class="modal-overlay" id="project-worker-modal">
-    <div class="modal" style="max-width:480px;">
+    <div class="modal" style="max-width:520px;">
       <div class="modal-header">
-        <h3>알바 배정</h3>
+        <h3>인력 배정</h3>
         <button class="modal-close" onclick="closeModal('project-worker-modal')">&times;</button>
       </div>
       <div class="modal-body">
         <input type="hidden" id="project-worker-project-id">
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
           <div class="form-group">
-            <label>이름</label>
-            <input type="text" id="project-worker-name" placeholder="이름">
+            <label>유형</label>
+            <select id="project-worker-type" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+              <option value="내부인력">내부인력</option>
+              <option value="외주">외주</option>
+              <option value="파트너사">파트너사</option>
+              <option value="아티스트">아티스트</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>이름/회사명</label>
+            <input type="text" id="project-worker-name" placeholder="이름 또는 회사명">
+          </div>
+          <div class="form-group">
+            <label>역할</label>
+            <input type="text" id="project-worker-role" placeholder="예: 음향 감독, 조명 PD, MC">
           </div>
           <div class="form-group">
             <label>연락처</label>
             <input type="tel" id="project-worker-phone" placeholder="010-0000-0000">
           </div>
           <div class="form-group">
-            <label>시급 (원)</label>
-            <input type="number" id="project-worker-rate" placeholder="10030" value="10030">
+            <label>계약금액 (원)</label>
+            <input type="number" id="project-worker-amount" placeholder="0" min="0">
           </div>
           <div class="form-group">
-            <label>근무 시작일</label>
-            <input type="date" id="project-worker-start">
-          </div>
-          <div class="form-group" style="grid-column:span 2;">
-            <label>근무 종료일</label>
-            <input type="date" id="project-worker-end">
+            <label>상태</label>
+            <select id="project-worker-status" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+              <option value="섭외중">섭외중</option>
+              <option value="확정">확정</option>
+              <option value="진행중">진행중</option>
+              <option value="완료">완료</option>
+            </select>
           </div>
         </div>
         <div class="form-group" style="margin-top:4px;">
@@ -2243,6 +2427,121 @@
     </div>
   </div>
 
+  <!-- Concert Settlement Modal -->
+  <div class="modal-overlay" id="concert-settle-modal">
+    <div class="modal" style="max-width:640px;">
+      <div class="modal-header"><h3>공연 정산 등록</h3><button class="modal-close" onclick="closeModal('concert-settle-modal')">&times;</button></div>
+      <div class="modal-body">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group"><label>공연명</label><input type="text" id="cs-name" placeholder="공연명"></div>
+          <div class="form-group"><label>날짜</label><input type="date" id="cs-date"></div>
+          <div class="form-group"><label>티켓 매출</label><input type="number" id="cs-ticket" placeholder="0" oninput="calcConcertSettle()"></div>
+          <div class="form-group"><label>스폰서 수익</label><input type="number" id="cs-sponsor" placeholder="0" oninput="calcConcertSettle()"></div>
+          <div class="form-group"><label>MD 매출</label><input type="number" id="cs-md" placeholder="0" oninput="calcConcertSettle()"></div>
+          <div class="form-group"><label>총매출 (자동)</label><input type="text" id="cs-total-revenue" readonly style="background:var(--gray-50);"></div>
+          <div class="form-group"><label>Venue 비용</label><input type="number" id="cs-cost-venue" placeholder="0" oninput="calcConcertSettle()"></div>
+          <div class="form-group"><label>장비 비용</label><input type="number" id="cs-cost-equip" placeholder="0" oninput="calcConcertSettle()"></div>
+          <div class="form-group"><label>인건비</label><input type="number" id="cs-cost-labor" placeholder="0" oninput="calcConcertSettle()"></div>
+          <div class="form-group"><label>기타 비용</label><input type="number" id="cs-cost-other" placeholder="0" oninput="calcConcertSettle()"></div>
+          <div class="form-group"><label>아티스트 배분율 (%)</label><input type="number" id="cs-artist-rate" placeholder="0" oninput="calcConcertSettle()"></div>
+          <div class="form-group"><label>아티스트 배분금 (자동)</label><input type="text" id="cs-artist-amount" readonly style="background:var(--gray-50);"></div>
+          <div class="form-group"><label>순익 (자동)</label><input type="text" id="cs-net-profit" readonly style="background:var(--green-bg); font-weight:700;"></div>
+          <div class="form-group"><label>상태</label><select id="cs-status"><option value="draft">초안</option><option value="confirmed">확정</option><option value="paid">지급완료</option></select></div>
+        </div>
+        <div class="form-group" style="margin-top:8px;"><label>메모</label><textarea id="cs-memo" rows="2" placeholder="메모"></textarea></div>
+      </div>
+      <div class="modal-footer"><button class="btn btn-secondary btn-sm" onclick="closeModal('concert-settle-modal')">취소</button><button class="btn btn-primary btn-sm" onclick="saveConcertSettle()">저장</button></div>
+    </div>
+  </div>
+
+  <!-- Overseas Settlement Modal -->
+  <div class="modal-overlay" id="overseas-settle-modal">
+    <div class="modal" style="max-width:640px;">
+      <div class="modal-header"><h3>해외 정산 등록</h3><button class="modal-close" onclick="closeModal('overseas-settle-modal')">&times;</button></div>
+      <div class="modal-body">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group"><label>공연/프로젝트명</label><input type="text" id="os-name" placeholder="공연/프로젝트명"></div>
+          <div class="form-group"><label>국가</label><select id="os-country"><option value="싱가포르">싱가포르</option><option value="일본">일본</option><option value="미국">미국</option><option value="영국">영국</option><option value="기타">기타</option></select></div>
+          <div class="form-group"><label>통화</label><select id="os-currency" onchange="calcOverseasSettle()"><option value="SGD">SGD</option><option value="JPY">JPY</option><option value="USD">USD</option><option value="GBP">GBP</option><option value="EUR">EUR</option></select></div>
+          <div class="form-group"><label>현지 매출</label><input type="number" id="os-local-revenue" placeholder="0" oninput="calcOverseasSettle()"></div>
+          <div class="form-group"><label>환율 (1통화=원)</label><input type="number" id="os-exchange-rate" placeholder="0" step="0.01" oninput="calcOverseasSettle()"></div>
+          <div class="form-group"><label>원화 환산 (자동)</label><input type="text" id="os-krw-amount" readonly style="background:var(--gray-50);"></div>
+          <div class="form-group"><label>현지 세금</label><input type="number" id="os-local-tax" placeholder="0" oninput="calcOverseasSettle()"></div>
+          <div class="form-group"><label>원천징수</label><input type="number" id="os-withholding" placeholder="0" oninput="calcOverseasSettle()"></div>
+          <div class="form-group"><label>순수익 (자동)</label><input type="text" id="os-net-revenue" readonly style="background:var(--green-bg); font-weight:700;"></div>
+        </div>
+        <div class="form-group" style="margin-top:8px;"><label>메모</label><textarea id="os-memo" rows="2" placeholder="메모"></textarea></div>
+      </div>
+      <div class="modal-footer"><button class="btn btn-secondary btn-sm" onclick="closeModal('overseas-settle-modal')">취소</button><button class="btn btn-primary btn-sm" onclick="saveOverseasSettle()">저장</button></div>
+    </div>
+  </div>
+
+  <!-- Ticket Modal -->
+  <div class="modal-overlay" id="ticket-modal">
+    <div class="modal" style="max-width:560px;">
+      <div class="modal-header"><h3>티켓 판매 데이터 등록</h3><button class="modal-close" onclick="closeModal('ticket-modal')">&times;</button></div>
+      <div class="modal-body">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group"><label>공연명</label><input type="text" id="tk-name" placeholder="공연명"></div>
+          <div class="form-group"><label>플랫폼</label><select id="tk-platform"><option value="인터파크">인터파크</option><option value="YES24">YES24</option><option value="멜론티켓">멜론티켓</option><option value="직접판매">직접판매</option><option value="기타">기타</option></select></div>
+          <div class="form-group"><label>총 좌석수</label><input type="number" id="tk-total-seats" placeholder="0" oninput="calcTicket()"></div>
+          <div class="form-group"><label>판매수</label><input type="number" id="tk-sold" placeholder="0" oninput="calcTicket()"></div>
+          <div class="form-group"><label>티켓 가격 (원)</label><input type="number" id="tk-price" placeholder="0" oninput="calcTicket()"></div>
+          <div class="form-group"><label>총매출 (자동)</label><input type="text" id="tk-revenue" readonly style="background:var(--gray-50);"></div>
+          <div class="form-group"><label>판매일</label><input type="date" id="tk-date"></div>
+        </div>
+        <div class="form-group" style="margin-top:8px;"><label>메모</label><textarea id="tk-memo" rows="2" placeholder="메모"></textarea></div>
+      </div>
+      <div class="modal-footer"><button class="btn btn-secondary btn-sm" onclick="closeModal('ticket-modal')">취소</button><button class="btn btn-primary btn-sm" onclick="saveTicket()">저장</button></div>
+    </div>
+  </div>
+
+  <!-- Travel Modal -->
+  <div class="modal-overlay" id="travel-modal">
+    <div class="modal" style="max-width:640px;">
+      <div class="modal-header"><h3>출장 등록</h3><button class="modal-close" onclick="closeModal('travel-modal')">&times;</button></div>
+      <div class="modal-body">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group"><label>출장명</label><input type="text" id="tv-name" placeholder="출장명"></div>
+          <div class="form-group"><label>국가</label><select id="tv-country"><option value="한국">한국</option><option value="싱가포르">싱가포르</option><option value="일본">일본</option><option value="미국">미국</option><option value="영국">영국</option><option value="기타">기타</option></select></div>
+          <div class="form-group"><label>도시</label><input type="text" id="tv-city" placeholder="도시"></div>
+          <div class="form-group"><label>시작일</label><input type="date" id="tv-start"></div>
+          <div class="form-group"><label>종료��</label><input type="date" id="tv-end"></div>
+          <div class="form-group"><label>목적</label><select id="tv-purpose"><option value="공연장섭외">공연장 섭외</option><option value="파트너미팅">파트너 미팅</option><option value="투자미팅">투자 미팅</option><option value="아티스트미팅">아티스트 미팅</option><option value="현장답사">현장 답사</option><option value="기타">기타</option></select></div>
+          <div class="form-group"><label>예상 경비 (원)</label><input type="number" id="tv-est-cost" placeholder="0"></div>
+          <div class="form-group"><label>실 경비 (원)</label><input type="number" id="tv-act-cost" placeholder="0"></div>
+          <div class="form-group"><label>상태</label><select id="tv-status"><option value="planned">계획</option><option value="approved">승인</option><option value="ongoing">진행중</option><option value="completed">완료</option><option value="cancelled">취소</option></select></div>
+          <div class="form-group"><label>담당자</label><input type="text" id="tv-assignee" placeholder="담당자"></div>
+        </div>
+        <div class="form-group" style="margin-top:8px;"><label>메모</label><textarea id="tv-memo" rows="2" placeholder="메모"></textarea></div>
+      </div>
+      <div class="modal-footer"><button class="btn btn-secondary btn-sm" onclick="closeModal('travel-modal')">취소</button><button class="btn btn-primary btn-sm" onclick="saveTravel()">저장</button></div>
+    </div>
+  </div>
+
+  <!-- CRM Modal -->
+  <div class="modal-overlay" id="crm-modal">
+    <div class="modal" style="max-width:640px;">
+      <div class="modal-header"><h3>관계 등록</h3><button class="modal-close" onclick="closeModal('crm-modal')">&times;</button></div>
+      <div class="modal-body">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group"><label>회사/이름</label><input type="text" id="crm-company" placeholder="회사명 또는 이름"></div>
+          <div class="form-group"><label>유형</label><select id="crm-type"><option value="partner">파트너</option><option value="sponsor">스폰서</option><option value="investor">투자자</option><option value="venue">공연장</option><option value="agency">에이전시</option><option value="media">미디어</option></select></div>
+          <div class="form-group"><label>국가</label><input type="text" id="crm-country" placeholder="국가"></div>
+          <div class="form-group"><label>담당자</label><input type="text" id="crm-contact" placeholder="담당자명"></div>
+          <div class="form-group"><label>직함</label><input type="text" id="crm-title" placeholder="직함"></div>
+          <div class="form-group"><label>이메일</label><input type="email" id="crm-email" placeholder="이메일"></div>
+          <div class="form-group"><label>전화</label><input type="tel" id="crm-phone" placeholder="전화번호"></div>
+          <div class="form-group"><label>최근 미팅일</label><input type="date" id="crm-last-meeting"></div>
+          <div class="form-group"><label>다음 미팅 예정</label><input type="date" id="crm-next-meeting"></div>
+          <div class="form-group"><label>관계 상태</label><select id="crm-status"><option value="new">신규</option><option value="active">활성</option><option value="inactive">비활성</option><option value="vip">VIP</option></select></div>
+        </div>
+        <div class="form-group" style="margin-top:8px;"><label>메모</label><textarea id="crm-memo" rows="2" placeholder="메모"></textarea></div>
+      </div>
+      <div class="modal-footer"><button class="btn btn-secondary btn-sm" onclick="closeModal('crm-modal')">취소</button><button class="btn btn-primary btn-sm" onclick="saveCRM()">저장</button></div>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="../js/supabase-config.js"></script>
@@ -2258,6 +2557,7 @@
 
       await initSidebar();
       if (typeof applyLang === 'function') applyLang();
+      if (typeof applySettings === 'function') applySettings();
       navigateTo('dashboard');
 
       // Start clocks

@@ -68,7 +68,7 @@ const i18n = {
     dashboard: '대시보드', approval: '전자결재', messages: '메시지',
     ip: 'IP 관리', contract: '계약 관리', project: '프로젝트', calendar: '전체 일정',
     notice: '공지사항', resources: '자료실', accounts: '계정/연락처',
-    hr: '인사관리', admin: '조직관리',
+    hr: '인사관리', admin: '조직관리', 'concert-settle': '공연 정산', 'overseas-settle': '해외 정산', tickets: '티켓/판매', travel: '출장 관리', crm: 'CRM', attendance: '출퇴근', settings: '설정',
     main: 'MAIN', business: 'BUSINESS', community: 'COMMUNITY',
     today: 'TODAY', clockIn: '출근', clockOut: '퇴근',
     logout: '로그아웃', save: '저장', cancel: '취소', delete: '삭제',
@@ -79,7 +79,7 @@ const i18n = {
     dashboard: 'Dashboard', approval: 'Approvals', messages: 'Messages',
     ip: 'IP Management', contract: 'Contracts', project: 'Projects', calendar: 'Calendar',
     notice: 'Notices', resources: 'Resources', accounts: 'Contacts',
-    hr: 'HR', admin: 'Organization',
+    hr: 'HR', admin: 'Organization', 'concert-settle': 'Concert Settlement', 'overseas-settle': 'Overseas Settlement', tickets: 'Tickets', travel: 'Travel', crm: 'CRM', attendance: 'Attendance', settings: 'Settings',
     main: 'MAIN', business: 'BUSINESS', community: 'COMMUNITY',
     today: 'TODAY', clockIn: 'Clock In', clockOut: 'Clock Out',
     logout: 'Sign Out', save: 'Save', cancel: 'Cancel', delete: 'Delete',
@@ -113,6 +113,7 @@ function applyLang() {
     if (text === 'BUSINESS' || text === t.business) el.textContent = t.business;
     if (text === 'COMMUNITY' || text === t.community) el.textContent = t.community;
     if (text === 'ADMIN') el.textContent = 'ADMIN';
+    if (text === 'FINANCE') el.textContent = 'FINANCE';
   });
   const btn = document.getElementById('lang-toggle');
   if (btn) btn.textContent = t.langToggle;
@@ -756,6 +757,12 @@ function navigateTo(page) {
     case 'contract': loadContracts(); break;
     case 'finance': loadFinance(); break;
     case 'report': loadReport(); break;
+    case 'settings': loadSettings(); break;
+    case 'concert-settle': loadConcertSettle(); break;
+    case 'overseas-settle': loadOverseasSettle(); break;
+    case 'tickets': loadTickets(); break;
+    case 'travel': loadTravel(); break;
+    case 'crm': loadCRM(); break;
   }
 }
 
@@ -1978,7 +1985,7 @@ function getProjectStore() {
       endDate: '2026-07-17',
       team: '',
       operationType: 'concert',
-      requiredAlba: 20,
+      requiredStaff: 20,
       assignedStaff: '',
       budgetInterior: 0,
       budgetProduction: 0,
@@ -2000,7 +2007,7 @@ function getProjectStore() {
       endDate: '2026-09-01',
       team: '',
       operationType: 'concert',
-      requiredAlba: 8,
+      requiredStaff: 8,
       assignedStaff: '',
       budgetInterior: 0,
       budgetProduction: 0,
@@ -2075,7 +2082,7 @@ function loadProjects() {
               <span>IP: ${proj.ip || '-'}</span>
               <span>${proj.team || '-'}</span>
               <span>${proj.startDate || '-'} ~ ${proj.endDate || '-'}</span>
-              <span>알바 ${workerCount}명</span>
+              <span>인력 ${workerCount}명</span>
             </div>
           </div>
           <div style="text-align:right;">
@@ -2139,34 +2146,36 @@ function loadProjects() {
           <!-- Tab: Workers -->
           <div id="proj-tab-${proj.id}-workers" style="display:none;">
             <div style="margin-bottom:12px;">
-              <button class="btn btn-primary btn-sm" onclick="openWorkerModal('${proj.id}')">+ 알바 배정</button>
+              <button class="btn btn-primary btn-sm" onclick="openWorkerModal('${proj.id}')">+ 인력 배정</button>
             </div>
-            ${workerCount === 0 ? '<div class="empty-state"><p>배정된 알바가 없습니다.</p></div>' : `
+            ${workerCount === 0 ? '<div class="empty-state"><p>배정된 인력이 없습니다.</p></div>' : `
             <div class="table-container">
               <table>
                 <thead>
                   <tr>
-                    <th>이름</th>
-                    <th>연락처</th>
-                    <th>시급</th>
-                    <th>근무기간</th>
-                    <th>근무일수</th>
-                    <th>예상 급여</th>
+                    <th>유형</th>
+                    <th>이름/회사</th>
+                    <th>역할</th>
+                    <th>계약금액</th>
+                    <th>상태</th>
                     <th>메모</th>
                     <th>삭제</th>
                   </tr>
                 </thead>
                 <tbody>
                   ${proj.workers.map((w, wi) => {
-                    const days = w.startDate && w.endDate ? Math.max(1, Math.ceil((new Date(w.endDate) - new Date(w.startDate)) / 86400000) + 1) : 0;
-                    const estPay = days * 8 * (w.hourlyRate || 0);
+                    const typeColorMap = { '내부인력': '#3b82f6', '외주': '#10b981', '파트너사': '#f59e0b', '아티스트': '#ef4444' };
+                    const typeBgMap = { '내부인력': 'rgba(59,130,246,0.1)', '외주': 'rgba(16,185,129,0.1)', '파트너사': 'rgba(245,158,11,0.1)', '아티스트': 'rgba(239,68,68,0.1)' };
+                    const typeColor = typeColorMap[w.type] || '#9ca3af';
+                    const typeBg = typeBgMap[w.type] || 'rgba(156,163,175,0.1)';
+                    const statusMap = { '섭외중': '#f59e0b', '확정': '#3b82f6', '진행중': '#10b981', '완료': '#9ca3af' };
+                    const statusColor = statusMap[w.status] || '#9ca3af';
                     return `<tr>
+                      <td><span style="display:inline-block; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700; background:${typeBg}; color:${typeColor};">${w.type || '-'}</span></td>
                       <td><strong>${w.name}</strong></td>
-                      <td style="font-size:13px;">${w.phone || '-'}</td>
-                      <td>${(w.hourlyRate || 0).toLocaleString()}원</td>
-                      <td style="font-size:12px;">${w.startDate || '-'} ~ ${w.endDate || '-'}</td>
-                      <td>${days}일</td>
-                      <td style="font-weight:700;">${estPay.toLocaleString()}원</td>
+                      <td style="font-size:13px;">${w.role || '-'}</td>
+                      <td style="font-weight:700;">${(w.contractAmount || 0).toLocaleString()}원</td>
+                      <td><span style="color:${statusColor}; font-weight:600; font-size:13px;">${w.status || '-'}</span></td>
                       <td style="font-size:12px; color:var(--gray-500);">${w.memo || '-'}</td>
                       <td><button class="btn btn-ghost btn-sm" onclick="deleteProjectWorker('${proj.id}', ${wi})" style="color:var(--red); font-size:12px;">삭제</button></td>
                     </tr>`;
@@ -2275,10 +2284,10 @@ function openProjectModal(projectId) {
   document.getElementById('project-status').value = 'preparing';
   // Reset team checkboxes
   document.querySelectorAll('.project-team-cb').forEach(cb => cb.checked = false);
-  document.getElementById('project-operation-type').value = 'alba';
+  document.getElementById('project-operation-type').value = 'concert';
   document.getElementById('project-start-date').value = '';
   document.getElementById('project-end-date').value = '';
-  document.getElementById('project-required-alba').value = '';
+  document.getElementById('project-required-staff').value = '';
   document.getElementById('project-assigned-staff').value = '';
   document.getElementById('project-budget-interior').value = '';
   document.getElementById('project-budget-production').value = '';
@@ -2307,7 +2316,7 @@ function openProjectModal(projectId) {
       document.getElementById('project-operation-type').value = proj.operationType || 'alba';
       document.getElementById('project-start-date').value = proj.startDate || '';
       document.getElementById('project-end-date').value = proj.endDate || '';
-      document.getElementById('project-required-alba').value = proj.requiredAlba || '';
+      document.getElementById('project-required-staff').value = proj.requiredStaff || '';
       document.getElementById('project-assigned-staff').value = proj.assignedStaff || '';
       document.getElementById('project-budget-interior').value = proj.budgetInterior || '';
       document.getElementById('project-budget-production').value = proj.budgetProduction || '';
@@ -2347,7 +2356,7 @@ function saveProject() {
   const operationType = document.getElementById('project-operation-type').value;
   const startDate = document.getElementById('project-start-date').value;
   const endDate = document.getElementById('project-end-date').value;
-  const requiredAlba = parseInt(document.getElementById('project-required-alba').value) || 0;
+  const requiredStaff = parseInt(document.getElementById('project-required-staff').value) || 0;
   const assignedStaff = document.getElementById('project-assigned-staff').value.trim();
   const budgetInterior = parseInt(document.getElementById('project-budget-interior').value) || 0;
   const budgetProduction = parseInt(document.getElementById('project-budget-production').value) || 0;
@@ -2373,7 +2382,7 @@ function saveProject() {
       projects[idx].operationType = operationType;
       projects[idx].startDate = startDate;
       projects[idx].endDate = endDate;
-      projects[idx].requiredAlba = requiredAlba;
+      projects[idx].requiredStaff = requiredStaff;
       projects[idx].assignedStaff = assignedStaff;
       projects[idx].budgetInterior = budgetInterior;
       projects[idx].budgetProduction = budgetProduction;
@@ -2395,7 +2404,7 @@ function saveProject() {
       endDate: endDate,
       team: team,
       operationType: operationType,
-      requiredAlba: requiredAlba,
+      requiredStaff: requiredStaff,
       assignedStaff: assignedStaff,
       budgetInterior: budgetInterior,
       budgetProduction: budgetProduction,
@@ -2427,35 +2436,28 @@ function deleteProject(id) {
 
 function openWorkerModal(projectId) {
   document.getElementById('project-worker-project-id').value = projectId;
+  document.getElementById('project-worker-type').value = '내부인력';
   document.getElementById('project-worker-name').value = '';
+  document.getElementById('project-worker-role').value = '';
   document.getElementById('project-worker-phone').value = '';
-  document.getElementById('project-worker-rate').value = '10030';
-  document.getElementById('project-worker-start').value = '';
-  document.getElementById('project-worker-end').value = '';
+  document.getElementById('project-worker-amount').value = '';
+  document.getElementById('project-worker-status').value = '섭외중';
   document.getElementById('project-worker-memo').value = '';
-
-  // Pre-fill dates from project
-  const projects = getProjectStore();
-  const proj = projects.find(p => p.id === projectId);
-  if (proj) {
-    document.getElementById('project-worker-start').value = proj.startDate || '';
-    document.getElementById('project-worker-end').value = proj.endDate || '';
-  }
 
   openModal('project-worker-modal');
 }
 
 function saveProjectWorker() {
   const projectId = document.getElementById('project-worker-project-id').value;
+  const type = document.getElementById('project-worker-type').value;
   const name = document.getElementById('project-worker-name').value.trim();
+  const role = document.getElementById('project-worker-role').value.trim();
   const phone = document.getElementById('project-worker-phone').value.trim();
-  const hourlyRate = parseInt(document.getElementById('project-worker-rate').value) || 0;
-  const startDate = document.getElementById('project-worker-start').value;
-  const endDate = document.getElementById('project-worker-end').value;
+  const contractAmount = parseInt(document.getElementById('project-worker-amount').value) || 0;
+  const status = document.getElementById('project-worker-status').value;
   const memo = document.getElementById('project-worker-memo').value.trim();
 
-  if (!name) { showToast('이름을 입력해주세요.', 'error'); return; }
-  if (!hourlyRate) { showToast('시급을 입력해주세요.', 'error'); return; }
+  if (!name) { showToast('이름/회사명을 입력해주세요.', 'error'); return; }
 
   const projects = getProjectStore();
   const proj = projects.find(p => p.id === projectId);
@@ -2464,38 +2466,37 @@ function saveProjectWorker() {
   if (!proj.workers) proj.workers = [];
   proj.workers.push({
     id: 'w_' + Date.now(),
+    type: type,
     name: name,
+    role: role,
     phone: phone,
-    hourlyRate: hourlyRate,
-    startDate: startDate,
-    endDate: endDate,
+    contractAmount: contractAmount,
+    status: status,
     memo: memo
   });
 
   setProjectStore(projects);
   closeModal('project-worker-modal');
-  showToast(name + ' 알바가 배정되었습니다.', 'success');
+  showToast(name + ' 인력이 배정되었습니다.', 'success');
   loadProjects();
 }
 
 function deleteProjectWorker(projectId, workerIndex) {
-  if (!confirm('이 알바를 삭제하시겠습니까?')) return;
+  if (!confirm('이 인력을 삭제하시겠습니까?')) return;
   const projects = getProjectStore();
   const proj = projects.find(p => p.id === projectId);
   if (!proj || !proj.workers) return;
 
   proj.workers.splice(workerIndex, 1);
   setProjectStore(projects);
-  showToast('알바가 삭제되었습니다.', 'success');
+  showToast('인력이 삭제되었습니다.', 'success');
   loadProjects();
 }
 
 function calculateProjectCost(project) {
   if (!project.workers || project.workers.length === 0) return 0;
   return project.workers.reduce((total, w) => {
-    const days = w.startDate && w.endDate ? Math.max(1, Math.ceil((new Date(w.endDate) - new Date(w.startDate)) / 86400000) + 1) : 0;
-    const estPay = days * 8 * (w.hourlyRate || 0); // 8 hours per day assumed
-    return total + estPay;
+    return total + (w.contractAmount || 0);
   }, 0);
 }
 
@@ -3675,7 +3676,27 @@ function switchIPTab(tab) {
   document.querySelectorAll('[id^="ip-tab-"]').forEach(b => b.className = 'btn btn-sm btn-secondary');
   const active = document.getElementById('ip-tab-' + tab);
   if (active) active.className = 'btn btn-sm btn-primary';
+  if (tab === 'portfolio') { renderIPPortfolio(); return; }
   renderIPTable();
+}
+function renderIPPortfolio() {
+  const artists = getIPStore().filter(i => i.type === 'artist');
+  const shows = getIPStore().filter(i => i.type === 'show');
+  const contents = getIPStore().filter(i => i.type === 'content');
+  const tbody = document.getElementById('ip-table-body');
+  const headerRow = document.getElementById('ip-table-header');
+  if (!tbody) return;
+  if (headerRow) headerRow.innerHTML = '<th colspan="6">아티스트 포트폴리오</th>';
+  if (artists.length === 0) { tbody.innerHTML = '<tr><td colspan="6" class="empty-state">아티스트를 먼저 등록하세요.</td></tr>'; return; }
+  tbody.innerHTML = artists.map(a => {
+    const showCount = shows.filter(s => (s.agency || '').includes(a.name) || (s.name || '').includes(a.name)).length;
+    const contentCount = contents.filter(c => (c.agency || '').includes(a.name) || (c.name || '').includes(a.name)).length;
+    return '<tr><td colspan="6" style="padding:0;"><div style="padding:16px; display:flex; gap:16px; align-items:center; cursor:pointer;">' +
+      '<div style="width:60px; height:60px; background:var(--gray-200); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:24px;">&#127908;</div>' +
+      '<div style="flex:1;"><div style="font-weight:700;">' + (a.name || '') + '</div>' +
+      '<div style="font-size:12px; color:var(--gray-500);">' + (a.genre || '-') + ' | ' + (a.agency || '-') + '</div>' +
+      '<div style="font-size:12px; color:var(--gray-400); margin-top:4px;">공연 ' + showCount + '회 | 콘텐츠 ' + contentCount + '개</div></div></div></td></tr>';
+  }).join('');
 }
 function getIPStore() {
   const d = localStorage.getItem('bs_ip_data');
@@ -3782,4 +3803,53 @@ function saveFinance() {
   if (!item.item) { showToast('항목을 입력하세요', 'error'); return; }
   const store = getFinanceStore(); store.push(item); localStorage.setItem('bs_finance', JSON.stringify(store));
   closeModal('finance-modal'); renderFinanceTable(); showToast('거래 등록 완료', 'success');
+}
+
+// ============================================
+// Settings (설정)
+// ============================================
+
+function loadSettings() {
+  const settings = JSON.parse(localStorage.getItem('bs_settings') || '{}');
+  const features = ['attendance', 'approval', 'messages', 'ip', 'contract', 'settlement'];
+  features.forEach(f => {
+    const el = document.getElementById('setting-' + f);
+    if (el) el.checked = settings[f] !== false; // default true
+  });
+}
+
+function saveSettings() {
+  const settings = {};
+  const features = ['attendance', 'approval', 'messages', 'ip', 'contract', 'settlement'];
+  features.forEach(f => {
+    const el = document.getElementById('setting-' + f);
+    if (el) settings[f] = el.checked;
+  });
+  localStorage.setItem('bs_settings', JSON.stringify(settings));
+  applySettings();
+  showToast('설정이 저장되었습니다.', 'success');
+}
+
+function applySettings() {
+  const settings = JSON.parse(localStorage.getItem('bs_settings') || '{}');
+  const features = ['attendance', 'approval', 'messages', 'ip', 'contract', 'settlement'];
+  features.forEach(f => {
+    const navItem = document.querySelector('[data-page="' + f + '"]');
+    if (navItem) navItem.style.display = settings[f] === false ? 'none' : '';
+  });
+}
+
+function openPasswordModal() {
+  const newPw = prompt('새 비밀번호를 입력하세요 (6자 이상):');
+  if (!newPw || newPw.length < 6) { showToast('비밀번호는 6자 이상이어야 합니다.', 'error'); return; }
+  getSB().auth.updateUser({ password: newPw }).then(({ error }) => {
+    if (error) showToast('변경 실패: ' + error.message, 'error');
+    else showToast('비밀번호가 변경되었습니다.', 'success');
+  });
+}
+
+function deleteAccount() {
+  if (!confirm('정말 계정을 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) return;
+  if (!confirm('마지막 확인: 모든 데이터가 삭제됩니다. 계속하시겠습니까?')) return;
+  showToast('관리자에게 탈퇴를 요청해주세요.', 'info');
 }
