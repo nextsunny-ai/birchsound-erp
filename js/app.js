@@ -254,15 +254,22 @@ async function updateAttendanceUI() {
   if (!data || !data.clock_in) {
     // 미출근
     btnIn.disabled = false;
+    btnIn.style.background = 'var(--primary)'; btnIn.style.color = 'white'; btnIn.style.opacity = '1';
+    btnOut.style.opacity = '0.3';
     if (statusEl) statusEl.innerHTML = '<span class="status-badge off">미출근</span>';
     if (detailEl) detailEl.style.display = 'none';
   } else if (!data.clock_out) {
-    // 근무중
+    // 근무중 — 출근 버튼 초록색으로 변경, 퇴근 활성화
+    btnIn.style.background = '#16A34A'; btnIn.style.color = 'white'; btnIn.style.opacity = '0.6';
+    btnIn.textContent = '✓ 출근완료';
     btnOut.disabled = false;
+    btnOut.style.opacity = '1'; btnOut.style.background = 'var(--gray-900)'; btnOut.style.color = 'white';
     if (statusEl) statusEl.innerHTML = '<span class="status-badge working">근무중</span>';
     showTodayDetail(data);
   } else {
-    // 퇴근완료
+    // 퇴근완료 — 둘 다 비활성
+    btnIn.style.background = '#16A34A'; btnIn.style.opacity = '0.4'; btnIn.textContent = '✓ 출근완료';
+    btnOut.style.background = '#2563EB'; btnOut.style.opacity = '0.6'; btnOut.textContent = '✓ 퇴근완료'; btnOut.style.color = 'white';
     if (statusEl) statusEl.innerHTML = '<span class="status-badge done">퇴근완료</span>';
     showTodayDetail(data);
   }
