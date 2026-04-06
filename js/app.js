@@ -1128,7 +1128,7 @@ async function loadHRList() {
       <td>${joinDate}</td>
       <td>${phone}</td>
       <td><span class="status-badge ${statusClass}">${status}</span></td>
-      <td><button class="btn btn-ghost btn-sm" onclick="openHRModal('${m.id}')">수정</button></td>
+      <td><button class="btn btn-sm" style="background:var(--primary); color:white; border:none; padding:6px 14px; border-radius:6px; font-weight:600; cursor:pointer;" onclick="openHRModal('${m.id}')">수정</button></td>
     </tr>`;
   }).join('');
 
