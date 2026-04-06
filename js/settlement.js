@@ -1,5 +1,5 @@
 // ============================================
-// SETTLEMENT ENGINE - 이지포스 정산 자동화
+// SETTLEMENT ENGINE -  정산 자동화
 // ============================================
 
 // SheetJS CDN is loaded in dashboard.html
@@ -20,7 +20,7 @@ const PUBLISHERS = {
   '블루픽': { rate: 0.25, type: 'net_no_vat', email: 'book01@imageframe.kr', taxEmail: 'book01@imageframe.kr' },
 };
 
-// ---- 이지포스 소분류 → 제작사 매핑 ----
+// ----  소분류 → 제작사 매핑 ----
 // 상품명 접두사 [XX] 또는 소분류명으로 매칭
 const PUBLISHER_ALIASES = {
   '작두': '작두',
@@ -118,7 +118,7 @@ function handleSettleFile(file) {
   reader.readAsArrayBuffer(file);
 }
 
-// ---- 이지포스 데이터 파싱 ----
+// ----  데이터 파싱 ----
 function parseEasyPOSData(rows) {
   const items = [];
   let headerRow = -1;
@@ -134,7 +134,7 @@ function parseEasyPOSData(rows) {
   }
 
   if (headerRow === -1) {
-    showToast('이지포스 엑셀 형식을 인식할 수 없습니다.', 'error');
+    showToast(' 엑셀 형식을 인식할 수 없습니다.', 'error');
     return [];
   }
 
@@ -518,7 +518,7 @@ function switchSettleTab(tab) {
     // 프로젝트 목록 로드
     const select = document.getElementById('popup-settle-project');
     if (select) {
-      const projects = JSON.parse(localStorage.getItem('gm_projects') || '[]');
+      const projects = JSON.parse(localStorage.getItem('bs_projects') || '[]');
       select.innerHTML = '<option value="">프로젝트를 선택하세요</option>' +
         projects.map(p => '<option value="' + p.id + '">' + p.name + ' (' + (p.floor || '') + ', ' + (p.startDate || '') + '~)</option>').join('');
     }
@@ -533,7 +533,7 @@ function calculateUrbanSettlement() {
   const suppliesCost = parseInt(document.getElementById('urban-supplies-cost').value) || 0;
   const mgmtCost = parseInt(document.getElementById('urban-mgmt-cost').value) || 0;
 
-  // 가챠 수수료 22%
+  //  수수료 22%
   const gachaCommission = Math.round(gachaSales * 0.22);
 
   // 매출 합계
@@ -597,7 +597,7 @@ function calculateUrbanSettlement() {
 // ---- 인사관리에서 인건비 가져오기 ----
 function loadHRLaborCost() {
   try {
-    const hrStore = JSON.parse(localStorage.getItem('gm_hr_data') || '{}');
+    const hrStore = JSON.parse(localStorage.getItem('bs_hr_data') || '{}');
     let totalPay = 0;
 
     // Get profiles and calculate pay
@@ -627,7 +627,7 @@ function loadHRLaborCost() {
 
 // ---- 제작사 정산에서 매출 가져오기 ----
 function loadStoreSalesFromSettlement() {
-  const history = JSON.parse(localStorage.getItem('gm_settlement_history') || '{}');
+  const history = JSON.parse(localStorage.getItem('bs_settlement_history') || '{}');
   const urbanMonth = document.getElementById('urban-settle-month') ? document.getElementById('urban-settle-month').value : '';
 
   if (!urbanMonth) {
@@ -645,7 +645,7 @@ function loadStoreSalesFromSettlement() {
   }
 }
 
-// ---- 가챠 엑셀 업로드 ----
+// ----  엑셀 업로드 ----
 function handleGachaUpload(file) {
   if (!file) return;
   const reader = new FileReader();
@@ -656,7 +656,7 @@ function handleGachaUpload(file) {
       const sheet = workbook.Sheets[workbook.SheetNames[0]];
       const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
 
-      // 가챠 매출 합산 - 매출금액 컬럼 찾기
+      //  매출 합산 - 매출금액 컬럼 찾기
       let totalGacha = 0;
       let amountCol = -1;
 
@@ -670,7 +670,7 @@ function handleGachaUpload(file) {
 
       // 매출 컬럼 못 찾으면 마지막 숫자 컬럼 사용
       if (amountCol === -1) {
-        // 가챠 형식: NO, 거래일자, 승인(건수,금액), 취소(건수,금액), 매출(건수,금액)
+        //  형식: NO, 거래일자, 승인(건수,금액), 취소(건수,금액), 매출(건수,금액)
         // 매출 금액은 보통 7번째 컬럼 (index 7)
         amountCol = 7;
       }
@@ -689,9 +689,9 @@ function handleGachaUpload(file) {
 
       document.getElementById('urban-gacha-sales').value = gachaCommission;
       calculateUrbanSettlement();
-      showToast('가챠 매출 ₩' + totalGacha.toLocaleString() + ' → 22% 수수료: ₩' + gachaCommission.toLocaleString(), 'success');
+      showToast(' 매출 ₩' + totalGacha.toLocaleString() + ' → 22% 수수료: ₩' + gachaCommission.toLocaleString(), 'success');
     } catch (err) {
-      showToast('가챠 엑셀 읽기 실패: ' + err.message, 'error');
+      showToast(' 엑셀 읽기 실패: ' + err.message, 'error');
     }
   };
   reader.readAsArrayBuffer(file);
@@ -705,7 +705,7 @@ function loadPopupSettlement() {
   if (!projectId) { if (content) content.style.display = 'none'; return; }
   if (content) content.style.display = 'block';
 
-  const projects = JSON.parse(localStorage.getItem('gm_projects') || '[]');
+  const projects = JSON.parse(localStorage.getItem('bs_projects') || '[]');
   const project = projects.find(p => p.id === projectId);
   if (!project) return;
 
@@ -733,7 +733,7 @@ function loadPopupSettlement() {
   if (el('popup-cost-labor')) el('popup-cost-labor').textContent = fmt(laborCost);
   if (el('popup-cost-total')) el('popup-cost-total').textContent = fmt(totalCost);
 
-  const popupHistory = JSON.parse(localStorage.getItem('gm_popup_settlement') || '{}');
+  const popupHistory = JSON.parse(localStorage.getItem('bs_popup_settlement') || '{}');
   if (popupHistory[projectId] && el('popup-actual-revenue')) {
     el('popup-actual-revenue').value = popupHistory[projectId].actualRevenue || '';
   }
@@ -757,16 +757,16 @@ function calculatePopupSettlement() {
 
   const select = document.getElementById('popup-settle-project');
   if (select && select.value && revenue > 0) {
-    const history = JSON.parse(localStorage.getItem('gm_popup_settlement') || '{}');
+    const history = JSON.parse(localStorage.getItem('bs_popup_settlement') || '{}');
     history[select.value] = { actualRevenue: revenue, totalCost: totalCost, profit: profit, date: new Date().toISOString() };
-    localStorage.setItem('gm_popup_settlement', JSON.stringify(history));
+    localStorage.setItem('bs_popup_settlement', JSON.stringify(history));
   }
 }
 
 function downloadPopupSettlement() {
   const select = document.getElementById('popup-settle-project');
   if (!select || !select.value) { showToast('프로젝트를 선택하세요', 'error'); return; }
-  const projects = JSON.parse(localStorage.getItem('gm_projects') || '[]');
+  const projects = JSON.parse(localStorage.getItem('bs_projects') || '[]');
   const project = projects.find(p => p.id === select.value);
   if (!project) return;
 
@@ -846,8 +846,8 @@ function downloadUrbanSettlement() {
     ['구분', '항목', '금액'],
     [],
     ['수입', '1~3층 판매매출 (GM 25% 몫)', storeSales],
-    ['', '가챠 매출 (22% 수수료)', gachaCommission],
-    ['', '가챠 총매출 참고', gachaSales],
+    ['', ' 매출 (22% 수수료)', gachaCommission],
+    ['', ' 총매출 참고', gachaSales],
     ['', '매출 합계', totalRevenue],
     [],
     ['비용', '매장직 인건비', laborCost],
@@ -878,8 +878,8 @@ function downloadUrbanSettlement() {
     [],
     ['항목', '금액', '비고'],
     ['1~3층 판매매출 (GM 25% 몫)', storeSales, '제작사 정산 후 GM 위탁판매수수료'],
-    ['가챠 총매출', gachaSales, ''],
-    ['가챠 수수료 (22%)', gachaCommission, '가챠 총매출의 22%'],
+    [' 총매출', gachaSales, ''],
+    [' 수수료 (22%)', gachaCommission, ' 총매출의 22%'],
     [],
     ['매출 합계', totalRevenue, ''],
   ];
@@ -918,7 +918,7 @@ function downloadUrbanSettlement() {
 
 // ---- 정산 이력 저장 ----
 function saveSettlementHistory(month, results, grandTotal) {
-  const history = JSON.parse(localStorage.getItem('gm_settlement_history') || '{}');
+  const history = JSON.parse(localStorage.getItem('bs_settlement_history') || '{}');
   history[month] = {
     date: new Date().toISOString(),
     month: month,
@@ -937,23 +937,23 @@ function saveSettlementHistory(month, results, grandTotal) {
       rateType: r.rateType
     }))
   };
-  localStorage.setItem('gm_settlement_history', JSON.stringify(history));
+  localStorage.setItem('bs_settlement_history', JSON.stringify(history));
 }
 
 // ---- 어반 정산 이력 저장 ----
 function saveUrbanHistory(month, data) {
-  const history = JSON.parse(localStorage.getItem('gm_urban_history') || '{}');
+  const history = JSON.parse(localStorage.getItem('bs_urban_history') || '{}');
   history[month] = {
     date: new Date().toISOString(),
     month: month,
     ...data
   };
-  localStorage.setItem('gm_urban_history', JSON.stringify(history));
+  localStorage.setItem('bs_urban_history', JSON.stringify(history));
 }
 
 // ---- 샘플 데이터 (빈 리포트 방지) ----
 function getSettlementHistory() {
-  const existing = localStorage.getItem('gm_settlement_history');
+  const existing = localStorage.getItem('bs_settlement_history');
   if (existing) return JSON.parse(existing);
 
   // Sample data so report isn't empty
@@ -975,7 +975,7 @@ function getSettlementHistory() {
       ]
     }
   };
-  localStorage.setItem('gm_settlement_history', JSON.stringify(defaults));
+  localStorage.setItem('bs_settlement_history', JSON.stringify(defaults));
   return defaults;
 }
 
@@ -1022,7 +1022,7 @@ function renderReportStats(year) {
   if (elPub) elPub.textContent = '₩' + pubShare.toLocaleString();
 
   // Urban totals
-  const urbanHistory = JSON.parse(localStorage.getItem('gm_urban_history') || '{}');
+  const urbanHistory = JSON.parse(localStorage.getItem('bs_urban_history') || '{}');
   let urbanTotal = 0;
   Object.entries(urbanHistory).forEach(([month, data]) => {
     if (month.startsWith(year)) urbanTotal += data.totalPayment || 0;
@@ -1191,7 +1191,7 @@ function togglePublisherDetail(name, safeId) {
 
 // ---- 어반플레이 정산 이력 테이블 ----
 function renderUrbanHistory(year) {
-  const history = JSON.parse(localStorage.getItem('gm_urban_history') || '{}');
+  const history = JSON.parse(localStorage.getItem('bs_urban_history') || '{}');
   const tbody = document.getElementById('report-urban-table');
   if (!tbody) return;
 
@@ -1217,11 +1217,11 @@ function renderUrbanHistory(year) {
 
 // ---- 비용 요약 ----
 function renderCostSummary(year) {
-  const urbanHistory = JSON.parse(localStorage.getItem('gm_urban_history') || '{}');
+  const urbanHistory = JSON.parse(localStorage.getItem('bs_urban_history') || '{}');
   const settlementHistory = getSettlementHistory();
 
   // HR 월급 계산 (매월 동일하다고 가정)
-  const hrData = JSON.parse(localStorage.getItem('gm_hr_data') || '{}');
+  const hrData = JSON.parse(localStorage.getItem('bs_hr_data') || '{}');
   let monthlyLabor = 0;
   Object.values(hrData).forEach(function(staff) {
     if (staff.status === '퇴직' || staff.isPending) return;

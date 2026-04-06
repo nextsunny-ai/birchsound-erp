@@ -453,7 +453,7 @@ async function createApproval(type, title, content, extras = {}) {
   // 결재자에게 메시지 알림 보내기
   const typeLabels = { leave: '연차 신청', vacation: '휴가 신청', expense: '지출 결의', purchase: '구매 요청', report: '업무 보고', other: '기타' };
   const typeLabel = typeLabels[type] || type;
-  const msgStore = JSON.parse(localStorage.getItem('gm_messages') || '[]');
+  const msgStore = JSON.parse(localStorage.getItem('bs_messages') || '[]');
   msgStore.unshift({
     id: 'msg_' + Date.now(),
     from: user.id,
@@ -463,7 +463,7 @@ async function createApproval(type, title, content, extras = {}) {
     content: `[전자결재 알림] ${user.profile?.name || ''}님이 "${title}" (${typeLabel})을 결재 요청했습니다.`,
     createdAt: new Date().toISOString()
   });
-  localStorage.setItem('gm_messages', JSON.stringify(msgStore));
+  localStorage.setItem('bs_messages', JSON.stringify(msgStore));
 
   closeModal('approval-modal');
   document.getElementById('approval-title').value = '';
@@ -914,14 +914,14 @@ function switchTab(tabGroup, tabName) {
 // Get HR extra data from localStorage
 function getHRStore() {
   try {
-    return JSON.parse(localStorage.getItem('gm_hr_data') || '{}');
+    return JSON.parse(localStorage.getItem('bs_hr_data') || '{}');
   } catch (e) {
     return {};
   }
 }
 
 function setHRStore(data) {
-  localStorage.setItem('gm_hr_data', JSON.stringify(data));
+  localStorage.setItem('bs_hr_data', JSON.stringify(data));
 }
 
 // Calculate monthly pay
@@ -1142,7 +1142,7 @@ let scheduleMonth = new Date().getMonth(); // 0-indexed
 
 function getScheduleStore() {
   try {
-    const existing = JSON.parse(localStorage.getItem('gm_schedule') || 'null');
+    const existing = JSON.parse(localStorage.getItem('bs_schedule') || 'null');
     if (existing !== null) return existing;
   } catch (e) {}
 
@@ -1236,12 +1236,12 @@ function getScheduleStore() {
     }
   }
 
-  localStorage.setItem('gm_schedule', JSON.stringify(defaults));
+  localStorage.setItem('bs_schedule', JSON.stringify(defaults));
   return defaults;
 }
 
 function setScheduleStore(data) {
-  localStorage.setItem('gm_schedule', JSON.stringify(data));
+  localStorage.setItem('bs_schedule', JSON.stringify(data));
 }
 
 let scheduleGridData = {}; // { staffName: { '2026-04-01': 'O', '2026-04-02': '1', ... } }
@@ -1543,7 +1543,7 @@ function renameScheduleStaff(oldName) {
 // 4월/5월 스케줄 초기화 (이슬 매니저 원본)
 function resetScheduleDefaults() {
   if (!confirm('4월/5월 스케줄을 원본(이슬 매니저 작성)으로 초기화할까요? 현재 수정사항이 사라집니다.')) return;
-  localStorage.removeItem('gm_schedule');
+  localStorage.removeItem('bs_schedule');
   getScheduleStore(); // re-populate defaults
   loadSchedule();
   showToast('4월/5월 스케줄이 초기화되었습니다.', 'success');
@@ -1754,7 +1754,7 @@ let currentResourceFilter = '전체';
 
 function getResourceStore() {
   try {
-    const data = JSON.parse(localStorage.getItem('gm_resources') || 'null');
+    const data = JSON.parse(localStorage.getItem('bs_resources') || 'null');
     if (data) return data;
   } catch (e) {}
 
@@ -1768,12 +1768,12 @@ function getResourceStore() {
     { title: '발주서', category: '양식', url: '', memo: '', date: '2026-04-01' },
     { title: '2026 일정&업무 요약', category: '경영자료', url: '', memo: '', date: '2026-04-01' }
   ];
-  localStorage.setItem('gm_resources', JSON.stringify(defaults));
+  localStorage.setItem('bs_resources', JSON.stringify(defaults));
   return defaults;
 }
 
 function setResourceStore(data) {
-  localStorage.setItem('gm_resources', JSON.stringify(data));
+  localStorage.setItem('bs_resources', JSON.stringify(data));
 }
 
 function loadResources() {
@@ -1951,7 +1951,7 @@ async function saveHRData() {
 
 function getProjectStore() {
   try {
-    const existing = JSON.parse(localStorage.getItem('gm_projects') || 'null');
+    const existing = JSON.parse(localStorage.getItem('bs_projects') || 'null');
     if (existing !== null) return existing;
   } catch (e) {}
 
@@ -2009,7 +2009,7 @@ function getProjectStore() {
     }
   ];
 
-  localStorage.setItem('gm_projects', JSON.stringify(defaults));
+  localStorage.setItem('bs_projects', JSON.stringify(defaults));
 
   // 전독시 팝업 정산 데이터도 저장
   const popupSettlement = {
@@ -2020,13 +2020,13 @@ function getProjectStore() {
       date: '2026-03-15'
     }
   };
-  localStorage.setItem('gm_popup_settlement', JSON.stringify(popupSettlement));
+  localStorage.setItem('bs_popup_settlement', JSON.stringify(popupSettlement));
 
   return defaults;
 }
 
 function setProjectStore(data) {
-  localStorage.setItem('gm_projects', JSON.stringify(data));
+  localStorage.setItem('bs_projects', JSON.stringify(data));
 }
 
 function loadProjects() {
@@ -2510,7 +2510,7 @@ function calculateProjectCost(project) {
 
 function getAccountStore() {
   try {
-    const data = JSON.parse(localStorage.getItem('gm_accounts') || 'null');
+    const data = JSON.parse(localStorage.getItem('bs_accounts') || 'null');
     if (data !== null) return data;
   } catch (e) {}
 
@@ -2525,20 +2525,20 @@ function getAccountStore() {
     { name: '네이버', purpose: '', username: 'birchsound', password: 'goods151!', manager: '이슬 PM' },
     { name: '트위터(X)', purpose: '', username: 'goods_moment', password: 'Goods151!', manager: '이다비 디자이너' },
     { name: '인스타그램', purpose: '', username: 'goods_moment', password: '!o9o9o9o9', manager: '이다비 디자이너' },
-    { name: '이지포스', purpose: '매장 포스', username: '2508803575', password: '1769', manager: '' },
+    { name: '', purpose: '매장 포스', username: '2508803575', password: '1769', manager: '' },
     { name: '네이버 스마트플레이스', purpose: '예약', username: 'forrest777', password: 'goods151!', manager: '' },
     { name: '와우프레스', purpose: '발주', username: 'birchsound', password: '17691769yys*', manager: '' },
     { name: '에이프린트', purpose: '발주', username: 'biz@birchsound.com', password: '17691769yys*', manager: '' },
     { name: '비즈하우스', purpose: '발주', username: 'birchsound@naver.com', password: '17691769yys*', manager: '' },
     { name: '이케아', purpose: '구매', username: 'biz@birchsound.com', password: 'Goods151!', manager: '' }
   ];
-  localStorage.setItem('gm_accounts', JSON.stringify(defaults));
+  localStorage.setItem('bs_accounts', JSON.stringify(defaults));
   return defaults;
 }
 
 function getContactStore() {
   try {
-    const data = JSON.parse(localStorage.getItem('gm_contacts') || 'null');
+    const data = JSON.parse(localStorage.getItem('bs_contacts') || 'null');
     if (data !== null) return data;
   } catch (e) {}
 
@@ -2553,13 +2553,13 @@ function getContactStore() {
     { name: '문지민', nameEn: '', position: '', team: '매장팀', email: '', phone: '010-8815-0847' },
     { name: '윤진별', nameEn: '', position: '', team: '매장팀', email: '', phone: '010-8351-4397' }
   ];
-  localStorage.setItem('gm_contacts', JSON.stringify(defaults));
+  localStorage.setItem('bs_contacts', JSON.stringify(defaults));
   return defaults;
 }
 
 function getParttimeStore() {
   try {
-    const data = JSON.parse(localStorage.getItem('gm_parttime_contacts') || 'null');
+    const data = JSON.parse(localStorage.getItem('bs_parttime_contacts') || 'null');
     if (data !== null) return data;
   } catch (e) {}
 
@@ -2573,7 +2573,7 @@ function getParttimeStore() {
     { name: '이지한', phone: '010-2622-7836', note: '1차' },
     { name: '이재경', phone: '010-7666-7502', note: '1차' }
   ];
-  localStorage.setItem('gm_parttime_contacts', JSON.stringify(defaults));
+  localStorage.setItem('bs_parttime_contacts', JSON.stringify(defaults));
   return defaults;
 }
 
@@ -2690,7 +2690,7 @@ function saveAccount() {
     showToast('계정이 추가되었습니다.', 'success');
   }
 
-  localStorage.setItem('gm_accounts', JSON.stringify(accounts));
+  localStorage.setItem('bs_accounts', JSON.stringify(accounts));
   closeModal('account-modal');
   loadAccounts();
 }
@@ -2699,7 +2699,7 @@ function deleteAccount(idx) {
   if (!confirm('이 계정을 삭제하시겠습니까?')) return;
   const accounts = getAccountStore();
   accounts.splice(idx, 1);
-  localStorage.setItem('gm_accounts', JSON.stringify(accounts));
+  localStorage.setItem('bs_accounts', JSON.stringify(accounts));
   showToast('계정이 삭제되었습니다.', 'success');
   loadAccounts();
 }
@@ -2781,7 +2781,7 @@ function saveContact() {
     showToast('연락처가 추가되었습니다.', 'success');
   }
 
-  localStorage.setItem('gm_contacts', JSON.stringify(contacts));
+  localStorage.setItem('bs_contacts', JSON.stringify(contacts));
   closeModal('contact-modal');
   loadContacts();
 }
@@ -2790,7 +2790,7 @@ function deleteContact(idx) {
   if (!confirm('이 연락처를 삭제하시겠습니까?')) return;
   const contacts = getContactStore();
   contacts.splice(idx, 1);
-  localStorage.setItem('gm_contacts', JSON.stringify(contacts));
+  localStorage.setItem('bs_contacts', JSON.stringify(contacts));
   showToast('연락처가 삭제되었습니다.', 'success');
   loadContacts();
 }
@@ -2860,7 +2860,7 @@ function saveParttimeContact() {
     showToast('연락처가 추가되었습니다.', 'success');
   }
 
-  localStorage.setItem('gm_parttime_contacts', JSON.stringify(contacts));
+  localStorage.setItem('bs_parttime_contacts', JSON.stringify(contacts));
   closeModal('parttime-modal');
   loadParttimeContacts();
 }
@@ -2869,7 +2869,7 @@ function deleteParttimeContact(idx) {
   if (!confirm('이 연락처를 삭제하시겠습니까?')) return;
   const contacts = getParttimeStore();
   contacts.splice(idx, 1);
-  localStorage.setItem('gm_parttime_contacts', JSON.stringify(contacts));
+  localStorage.setItem('bs_parttime_contacts', JSON.stringify(contacts));
   showToast('연락처가 삭제되었습니다.', 'success');
   loadParttimeContacts();
 }
@@ -2903,7 +2903,7 @@ let calCurrentView = 'month'; // 'year', 'month', 'week'
 
 function getCalendarStore() {
   try {
-    const data = JSON.parse(localStorage.getItem('gm_calendar') || 'null');
+    const data = JSON.parse(localStorage.getItem('bs_calendar') || 'null');
     if (data !== null) return data;
   } catch (e) {}
 
@@ -2963,12 +2963,12 @@ function getCalendarStore() {
     }
   ];
 
-  localStorage.setItem('gm_calendar', JSON.stringify(defaults));
+  localStorage.setItem('bs_calendar', JSON.stringify(defaults));
   return defaults;
 }
 
 function setCalendarStore(data) {
-  localStorage.setItem('gm_calendar', JSON.stringify(data));
+  localStorage.setItem('bs_calendar', JSON.stringify(data));
 }
 
 function loadCalendar() {
@@ -3675,7 +3675,7 @@ async function sendMessage() {
 
 function getInventoryStore() {
   try {
-    var data = JSON.parse(localStorage.getItem('gm_inventory') || 'null');
+    var data = JSON.parse(localStorage.getItem('bs_inventory') || 'null');
     if (data !== null) return data;
   } catch (e) {}
 
@@ -3688,13 +3688,13 @@ function getInventoryStore() {
     { publisher: '킬러배드로', name: '킬배 미니피규어', currentStock: 32, minStock: 10, lastReceived: '2026-03-28' },
     { publisher: '킬러배드로', name: '킬배 폰케이스', currentStock: 5, minStock: 8, lastReceived: '2026-03-10' }
   ];
-  localStorage.setItem('gm_inventory', JSON.stringify(defaults));
+  localStorage.setItem('bs_inventory', JSON.stringify(defaults));
   return defaults;
 }
 
 function getReceivingStore() {
   try {
-    var data = JSON.parse(localStorage.getItem('gm_receiving') || 'null');
+    var data = JSON.parse(localStorage.getItem('bs_receiving') || 'null');
     if (data !== null) return data;
   } catch (e) {}
 
@@ -3703,13 +3703,13 @@ function getReceivingStore() {
     { date: '2026-03-25', publisher: '작두', name: '작두 스티커팩', expectedQty: 100, actualQty: 100, status: 'completed', checker: '김형희' },
     { date: '2026-04-05', publisher: '북극여우', name: '향막 포스터 세트', expectedQty: 30, actualQty: 0, status: 'expected', checker: '' }
   ];
-  localStorage.setItem('gm_receiving', JSON.stringify(defaults));
+  localStorage.setItem('bs_receiving', JSON.stringify(defaults));
   return defaults;
 }
 
 function getOrderStore() {
   try {
-    var data = JSON.parse(localStorage.getItem('gm_orders') || 'null');
+    var data = JSON.parse(localStorage.getItem('bs_orders') || 'null');
     if (data !== null) return data;
   } catch (e) {}
 
@@ -3717,7 +3717,7 @@ function getOrderStore() {
     { date: '2026-04-02', publisher: '작두', name: '작두 엽서 세트', qty: 50, status: 'requested', requester: '문지민' },
     { date: '2026-04-03', publisher: '북극여우', name: '향막 포스터 세트', qty: 30, status: 'ordered', requester: '이슬' }
   ];
-  localStorage.setItem('gm_orders', JSON.stringify(defaults));
+  localStorage.setItem('bs_orders', JSON.stringify(defaults));
   return defaults;
 }
 
@@ -3879,7 +3879,7 @@ function handleInventoryUpload(file) {
       var items = parseInventoryExcel(rows);
 
       if (items.length > 0) {
-        localStorage.setItem('gm_inventory', JSON.stringify(items));
+        localStorage.setItem('bs_inventory', JSON.stringify(items));
         document.getElementById('inv-upload-status').textContent = file.name + ' — ' + items.length + '개 상품 로드 완료!';
         document.getElementById('inv-upload-status').style.color = 'var(--green)';
         invDisplayLimit = 50;
@@ -3990,7 +3990,7 @@ function parseInventoryExcel(rows) {
 }
 
 function downloadInventoryExcel() {
-  var items = JSON.parse(localStorage.getItem('gm_inventory') || '[]');
+  var items = JSON.parse(localStorage.getItem('bs_inventory') || '[]');
   if (items.length === 0) {
     showToast('재고 데이터가 없습니다.', 'error');
     return;
@@ -4053,7 +4053,7 @@ function saveInventoryItem() {
     showToast('상품이 등록되었습니다.', 'success');
   }
 
-  localStorage.setItem('gm_inventory', JSON.stringify(items));
+  localStorage.setItem('bs_inventory', JSON.stringify(items));
   closeModal('inventory-modal');
   loadInventory();
 }
@@ -4077,7 +4077,7 @@ function deleteInventoryItem(idx) {
   if (!confirm('이 상품을 삭제하시겠습니까?')) return;
   var items = getInventoryStore();
   items.splice(idx, 1);
-  localStorage.setItem('gm_inventory', JSON.stringify(items));
+  localStorage.setItem('bs_inventory', JSON.stringify(items));
   showToast('상품이 삭제되었습니다.', 'success');
   loadInventory();
 }
@@ -4134,7 +4134,7 @@ function saveReceiving() {
 
   var records = getReceivingStore();
   records.unshift({ date: date, publisher: publisher, name: name, expectedQty: expectedQty, actualQty: actualQty, status: status, checker: checker });
-  localStorage.setItem('gm_receiving', JSON.stringify(records));
+  localStorage.setItem('bs_receiving', JSON.stringify(records));
 
   // Update inventory stock if completed
   if (status === 'completed' && actualQty > 0) {
@@ -4151,7 +4151,7 @@ function saveReceiving() {
     if (!found) {
       items.push({ publisher: publisher, name: name, currentStock: actualQty, minStock: 10, lastReceived: date });
     }
-    localStorage.setItem('gm_inventory', JSON.stringify(items));
+    localStorage.setItem('bs_inventory', JSON.stringify(items));
   }
 
   closeModal('receiving-modal');
@@ -4171,7 +4171,7 @@ function deleteReceiving(idx) {
   if (!confirm('이 입고 기록을 삭제하시겠습니까?')) return;
   var records = getReceivingStore();
   records.splice(idx, 1);
-  localStorage.setItem('gm_receiving', JSON.stringify(records));
+  localStorage.setItem('bs_receiving', JSON.stringify(records));
   showToast('입고 기록이 삭제되었습니다.', 'success');
   renderReceiving();
 }
@@ -4231,7 +4231,7 @@ function saveOrder() {
     status: 'requested',
     requester: requester
   });
-  localStorage.setItem('gm_orders', JSON.stringify(orders));
+  localStorage.setItem('bs_orders', JSON.stringify(orders));
 
   closeModal('order-modal');
   document.getElementById('order-publisher').value = '';
@@ -4247,7 +4247,7 @@ function updateOrderStatus(idx, newStatus) {
   var orders = getOrderStore();
   if (orders[idx]) {
     orders[idx].status = newStatus;
-    localStorage.setItem('gm_orders', JSON.stringify(orders));
+    localStorage.setItem('bs_orders', JSON.stringify(orders));
     showToast('상태가 변경되었습니다.', 'success');
     renderOrders();
   }
@@ -4257,7 +4257,7 @@ function deleteOrder(idx) {
   if (!confirm('이 발주 요청을 삭제하시겠습니까?')) return;
   var orders = getOrderStore();
   orders.splice(idx, 1);
-  localStorage.setItem('gm_orders', JSON.stringify(orders));
+  localStorage.setItem('bs_orders', JSON.stringify(orders));
   showToast('발주 요청이 삭제되었습니다.', 'success');
   renderOrders();
 }
@@ -4304,7 +4304,7 @@ function loadPayslips() {
 }
 
 function renderPayslips() {
-  const hrData = JSON.parse(localStorage.getItem('gm_hr_data') || '{}');
+  const hrData = JSON.parse(localStorage.getItem('bs_hr_data') || '{}');
   const tbody = document.getElementById('payslip-table');
   if (!tbody) return;
 
@@ -4357,7 +4357,7 @@ function renderPayslips() {
 }
 
 function downloadPayslip(staffId) {
-  const hrData = JSON.parse(localStorage.getItem('gm_hr_data') || '{}');
+  const hrData = JSON.parse(localStorage.getItem('bs_hr_data') || '{}');
   const staff = hrData[staffId];
   if (!staff) return;
 
@@ -4419,7 +4419,7 @@ function downloadPayslip(staffId) {
 }
 
 function generateAllPayslips() {
-  const hrData = JSON.parse(localStorage.getItem('gm_hr_data') || '{}');
+  const hrData = JSON.parse(localStorage.getItem('bs_hr_data') || '{}');
   Object.keys(hrData).forEach((id, i) => {
     setTimeout(() => downloadPayslip(id), i * 300);
   });
@@ -4517,12 +4517,12 @@ function renderProjectCosts(projectId) {
 // ============================================
 
 function getClientStore() {
-  try { return JSON.parse(localStorage.getItem('gm_clients')) || []; }
+  try { return JSON.parse(localStorage.getItem('bs_clients')) || []; }
   catch { return []; }
 }
 
 function setClientStore(data) {
-  localStorage.setItem('gm_clients', JSON.stringify(data));
+  localStorage.setItem('bs_clients', JSON.stringify(data));
 }
 
 // Default client data (pre-populated from known publishers)
@@ -4785,7 +4785,7 @@ function calcClosingTotal() {
   if (el) el.textContent = '₩' + (f1+f2+f3+f4).toLocaleString();
 }
 function getClosingHistory() {
-  const data = localStorage.getItem('gm_closing');
+  const data = localStorage.getItem('bs_closing');
   if (data) return JSON.parse(data);
   const defaults = [
     {date:'2026-04-04',f1:361500,f2:29100,f3:342000,f4:0,total:732600,reporter:'이슬',memo:''},
@@ -4793,7 +4793,7 @@ function getClosingHistory() {
     {date:'2026-04-02',f1:289000,f2:31500,f3:195000,f4:0,total:515500,reporter:'김형희',memo:''},
     {date:'2026-04-01',f1:523400,f2:67800,f3:412300,f4:0,total:1003500,reporter:'이슬',memo:'월초 고객 많음'}
   ];
-  localStorage.setItem('gm_closing', JSON.stringify(defaults));
+  localStorage.setItem('bs_closing', JSON.stringify(defaults));
   return defaults;
 }
 function submitClosing() {
@@ -4811,10 +4811,10 @@ function submitClosing() {
   const entry = {date:today,f1,f2,f3,f4,total,reporter:userName,memo,submittedAt:new Date().toISOString()};
   if (existingIdx >= 0) { history[existingIdx] = entry; showToast('마감정산 수정 완료!','success'); }
   else { history.unshift(entry); showToast('마감정산 제출 완료!','success'); }
-  localStorage.setItem('gm_closing', JSON.stringify(history));
-  const msgStore = JSON.parse(localStorage.getItem('gm_messages') || '[]');
+  localStorage.setItem('bs_closing', JSON.stringify(history));
+  const msgStore = JSON.parse(localStorage.getItem('bs_messages') || '[]');
   msgStore.unshift({id:'msg_closing_'+Date.now(),from:currentUser?.id||'system',fromName:userName,to:'all',toName:'전체',content:'[마감정산] '+today.replace(/-/g,'.')+'\n1F = ₩'+f1.toLocaleString()+'\n2F = ₩'+f2.toLocaleString()+'\n3F = ₩'+f3.toLocaleString()+(f4>0?'\n4F = ₩'+f4.toLocaleString():'')+'\n합계 = ₩'+total.toLocaleString()+(memo?'\n메모: '+memo:''),createdAt:new Date().toISOString()});
-  localStorage.setItem('gm_messages', JSON.stringify(msgStore));
+  localStorage.setItem('bs_messages', JSON.stringify(msgStore));
   renderClosingHistory();
 }
 function renderClosingHistory() {
