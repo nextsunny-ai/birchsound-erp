@@ -83,7 +83,7 @@
           </a>
           <a class="nav-item" data-page="crm" onclick="navigateTo('crm')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-            CRM
+            파트너 관리
           </a>
         </div>
 
@@ -1626,18 +1626,18 @@
         </div>
       </div>
 
-      <!-- ===== CRM (파트너/스폰서 관계 관리) ===== -->
+      <!-- ===== 파트너 관리 (파트너/스폰서 관계 관리) ===== -->
       <div id="section-crm" class="page-section" style="display:none;">
         <div class="page-header"><div><h1>파트너 관리</h1><div class="header-sub">파트너, 스폰서, 투자자 관계 관리</div></div>
-        <div class="header-actions"><button class="btn btn-primary btn-sm" onclick="openCRMModal()">+ 관계 등록</button></div></div>
+        <div class="header-actions"><button class="btn btn-primary btn-sm" onclick="open파트너 관리Modal()">+ 관계 등록</button></div></div>
         <div class="page-body">
           <div style="display:flex; gap:8px; margin-bottom:16px;">
-            <button class="btn btn-sm btn-primary" onclick="switchCRMTab('all')" id="crm-tab-all">전체</button>
-            <button class="btn btn-sm btn-secondary" onclick="switchCRMTab('partner')" id="crm-tab-partner">파트너</button>
-            <button class="btn btn-sm btn-secondary" onclick="switchCRMTab('sponsor')" id="crm-tab-sponsor">스폰서</button>
-            <button class="btn btn-sm btn-secondary" onclick="switchCRMTab('investor')" id="crm-tab-investor">투자자</button>
-            <button class="btn btn-sm btn-secondary" onclick="switchCRMTab('venue')" id="crm-tab-venue">공연장</button>
-            <button class="btn btn-sm btn-secondary" onclick="switchCRMTab('agency')" id="crm-tab-agency">에이전시</button>
+            <button class="btn btn-sm btn-primary" onclick="switch파트너 관리Tab('all')" id="crm-tab-all">전체</button>
+            <button class="btn btn-sm btn-secondary" onclick="switch파트너 관리Tab('partner')" id="crm-tab-partner">파트너</button>
+            <button class="btn btn-sm btn-secondary" onclick="switch파트너 관리Tab('sponsor')" id="crm-tab-sponsor">스폰서</button>
+            <button class="btn btn-sm btn-secondary" onclick="switch파트너 관리Tab('investor')" id="crm-tab-investor">투자자</button>
+            <button class="btn btn-sm btn-secondary" onclick="switch파트너 관리Tab('venue')" id="crm-tab-venue">공연장</button>
+            <button class="btn btn-sm btn-secondary" onclick="switch파트너 관리Tab('agency')" id="crm-tab-agency">에이전시</button>
           </div>
           <div class="card"><div class="table-container">
             <table><thead><tr><th>이름/회사</th><th>유형</th><th>국가</th><th>담당자</th><th>연락처</th><th>최근 미팅</th><th>상태</th><th>메모</th></tr></thead>
@@ -2553,7 +2553,7 @@
     </div>
   </div>
 
-  <!-- CRM Modal -->
+  <!-- 파트너 관리 Modal -->
   <div class="modal-overlay" id="crm-modal">
     <div class="modal" style="max-width:640px;">
       <div class="modal-header"><h3>관계 등록</h3><button class="modal-close" onclick="closeModal('crm-modal')">&times;</button></div>
@@ -2572,7 +2572,7 @@
         </div>
         <div class="form-group" style="margin-top:8px;"><label>메모</label><textarea id="crm-memo" rows="2" placeholder="메모"></textarea></div>
       </div>
-      <div class="modal-footer"><button class="btn btn-secondary btn-sm" onclick="closeModal('crm-modal')">취소</button><button class="btn btn-primary btn-sm" onclick="saveCRM()">저장</button></div>
+      <div class="modal-footer"><button class="btn btn-secondary btn-sm" onclick="closeModal('crm-modal')">취소</button><button class="btn btn-primary btn-sm" onclick="save파트너 관리()">저장</button></div>
     </div>
   </div>
 

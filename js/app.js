@@ -140,7 +140,7 @@ const i18n = {
     dashboard: '대시보드', approval: '전자결재', messages: '메시지',
     ip: "Casting", contract: '계약 관리', project: '프로젝트', calendar: '전체 일정',
     notice: '공지사항', resources: '자료실', accounts: '계정/연락처',
-    hr: '인사관리', admin: '조직관리', 'concert-settle': '공연 정산', 'overseas-settle': '해외 정산', tickets: '티켓/판매', travel: '출장 관리', crm: '파트너 관리', attendance: '출퇴근', settings: '설정',
+    hr: '인사관리', admin: '조직관리', 'concert-settle': '공연 정산', 'overseas-settle': '해외 정산', tickets: '티켓/판매', travel: '출장 관리', crm: 'CRM', attendance: '출퇴근', settings: '설정',
     main: 'MAIN', business: 'BUSINESS', community: 'COMMUNITY',
     today: 'TODAY', clockIn: '출근', clockOut: '퇴근',
     logout: '로그아웃', save: '저장', cancel: '취소', delete: '삭제',
@@ -151,7 +151,7 @@ const i18n = {
     dashboard: 'Dashboard', approval: 'Approvals', messages: 'Messages',
     ip: 'IP Management', contract: 'Contracts', project: 'Projects', calendar: 'Calendar',
     notice: 'Notices', resources: 'Resources', accounts: 'Contacts',
-    hr: 'HR', admin: 'Organization', 'concert-settle': 'Concert Settlement', 'overseas-settle': 'Overseas Settlement', tickets: 'Tickets', travel: 'Travel', crm: '파트너 관리', attendance: 'Attendance', settings: 'Settings',
+    hr: 'HR', admin: 'Organization', 'concert-settle': 'Concert Settlement', 'overseas-settle': 'Overseas Settlement', tickets: 'Tickets', travel: 'Travel', crm: 'CRM', attendance: 'Attendance', settings: 'Settings',
     main: 'MAIN', business: 'BUSINESS', community: 'COMMUNITY',
     today: 'TODAY', clockIn: 'Clock In', clockOut: 'Clock Out',
     logout: 'Sign Out', save: 'Save', cancel: 'Cancel', delete: 'Delete',
@@ -4238,7 +4238,7 @@ function saveTravel() {
 }
 
 // ============================================
-// CRM (파트너/스폰서 관계 관리)
+// 파트너 관리 (파트너/스폰서 관계 관리)
 // ============================================
 let currentCRMTab = 'all';
 function getCRMStore() {
@@ -4282,7 +4282,7 @@ function saveCRM() {
   if (!company) { showToast('회사/이름을 입력하세요', 'error'); return; }
   const item = { id: 'crm_' + Date.now(), company: company, type: v('crm-type') || 'partner', country: v('crm-country'), contact: v('crm-contact'), title: v('crm-title'), email: v('crm-email'), phone: v('crm-phone'), lastMeeting: v('crm-last-meeting'), nextMeeting: v('crm-next-meeting'), status: v('crm-status') || 'new', memo: v('crm-memo') };
   const store = getCRMStore(); store.push(item); localStorage.setItem('bs_crm', JSON.stringify(store));
-  closeModal('crm-modal'); renderCRM(); showToast('CRM 등록 완료', 'success');
+  closeModal('crm-modal'); renderCRM(); showToast('파트너 관리 등록 완료', 'success');
 }
 
 // Stub functions for removed features (prevent console errors)
