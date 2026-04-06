@@ -1534,6 +1534,25 @@
           </div>
 
           <div class="card" style="margin-bottom:16px;">
+            <div class="card-header"><h3>결재자 설정</h3></div>
+            <div class="card-body">
+              <p style="font-size:13px; color:var(--gray-500); margin-bottom:16px;">부서별 결재자를 지정하세요. 해당 부서 직원이 결재 요청 시 자동으로 결재자 목록에 표시됩니다.</p>
+              <div id="approver-settings">
+                <div class="table-container">
+                  <table>
+                    <thead><tr><th>부서</th><th>1차 결재자</th><th>2차 결재자 (선택)</th></tr></thead>
+                    <tbody id="approver-table"></tbody>
+                  </table>
+                </div>
+                <div style="margin-top:12px; display:flex; gap:8px;">
+                  <button class="btn btn-primary btn-sm" onclick="saveApproverSettings()">저장</button>
+                  <button class="btn btn-secondary btn-sm" onclick="addApproverRow()">+ 부서 추가</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:16px;">
             <div class="card-header"><h3>계정 관리</h3></div>
             <div class="card-body">
               <div style="display:flex; flex-direction:column; gap:12px;">

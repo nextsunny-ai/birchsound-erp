@@ -3886,6 +3886,53 @@ function loadSettings() {
     if (el) el.checked = settings[f] !== false; // default true
   });
   loadPermissionTable();
+  loadApproverSettings();
+}
+
+function getApproverSettings() {
+  try { return JSON.parse(localStorage.getItem('bs_approvers') || 'null'); } catch(e) {}
+  return null;
+}
+
+function loadApproverSettings() {
+  const tbody = document.getElementById('approver-table');
+  if (!tbody) return;
+  const depts = ['경영','기획','제작','아티스트','마케팅','디자인','기술','기타'];
+  let settings = getApproverSettings();
+  if (!settings) {
+    settings = depts.map(d => ({ dept: d, approver1: '', approver2: '' }));
+  }
+  tbody.innerHTML = settings.map((s, i) => {
+    return `<tr>
+      <td style="font-weight:600;">${s.dept}</td>
+      <td><input type="text" id="approver1-${i}" value="${s.approver1 || ''}" placeholder="이름 입력" style="padding:8px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:13px; width:100%;"></td>
+      <td><input type="text" id="approver2-${i}" value="${s.approver2 || ''}" placeholder="(선택사항)" style="padding:8px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:13px; width:100%;"></td>
+    </tr>`;
+  }).join('');
+}
+
+function saveApproverSettings() {
+  const tbody = document.getElementById('approver-table');
+  if (!tbody) return;
+  const rows = tbody.querySelectorAll('tr');
+  const settings = [];
+  rows.forEach((row, i) => {
+    const dept = row.querySelector('td')?.textContent || '';
+    const a1 = document.getElementById('approver1-' + i)?.value || '';
+    const a2 = document.getElementById('approver2-' + i)?.value || '';
+    settings.push({ dept, approver1: a1, approver2: a2 });
+  });
+  localStorage.setItem('bs_approvers', JSON.stringify(settings));
+  showToast('결재자 설정이 저장되었습니다.', 'success');
+}
+
+function addApproverRow() {
+  const dept = prompt('추가할 부서명을 입력하세요:');
+  if (!dept) return;
+  let settings = getApproverSettings() || [];
+  settings.push({ dept, approver1: '', approver2: '' });
+  localStorage.setItem('bs_approvers', JSON.stringify(settings));
+  loadApproverSettings();
 }
 
 async function loadPermissionTable() {
