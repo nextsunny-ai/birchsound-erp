@@ -2348,7 +2348,7 @@ function openProjectModal(projectId, defaultParentId) {
   const parentSelect = document.getElementById('project-parent');
   if (parentSelect) {
     const projects = JSON.parse(localStorage.getItem('bs_projects') || '[]');
-    parentSelect.innerHTML = '<option value="">없음 (독립 프로젝트)</option>' +
+    parentSelect.innerHTML = '<option value="">상위 프로젝트로 생성</option>' +
       projects.filter(function(p) { return !p.parentId; }).map(function(p) { return '<option value="' + p.id + '">' + p.name + '</option>'; }).join('');
     parentSelect.value = defaultParentId || '';
   }
