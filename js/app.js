@@ -1872,7 +1872,7 @@ function getResourceStore() {
 
   // Default entries
   const defaults = [
-    { title: '📁 버치사운드 공유 드라이브', category: '경영자료', url: 'https://drive.google.com/drive/folders/1n0H2NgUChqCuPI-GtPGfuN1UIjRh1N3u?usp=sharing', memo: '전체 경영자료 구글 드라이브', date: '2026-04-05' },
+    { title: '📁 [샘플] 공유 드라이브 (링크 설정 필요)', category: '경영자료', url: '#', memo: '구글 드라이브 링크를 여기에 등록하세요', date: '2026-04-05' },
     { title: '회의록 양식', category: '양식', url: '', memo: '', date: '2026-04-01' },
     { title: '연차사용현황', category: '양식', url: '', memo: '', date: '2026-04-01' },
     { title: '입고확인증', category: '양식', url: '', memo: '', date: '2026-04-01' },
