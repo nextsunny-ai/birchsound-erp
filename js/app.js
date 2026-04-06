@@ -138,7 +138,7 @@ let currentLang = localStorage.getItem('bs_lang') || 'ko';
 const i18n = {
   ko: {
     dashboard: '대시보드', approval: '전자결재', messages: '메시지',
-    ip: 'IP 관리', contract: '계약 관리', project: '프로젝트', calendar: '전체 일정',
+    ip: "Casting", contract: '계약 관리', project: '프로젝트', calendar: '전체 일정',
     notice: '공지사항', resources: '자료실', accounts: '계정/연락처',
     hr: '인사관리', admin: '조직관리', 'concert-settle': '공연 정산', 'overseas-settle': '해외 정산', tickets: '티켓/판매', travel: '출장 관리', crm: 'CRM', attendance: '출퇴근', settings: '설정',
     main: 'MAIN', business: 'BUSINESS', community: 'COMMUNITY',
