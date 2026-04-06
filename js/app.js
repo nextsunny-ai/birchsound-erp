@@ -931,7 +931,9 @@ async function loadMembers() {
           <option value="director" ${m.role === 'director' ? 'selected' : ''}>이사</option>
           <option value="creative_director" ${m.role === 'creative_director' ? 'selected' : ''}>디렉터</option>
           <option value="admin" ${m.role === 'admin' ? 'selected' : ''}>본부장</option>
+          <option value="lab_director" ${m.role === 'lab_director' ? 'selected' : ''}>연구소장</option>
           <option value="manager" ${m.role === 'manager' ? 'selected' : ''}>매니저</option>
+          <option value="team_leader" ${m.role === 'team_leader' ? 'selected' : ''}>팀장</option>
           <option value="member" ${m.role === 'member' ? 'selected' : ''}>팀원</option>
           <option value="guest" ${m.role === 'guest' ? 'selected' : ''}>프리랜서</option>
         </select>
