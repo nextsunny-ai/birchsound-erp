@@ -31,10 +31,10 @@ function numberToKorean(n) {
 
 // ---- Role-Based Permission System ----
 const ROLE_PERMISSIONS = {
-  ceo: ['dashboard','attendance','approval','messages','travel','ip','contract','project','calendar','tickets','crm','concert-settle','overseas-settle','notice','resources','accounts','hr','admin','settings','report','finance'],
-  admin: ['dashboard','attendance','approval','messages','travel','ip','contract','project','calendar','tickets','crm','concert-settle','overseas-settle','notice','resources','accounts','hr','admin','report','finance'],
-  manager: ['dashboard','attendance','approval','messages','travel','ip','contract','project','calendar','tickets','crm','notice','resources','accounts'],
-  member: ['dashboard','attendance','approval','messages','travel','project','calendar','notice','resources'],
+  ceo: ['dashboard','attendance','approval','messages','travel','ip','contract','project','calendar','global-cal','tickets','crm','concert-settle','overseas-settle','notice','resources','accounts','hr','admin','settings','report','finance'],
+  admin: ['dashboard','attendance','approval','messages','travel','ip','contract','project','calendar','global-cal','tickets','crm','concert-settle','overseas-settle','notice','resources','accounts','hr','admin','report','finance'],
+  manager: ['dashboard','attendance','approval','messages','travel','ip','contract','project','calendar','global-cal','tickets','crm','notice','resources','accounts'],
+  member: ['dashboard','attendance','approval','messages','travel','project','calendar','global-cal','notice','resources'],
   guest: ['dashboard','messages','project']
 };
 
@@ -138,7 +138,7 @@ let currentLang = localStorage.getItem('bs_lang') || 'ko';
 const i18n = {
   ko: {
     dashboard: '대시보드', approval: '전자결재', messages: '메시지',
-    ip: "Casting", contract: '계약 관리', project: '프로젝트', calendar: '전체 일정',
+    ip: "Casting", contract: '계약 관리', project: '프로젝트', calendar: '전체 일정', 'global-cal': '글로벌 캘린더',
     notice: '공지사항', resources: '자료실', accounts: '계정/연락처',
     hr: '인사관리', admin: '조직관리', 'concert-settle': '공연 정산', 'overseas-settle': '해외 정산', tickets: '티켓/판매', travel: '출장 관리', crm: 'CRM', attendance: '출퇴근', settings: '설정',
     main: 'MAIN', business: 'BUSINESS', community: 'COMMUNITY',
@@ -149,7 +149,7 @@ const i18n = {
   },
   en: {
     dashboard: 'Dashboard', approval: 'Approvals', messages: 'Messages',
-    ip: 'IP Management', contract: 'Contracts', project: 'Projects', calendar: 'Calendar',
+    ip: 'IP Management', contract: 'Contracts', project: 'Projects', calendar: 'Calendar', 'global-cal': 'Global Calendar',
     notice: 'Notices', resources: 'Resources', accounts: 'Contacts',
     hr: 'HR', admin: 'Organization', 'concert-settle': 'Concert Settlement', 'overseas-settle': 'Overseas Settlement', tickets: 'Tickets', travel: 'Travel', crm: 'CRM', attendance: 'Attendance', settings: 'Settings',
     main: 'MAIN', business: 'BUSINESS', community: 'COMMUNITY',
@@ -850,6 +850,7 @@ function navigateTo(page) {
     case 'tickets': loadTickets(); break;
     case 'travel': loadTravel(); break;
     case 'crm': loadCRM(); break;
+    case 'global-cal': loadGlobalCal(); break;
   }
 }
 
@@ -4339,4 +4340,389 @@ function generateAllPayslips() {
   Object.keys(hrData).forEach((id, i) => {
     setTimeout(() => { if (typeof downloadPayslip === 'function') downloadPayslip(id); }, i * 300);
   });
+}
+
+// ============================================
+// GLOBAL HOLIDAY CALENDAR
+// ============================================
+
+const GLOBAL_HOLIDAYS = {
+  'KR': { name: '\uD55C\uAD6D', flag: '\uD83C\uDDF0\uD83C\uDDF7', holidays: {
+    '01-01': 'New Year\'s Day (\uC2E0\uC815)',
+    '01-28': 'Lunar New Year (\uC124\uB0A0)',
+    '01-29': 'Lunar New Year',
+    '03-01': 'Independence Movement Day (\uC0BC\uC77C\uC808)',
+    '05-05': 'Children\'s Day (\uC5B4\uB9B0\uC774\uB0A0)',
+    '05-06': 'Substitute Holiday (\uB300\uCCB4\uD734\uC77C)',
+    '06-06': 'Memorial Day (\uD604\uCDA9\uC77C)',
+    '08-15': 'Liberation Day (\uAD11\uBCF5\uC808)',
+    '10-03': 'National Foundation Day (\uAC1C\uCC9C\uC808)',
+    '10-06': 'Chuseok (\uCD94\uC11D)',
+    '10-09': 'Hangul Day (\uD55C\uAE00\uB0A0)',
+    '12-25': 'Christmas Day (\uC131\uD0C4\uC808)'
+  }},
+  'JP': { name: '\uC77C\uBCF8', flag: '\uD83C\uDDEF\uD83C\uDDF5', holidays: {
+    '01-01': 'New Year\'s Day',
+    '01-13': 'Coming of Age Day',
+    '02-11': 'National Foundation Day',
+    '02-23': 'Emperor\'s Birthday',
+    '03-20': 'Vernal Equinox Day',
+    '04-29': 'Sh\u014Dwa Day',
+    '05-03': 'Constitution Memorial Day',
+    '05-04': 'Greenery Day',
+    '05-05': 'Children\'s Day',
+    '07-21': 'Marine Day',
+    '08-11': 'Mountain Day',
+    '09-15': 'Respect for the Aged Day',
+    '09-23': 'Autumnal Equinox Day',
+    '10-13': 'Sports Day',
+    '11-03': 'Culture Day',
+    '11-23': 'Labor Thanksgiving Day',
+    '12-25': 'Christmas Day'
+  }},
+  'SG': { name: '\uC2F1\uAC00\uD3EC\uB974', flag: '\uD83C\uDDF8\uD83C\uDDEC', holidays: {
+    '01-01': 'New Year\'s Day',
+    '01-29': 'Chinese New Year',
+    '03-31': 'Hari Raya Puasa',
+    '04-18': 'Good Friday',
+    '05-01': 'Labour Day',
+    '05-12': 'Vesak Day',
+    '06-07': 'Hari Raya Haji',
+    '08-09': 'National Day',
+    '10-20': 'Deepavali',
+    '12-25': 'Christmas Day'
+  }},
+  'US': { name: '\uBBF8\uAD6D', flag: '\uD83C\uDDFA\uD83C\uDDF8', holidays: {
+    '01-01': 'New Year\'s Day',
+    '01-20': 'Martin Luther King Jr. Day',
+    '02-17': 'Presidents\' Day',
+    '05-26': 'Memorial Day',
+    '06-19': 'Juneteenth',
+    '07-04': 'Independence Day',
+    '09-01': 'Labor Day',
+    '10-13': 'Indigenous Peoples\' Day',
+    '11-11': 'Veterans Day',
+    '11-27': 'Thanksgiving Day',
+    '12-25': 'Christmas Day'
+  }},
+  'GB': { name: '\uC601\uAD6D', flag: '\uD83C\uDDEC\uD83C\uDDE7', holidays: {
+    '01-01': 'New Year\'s Day',
+    '04-18': 'Good Friday',
+    '04-21': 'Easter Monday',
+    '05-05': 'Early May Bank Holiday',
+    '05-26': 'Spring Bank Holiday',
+    '08-25': 'Summer Bank Holiday',
+    '12-25': 'Christmas Day',
+    '12-26': 'Boxing Day'
+  }},
+  'CN': { name: '\uC911\uAD6D', flag: '\uD83C\uDDE8\uD83C\uDDF3', holidays: {
+    '01-01': 'New Year\'s Day',
+    '01-28': 'Spring Festival',
+    '01-29': 'Spring Festival',
+    '04-04': 'Ching Ming Festival',
+    '05-01': 'Labour Day',
+    '05-31': 'Dragon Boat Festival',
+    '10-01': 'National Day',
+    '10-06': 'Mid-Autumn Festival'
+  }},
+  'TW': { name: '\uB300\uB9CC', flag: '\uD83C\uDDF9\uD83C\uDDFC', holidays: {
+    '01-01': 'New Year\'s Day',
+    '01-28': 'Chinese New Year Holiday',
+    '01-29': 'Lunar New Year',
+    '02-28': '228 Peace Memorial Day',
+    '04-04': 'Children\'s Day Holiday',
+    '05-01': 'Labour Day',
+    '05-31': 'Dragon Boat Festival Holiday',
+    '10-06': 'Mid-Autumn Festival',
+    '10-10': 'ROC National Day',
+    '12-25': 'Christmas Day'
+  }},
+  'TH': { name: '\uD0DC\uAD6D', flag: '\uD83C\uDDF9\uD83C\uDDED', holidays: {
+    '01-01': 'New Year\'s Day',
+    '04-14': 'Songkran Festival',
+    '05-01': 'Labour Day',
+    '05-05': 'Coronation Day',
+    '05-12': 'Visakha Bucha Holiday',
+    '06-03': 'Queen Suthida\'s Birthday',
+    '07-21': 'Buddhist Lent Day',
+    '07-28': 'King Vajiralongkorn\'s Birthday',
+    '08-12': 'Queen Mother\'s Birthday',
+    '10-13': 'King Bhumibol Memorial Day',
+    '10-23': 'Chulalongkorn Memorial Day',
+    '12-05': 'King Bhumibol\'s Birthday',
+    '12-10': 'Constitution Day'
+  }},
+  'ID': { name: '\uC778\uB3C4\uB124\uC2DC\uC544', flag: '\uD83C\uDDEE\uD83C\uDDE9', holidays: {
+    '01-01': 'New Year\'s Day',
+    '01-28': 'Ascension of Prophet Muhammad',
+    '01-29': 'Chinese New Year',
+    '03-31': 'Eid al-Fitr',
+    '04-01': 'Idul Fitri',
+    '04-18': 'Good Friday',
+    '05-01': 'Labour Day',
+    '05-13': 'Waisak Day',
+    '05-29': 'Ascension Day of Jesus Christ',
+    '06-01': 'Pancasila Day',
+    '06-07': 'Idul Adha',
+    '06-27': 'Islamic New Year',
+    '08-17': 'Independence Day',
+    '09-05': 'Prophet Muhammad\'s Birthday',
+    '12-25': 'Christmas Day'
+  }},
+  'MY': { name: '\uB9D0\uB808\uC774\uC2DC\uC544', flag: '\uD83C\uDDF2\uD83C\uDDFE', holidays: {
+    '01-01': 'New Year\'s Day',
+    '01-29': 'Chinese New Year',
+    '03-31': 'Hari Raya Aidilfitri',
+    '04-01': 'Hari Raya Aidilfitri Holiday',
+    '05-01': 'Labour Day',
+    '06-02': 'Agong\'s Birthday',
+    '06-07': 'Hari Raya Haji',
+    '08-31': 'Malaysia\'s National Day',
+    '09-05': 'Prophet Muhammad\'s Birthday',
+    '09-16': 'Malaysia Day Holiday',
+    '10-20': 'Deepavali',
+    '12-25': 'Christmas Day'
+  }},
+  'PH': { name: '\uD544\uB9AC\uD540', flag: '\uD83C\uDDF5\uD83C\uDDED', holidays: {
+    '01-01': 'New Year\'s Day',
+    '04-09': 'Day of Valor',
+    '04-17': 'Maundy Thursday',
+    '04-18': 'Good Friday',
+    '04-19': 'Black Saturday',
+    '05-01': 'Labor Day',
+    '06-12': 'Independence Day',
+    '08-21': 'Ninoy Aquino Day',
+    '08-25': 'National Heroes Day',
+    '11-01': 'All Saints\' Day',
+    '11-30': 'Bonifacio Day',
+    '12-25': 'Christmas Day',
+    '12-30': 'Rizal Day',
+    '12-31': 'New Year\'s Eve'
+  }},
+  'VN': { name: '\uBCA0\uD2B8\uB0A8', flag: '\uD83C\uDDFB\uD83C\uDDF3', holidays: {
+    '01-01': 'New Year\'s Day',
+    '01-28': 'Tet (Traditional New Year)',
+    '04-07': 'Hung Kings Commemoration Day',
+    '04-30': 'Reunification Day',
+    '05-01': 'Labour Day',
+    '09-02': 'National Day'
+  }},
+  'AU': { name: '\uD638\uC8FC', flag: '\uD83C\uDDE6\uD83C\uDDFA', holidays: {
+    '01-01': 'New Year\'s Day',
+    '01-26': 'Australia Day',
+    '04-18': 'Good Friday',
+    '04-21': 'Easter Monday',
+    '04-25': 'Anzac Day',
+    '06-09': 'King\'s Birthday',
+    '12-25': 'Christmas Day',
+    '12-26': 'Boxing Day'
+  }},
+  'NZ': { name: '\uB274\uC9C8\uB79C\uB4DC', flag: '\uD83C\uDDF3\uD83C\uDDFF', holidays: {
+    '01-01': 'New Year\'s Day',
+    '01-02': 'Day after New Year\'s Day',
+    '02-06': 'Waitangi Day',
+    '04-18': 'Good Friday',
+    '04-21': 'Easter Monday',
+    '04-25': 'Anzac Day',
+    '06-02': 'King\'s Birthday',
+    '06-20': 'Matariki',
+    '10-27': 'Labour Day',
+    '12-25': 'Christmas Day',
+    '12-26': 'Boxing Day'
+  }},
+  'FR': { name: '\uD504\uB791\uC2A4', flag: '\uD83C\uDDEB\uD83C\uDDF7', holidays: {
+    '01-01': 'New Year\'s Day',
+    '04-21': 'Easter Monday',
+    '05-01': 'Labour Day',
+    '05-08': 'Victory Day',
+    '05-29': 'Ascension Day',
+    '06-09': 'Whit Monday',
+    '07-14': 'Bastille Day',
+    '08-15': 'Assumption Day',
+    '11-01': 'All Saints\' Day',
+    '11-11': 'Armistice Day',
+    '12-25': 'Christmas Day'
+  }},
+  'DE': { name: '\uB3C5\uC77C', flag: '\uD83C\uDDE9\uD83C\uDDEA', holidays: {
+    '01-01': 'New Year\'s Day',
+    '04-18': 'Good Friday',
+    '04-21': 'Easter Monday',
+    '05-01': 'May Day',
+    '05-29': 'Ascension Day',
+    '06-09': 'Whit Monday',
+    '10-03': 'Day of German Unity',
+    '12-25': 'Christmas Day',
+    '12-26': 'Boxing Day'
+  }},
+  'AE': { name: 'UAE', flag: '\uD83C\uDDE6\uD83C\uDDEA', holidays: {
+    '01-01': 'New Year\'s Day',
+    '03-31': 'Eid al-Fitr Holiday',
+    '04-01': 'Eid al-Fitr Holiday',
+    '06-06': 'Arafat Day',
+    '06-07': 'Eid al-Adha Holiday',
+    '06-27': 'Islamic New Year',
+    '09-05': 'Mouloud',
+    '12-02': 'National Day',
+    '12-03': 'National Day Holiday'
+  }},
+  'SA': { name: '\uC0AC\uC6B0\uB514', flag: '\uD83C\uDDF8\uD83C\uDDE6', holidays: {
+    '02-22': 'Founding Day',
+    '03-31': 'Eid al-Fitr Holiday',
+    '04-01': 'Eid al-Fitr Holiday',
+    '04-02': 'Eid al-Fitr Holiday',
+    '06-05': 'Arafat Day',
+    '06-06': 'Eid al-Adha Holiday',
+    '06-07': 'Eid al-Adha Holiday',
+    '09-23': 'National Day'
+  }},
+  'BR': { name: '\uBE0C\uB77C\uC9C8', flag: '\uD83C\uDDE7\uD83C\uDDF7', holidays: {
+    '01-01': 'New Year\'s Day',
+    '03-04': 'Carnival',
+    '04-18': 'Good Friday',
+    '04-21': 'Tiradentes Day',
+    '05-01': 'Labour Day',
+    '06-19': 'Corpus Christi',
+    '09-07': 'Independence Day',
+    '10-12': 'Our Lady of Aparecida',
+    '11-02': 'All Souls\' Day',
+    '11-15': 'Republic Day',
+    '11-20': 'Black Awareness Day',
+    '12-25': 'Christmas Day'
+  }},
+  'MX': { name: '\uBA55\uC2DC\uCF54', flag: '\uD83C\uDDF2\uD83C\uDDFD', holidays: {
+    '01-01': 'New Year\'s Day',
+    '02-03': 'Constitution Day',
+    '03-17': 'Benito Juarez Day',
+    '05-01': 'Labor Day',
+    '09-16': 'Independence Day',
+    '11-17': 'Revolution Day',
+    '12-25': 'Christmas Day'
+  }},
+  'CA': { name: '\uCE90\uB098\uB2E4', flag: '\uD83C\uDDE8\uD83C\uDDE6', holidays: {
+    '01-01': 'New Year\'s Day',
+    '04-18': 'Good Friday',
+    '05-19': 'Victoria Day',
+    '07-01': 'Canada Day',
+    '08-04': 'Civic Holiday',
+    '09-01': 'Labor Day',
+    '09-30': 'Truth and Reconciliation',
+    '10-13': 'Thanksgiving',
+    '11-11': 'Remembrance Day',
+    '12-25': 'Christmas Day',
+    '12-26': 'Boxing Day'
+  }}
+};
+
+const RAMADAN_2025 = { start: '02-28', end: '03-29', note: 'Ramadan (\uB77C\uB9C8\uB2E8)' };
+
+let selectedCountries = ['KR', 'JP', 'SG', 'US', 'GB', 'TH'];
+let globalCalMonth = new Date().getMonth();
+let globalCalYear = new Date().getFullYear();
+
+function loadGlobalCal() {
+  const saved = localStorage.getItem('bs_global_cal_countries');
+  if (saved) { try { selectedCountries = JSON.parse(saved); } catch(e) {} }
+  const yearSelect = document.getElementById('global-cal-year');
+  if (yearSelect) yearSelect.value = globalCalYear;
+  renderCountryFilter();
+  renderGlobalCal();
+}
+
+function renderCountryFilter() {
+  var container = document.getElementById('global-cal-countries');
+  if (!container) return;
+  container.innerHTML = Object.entries(GLOBAL_HOLIDAYS).map(function(entry) {
+    var code = entry[0], country = entry[1];
+    var checked = selectedCountries.includes(code);
+    return '<label style="display:inline-flex; align-items:center; gap:4px; padding:4px 10px; background:' + (checked ? 'var(--primary-bg)' : 'var(--gray-50)') + '; border:1px solid ' + (checked ? 'var(--primary)' : 'var(--gray-200)') + '; border-radius:6px; font-size:12px; cursor:pointer; white-space:nowrap;">' +
+      '<input type="checkbox" ' + (checked ? 'checked' : '') + ' onchange="toggleCountry(\'' + code + '\', this)" style="display:none;">' +
+      country.flag + ' ' + country.name +
+    '</label>';
+  }).join('');
+}
+
+function toggleCountry(code, el) {
+  if (el.checked) { if (!selectedCountries.includes(code)) selectedCountries.push(code); }
+  else { selectedCountries = selectedCountries.filter(function(c) { return c !== code; }); }
+  localStorage.setItem('bs_global_cal_countries', JSON.stringify(selectedCountries));
+  renderCountryFilter();
+  renderGlobalCal();
+}
+
+function prevGlobalMonth() {
+  globalCalMonth--;
+  if (globalCalMonth < 0) { globalCalMonth = 11; globalCalYear--; }
+  var yearSelect = document.getElementById('global-cal-year');
+  if (yearSelect) yearSelect.value = globalCalYear;
+  renderGlobalCal();
+}
+
+function nextGlobalMonth() {
+  globalCalMonth++;
+  if (globalCalMonth > 11) { globalCalMonth = 0; globalCalYear++; }
+  var yearSelect = document.getElementById('global-cal-year');
+  if (yearSelect) yearSelect.value = globalCalYear;
+  renderGlobalCal();
+}
+
+function renderGlobalCal() {
+  var yearSelect = document.getElementById('global-cal-year');
+  if (yearSelect) globalCalYear = parseInt(yearSelect.value) || new Date().getFullYear();
+
+  var label = document.getElementById('global-cal-month-label');
+  var monthNames = ['1\uC6D4','2\uC6D4','3\uC6D4','4\uC6D4','5\uC6D4','6\uC6D4','7\uC6D4','8\uC6D4','9\uC6D4','10\uC6D4','11\uC6D4','12\uC6D4'];
+  if (label) label.textContent = globalCalYear + '\uB144 ' + monthNames[globalCalMonth];
+
+  var thead = document.getElementById('global-cal-header');
+  var tbody = document.getElementById('global-cal-body');
+  if (!thead || !tbody) return;
+
+  var dayNames = ['\uC77C','\uC6D4','\uD654','\uC218','\uBAA9','\uAE08','\uD1A0'];
+
+  thead.innerHTML = '<tr style="background:var(--gray-50);"><th style="width:40px; text-align:center;">Day</th><th style="width:40px; text-align:center;">DOW</th>' +
+    selectedCountries.map(function(code) {
+      var c = GLOBAL_HOLIDAYS[code];
+      return '<th style="min-width:140px; font-size:12px; text-align:center;">' + (c ? c.flag + ' ' + c.name : code) + '</th>';
+    }).join('') + '</tr>';
+
+  var daysInMonth = new Date(globalCalYear, globalCalMonth + 1, 0).getDate();
+  var html = '';
+
+  for (var d = 1; d <= daysInMonth; d++) {
+    var date = new Date(globalCalYear, globalCalMonth, d);
+    var dow = date.getDay();
+    var dateKey = String(globalCalMonth + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+    var isWeekend = dow === 0 || dow === 6;
+    var isSunday = dow === 0;
+
+    var hasHoliday = false;
+    selectedCountries.forEach(function(code) {
+      if (GLOBAL_HOLIDAYS[code] && GLOBAL_HOLIDAYS[code].holidays[dateKey]) hasHoliday = true;
+    });
+
+    var isRamadan = (globalCalYear === 2025) && (dateKey >= RAMADAN_2025.start && dateKey <= RAMADAN_2025.end);
+
+    var rowBg = hasHoliday ? 'background:var(--primary-bg);' : isRamadan ? 'background:#FFF8E1;' : isWeekend ? 'background:var(--gray-50);' : '';
+    var dayColor = isSunday ? 'color:var(--red, #FF3B30);' : dow === 6 ? 'color:var(--blue, #007AFF);' : '';
+
+    html += '<tr style="' + rowBg + '">';
+    html += '<td style="text-align:center; font-weight:700; ' + dayColor + '">' + d + '</td>';
+    html += '<td style="text-align:center; font-size:12px; ' + dayColor + '">' + dayNames[dow] + '</td>';
+
+    selectedCountries.forEach(function(code) {
+      var country = GLOBAL_HOLIDAYS[code];
+      var holiday = country && country.holidays[dateKey];
+      if (holiday) {
+        html += '<td style="font-size:12px; padding:6px 8px; background:rgba(255,59,48,0.08); border-left:2px solid var(--primary, #FF3B30);"><strong style="color:var(--primary, #FF3B30);">' + holiday + '</strong></td>';
+      } else if (isRamadan && ['ID','MY','AE','SA'].includes(code)) {
+        html += '<td style="font-size:11px; color:#B8860B; padding:6px 8px;">\uD83C\uDF19 Ramadan</td>';
+      } else {
+        html += '<td></td>';
+      }
+    });
+
+    html += '</tr>';
+  }
+
+  tbody.innerHTML = html;
 }
