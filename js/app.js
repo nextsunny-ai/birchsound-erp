@@ -2054,52 +2054,15 @@ function getProjectStore() {
     if (existing !== null) return existing;
   } catch (e) {}
 
-  // 기본 프로젝트: 공연/페스티벌
+  // 기본 프로젝트: 계층형 투어 + 페스티벌
   const defaults = [
-    {
-      id: 'proj_summer_fest',
-      name: '2026 Summer Music Festival',
-      ip: 'Global Music Festival',
-      status: 'active',
-      startDate: '2026-07-15',
-      endDate: '2026-07-17',
-      team: '',
-      operationType: 'concert',
-      requiredStaff: 20,
-      assignedStaff: '',
-      budgetInterior: 0,
-      budgetProduction: 0,
-      budgetGiveaway: 0,
-      budgetOther: 0,
-      targetRevenue: 0,
-      productMemo: '',
-      memo: '3일간 야외 페스티벌',
-      workers: [],
-      costs: [],
-      createdAt: '2026-04-01'
-    },
-    {
-      id: 'proj_showcase_seoul',
-      name: 'Artist Showcase Seoul',
-      ip: 'K-Pop Showcase',
-      status: 'preparing',
-      startDate: '2026-09-01',
-      endDate: '2026-09-01',
-      team: '',
-      operationType: 'concert',
-      requiredStaff: 8,
-      assignedStaff: '',
-      budgetInterior: 0,
-      budgetProduction: 0,
-      budgetGiveaway: 0,
-      budgetOther: 0,
-      targetRevenue: 0,
-      productMemo: '',
-      memo: '',
-      workers: [],
-      costs: [],
-      createdAt: '2026-04-01'
-    }
+    { id: 'proj_tour_2027', name: 'Asia Tour 2027', ip: 'Global Concert Tour', status: 'active', startDate: '2027-03-01', endDate: '2027-06-30', projectType: 'tour', location: '아시아 5개국', parentId: '', requiredStaff: 20, assignedStaff: '', budgetInterior: 0, budgetProduction: 500000000, budgetGiveaway: 50000000, budgetOther: 100000000, targetRevenue: 5000000000, productMemo: '아시아 5개국 순회 투어', memo: '', workers: [], costs: [], createdAt: new Date().toISOString() },
+    { id: 'proj_seoul', name: '서울 공연', ip: 'Asia Tour', status: 'active', startDate: '2027-03-15', endDate: '2027-03-16', projectType: 'concert', location: '서울 KSPO DOME', parentId: 'proj_tour_2027', requiredStaff: 5, assignedStaff: '', budgetInterior: 0, budgetProduction: 100000000, budgetGiveaway: 10000000, budgetOther: 20000000, targetRevenue: 1000000000, productMemo: '', memo: 'KSPO DOME 대관 확정', workers: [], costs: [], createdAt: new Date().toISOString() },
+    { id: 'proj_singapore', name: '싱가포르 공연', ip: 'Asia Tour', status: 'planning', startDate: '2027-04-10', endDate: '2027-04-11', projectType: 'concert', location: '싱가포르 Marina Bay Sands', parentId: 'proj_tour_2027', requiredStaff: 5, assignedStaff: '', budgetInterior: 0, budgetProduction: 150000000, budgetGiveaway: 10000000, budgetOther: 30000000, targetRevenue: 1200000000, productMemo: '', memo: '공연장 계약 조율 중', workers: [], costs: [], createdAt: new Date().toISOString() },
+    { id: 'proj_tokyo', name: '도쿄 공연', ip: 'Asia Tour', status: 'planning', startDate: '2027-05-01', endDate: '2027-05-02', projectType: 'concert', location: '도쿄 Budokan', parentId: 'proj_tour_2027', requiredStaff: 5, assignedStaff: '', budgetInterior: 0, budgetProduction: 120000000, budgetGiveaway: 10000000, budgetOther: 25000000, targetRevenue: 1100000000, productMemo: '', memo: '', workers: [], costs: [], createdAt: new Date().toISOString() },
+    { id: 'proj_bangkok', name: '방콕 공연', ip: 'Asia Tour', status: 'planning', startDate: '2027-05-20', endDate: '2027-05-21', projectType: 'concert', location: '방콕 Impact Arena', parentId: 'proj_tour_2027', requiredStaff: 4, assignedStaff: '', budgetInterior: 0, budgetProduction: 80000000, budgetGiveaway: 8000000, budgetOther: 15000000, targetRevenue: 800000000, productMemo: '', memo: '', workers: [], costs: [], createdAt: new Date().toISOString() },
+    { id: 'proj_jakarta', name: '자카르타 공연', ip: 'Asia Tour', status: 'planning', startDate: '2027-06-10', endDate: '2027-06-11', projectType: 'concert', location: '자카르타 ICE BSD', parentId: 'proj_tour_2027', requiredStaff: 4, assignedStaff: '', budgetInterior: 0, budgetProduction: 70000000, budgetGiveaway: 8000000, budgetOther: 15000000, targetRevenue: 700000000, productMemo: '', memo: '', workers: [], costs: [], createdAt: new Date().toISOString() },
+    { id: 'proj_festival', name: '2026 Summer Music Festival', ip: 'Global Music Festival', status: 'active', startDate: '2026-07-15', endDate: '2026-07-17', projectType: 'festival', location: '서울 올림픽공원', parentId: '', requiredStaff: 15, assignedStaff: '', budgetInterior: 50000000, budgetProduction: 300000000, budgetGiveaway: 30000000, budgetOther: 50000000, targetRevenue: 3000000000, productMemo: '3일간 야외 페스티벌', memo: '', workers: [], costs: [], createdAt: new Date().toISOString() }
   ];
 
   localStorage.setItem('bs_projects', JSON.stringify(defaults));
@@ -2130,202 +2093,203 @@ function loadProjects() {
   if (el('proj-stat-workers')) el('proj-stat-workers').textContent = totalWorkers + '명';
   if (el('proj-stat-completed')) el('proj-stat-completed').textContent = completedCount;
 
-  // Render project cards
-  const listEl = document.getElementById('project-list');
-  if (!listEl) return;
+  // Render using hierarchical view
+  renderProjectList(projects);
+}
+
+function renderProjectList(projects) {
+  const container = document.getElementById('project-list');
+  if (!container) return;
+
+  const parents = projects.filter(p => !p.parentId);
+  const children = projects.filter(p => p.parentId);
 
   if (projects.length === 0) {
-    listEl.innerHTML = '<div class="empty-state"><p>등록된 프로젝트가 없습니다.</p></div>';
+    container.innerHTML = '<div class="empty-state"><p>프로젝트를 등록하세요.</p></div>';
     return;
   }
 
-  const statusMap = { preparing: '준비중', active: '진행중', completed: '완료' };
-  const statusColorMap = { preparing: '#f59e0b', active: '#10b981', completed: '#9ca3af' };
-  const statusBgMap = { preparing: 'rgba(245,158,11,0.1)', active: 'rgba(16,185,129,0.1)', completed: 'rgba(156,163,175,0.1)' };
+  const typeLabels = { tour: '글로벌 투어', concert: '단독 공연', festival: '페스티벌', showcase: '쇼케이스', exhibition: '전시', production: '제작', other: '기타' };
+  const typeColors = { tour: '#9333EA', concert: '#2563EB', festival: '#EA580C', showcase: '#16A34A', exhibition: '#B8860B', production: '#6B7280', other: '#6B7280' };
+  const statusLabels = { planning: '기획중', preparing: '준비중', active: '진행중', completed: '완료', cancelled: '취소' };
 
-  listEl.innerHTML = projects.map((proj, idx) => {
-    const statusText = statusMap[proj.status] || proj.status;
-    const statusColor = statusColorMap[proj.status] || '#9ca3af';
-    const statusBg = statusBgMap[proj.status] || 'rgba(156,163,175,0.1)';
-    const workerCount = proj.workers ? proj.workers.length : 0;
-    const laborCost = calculateProjectCost(proj);
+  let html = '';
 
-    return `<div class="card" style="margin-bottom:16px;">
-      <div class="card-body" style="cursor:pointer;" onclick="toggleProjectDetail('${proj.id}')">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
-          <div style="flex:1; min-width:200px;">
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-              <h3 style="margin:0; font-size:16px; font-weight:700;">${proj.name}</h3>
-              <span style="display:inline-block; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700; background:${statusBg}; color:${statusColor};">${statusText}</span>
-            </div>
-            <div style="display:flex; gap:16px; flex-wrap:wrap; font-size:13px; color:var(--gray-500);">
-              <span>IP: ${proj.ip || '-'}</span>
-              <span>${proj.team || '-'}</span>
-              <span>${proj.startDate || '-'} ~ ${proj.endDate || '-'}</span>
-              <span>인력 ${workerCount}명</span>
-            </div>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-size:11px; color:var(--gray-400); margin-bottom:4px;">예상 / 실제 매출</div>
-            <div style="font-size:18px; font-weight:800; color:var(--black);">
-              ${(proj.expectedRevenue || 0).toLocaleString()}원
-            </div>
-            <div style="font-size:15px; font-weight:700; color:var(--primary);">
-              ${(proj.actualRevenue || 0).toLocaleString()}원
-            </div>
-          </div>
-        </div>
-      </div>
+  // Standalone projects (no parent, no children)
+  const standalones = parents.filter(p => !children.some(c => c.parentId === p.id));
+  // Parent projects (have children)
+  const parentWithChildren = parents.filter(p => children.some(c => c.parentId === p.id));
 
-      <!-- Detail View (hidden by default) -->
-      <div id="project-detail-${proj.id}" style="display:none; border-top:1px solid var(--gray-100);">
-        <div style="padding:16px 20px;">
-          <!-- Tabs -->
-          <div style="display:flex; gap:4px; margin-bottom:16px; border-bottom:1px solid var(--gray-100); padding-bottom:8px;">
-            <button class="btn btn-ghost btn-sm proj-tab-btn" onclick="switchProjectTab('${proj.id}', 'overview')" style="font-weight:600; background:var(--primary); color:white;" data-proj-tab="${proj.id}-overview">개요</button>
-            <button class="btn btn-ghost btn-sm proj-tab-btn" onclick="switchProjectTab('${proj.id}', 'workers')" data-proj-tab="${proj.id}-workers">인력</button>
-            <button class="btn btn-ghost btn-sm proj-tab-btn" onclick="switchProjectTab('${proj.id}', 'revenue')" data-proj-tab="${proj.id}-revenue">매출</button>
-            <button class="btn btn-ghost btn-sm proj-tab-btn" onclick="switchProjectTab('${proj.id}', 'costs')" data-proj-tab="${proj.id}-costs">비용</button>
-            <button class="btn btn-ghost btn-sm proj-tab-btn" onclick="switchProjectTab('${proj.id}', 'memo')" data-proj-tab="${proj.id}-memo">메모</button>
-          </div>
+  // Render parent projects with children first
+  parentWithChildren.forEach(function(parent) {
+    const myChildren = children.filter(c => c.parentId === parent.id);
+    const totalBudget = [parent].concat(myChildren).reduce(function(sum, p) { return sum + (parseInt(p.budgetInterior)||0) + (parseInt(p.budgetProduction)||0) + (parseInt(p.budgetGiveaway)||0) + (parseInt(p.budgetOther)||0); }, 0);
+    const type = typeLabels[parent.projectType] || '프로젝트';
+    const color = typeColors[parent.projectType] || '#6B7280';
 
-          <!-- Tab: Overview -->
-          <div id="proj-tab-${proj.id}-overview">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:14px;">
-              <div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;">
-                <div style="font-size:11px; color:var(--gray-500); font-weight:600;">프로젝트명</div>
-                <div style="font-weight:700; margin-top:4px;">${proj.name}</div>
-              </div>
-              <div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;">
-                <div style="font-size:11px; color:var(--gray-500); font-weight:600;">IP/작품명</div>
-                <div style="font-weight:700; margin-top:4px;">${proj.ip || '-'}</div>
-              </div>
-              <div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;">
-                <div style="font-size:11px; color:var(--gray-500); font-weight:600;">기간</div>
-                <div style="font-weight:700; margin-top:4px;">${proj.startDate || '-'} ~ ${proj.endDate || '-'}</div>
-              </div>
-              <div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;">
-                <div style="font-size:11px; color:var(--gray-500); font-weight:600;">팀</div>
-                <div style="font-weight:700; margin-top:4px;">${proj.team || '-'}</div>
-              </div>
-              <div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;">
-                <div style="font-size:11px; color:var(--gray-500); font-weight:600;">투입 인력</div>
-                <div style="font-weight:700; margin-top:4px;">${workerCount}명</div>
-              </div>
-              <div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;">
-                <div style="font-size:11px; color:var(--gray-500); font-weight:600;">예상 인건비</div>
-                <div style="font-weight:700; margin-top:4px;">${laborCost.toLocaleString()}원</div>
-              </div>
-            </div>
-            <div style="margin-top:16px; display:flex; gap:8px;">
-              <button class="btn btn-ghost btn-sm" onclick="openProjectModal('${proj.id}')" style="color:var(--primary);">수정</button>
-              <button class="btn btn-ghost btn-sm" onclick="deleteProject('${proj.id}')" style="color:var(--red);">삭제</button>
-            </div>
-          </div>
+    html += '<div class="card" style="margin-bottom:16px; border-left:4px solid ' + color + ';">' +
+      '<div class="card-body" style="padding:16px 20px; cursor:pointer;" onclick="toggleProjectChildren(\'' + parent.id + '\')">' +
+        '<div style="display:flex; justify-content:space-between; align-items:center;">' +
+          '<div>' +
+            '<div style="display:flex; align-items:center; gap:8px;">' +
+              '<span style="background:' + color + '20; color:' + color + '; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700;">' + type + '</span>' +
+              '<span class="badge ' + (parent.status === 'active' ? 'badge-approved' : parent.status === 'planning' || parent.status === 'preparing' ? 'badge-pending' : 'badge-rejected') + '">' + (statusLabels[parent.status] || parent.status) + '</span>' +
+            '</div>' +
+            '<div style="font-size:18px; font-weight:800; margin-top:6px;">' + parent.name + '</div>' +
+            '<div style="font-size:13px; color:var(--gray-500); margin-top:2px;">' + (parent.location || '') + ' | ' + (parent.startDate || '') + ' ~ ' + (parent.endDate || '') + '</div>' +
+          '</div>' +
+          '<div style="text-align:right;">' +
+            '<div style="font-size:12px; color:var(--gray-500);">하위 프로젝트 ' + myChildren.length + '개</div>' +
+            '<div style="font-size:16px; font-weight:700; color:' + color + ';">\u20A9' + totalBudget.toLocaleString() + '</div>' +
+            '<div style="font-size:20px; color:var(--gray-400);" id="proj-arrow-' + parent.id + '">\u25BC</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div id="proj-children-' + parent.id + '" style="display:none; border-top:1px solid var(--gray-100);">';
 
-          <!-- Tab: Workers -->
-          <div id="proj-tab-${proj.id}-workers" style="display:none;">
-            <div style="margin-bottom:12px;">
-              <button class="btn btn-primary btn-sm" onclick="openWorkerModal('${proj.id}')">+ 인력 배정</button>
-            </div>
-            ${workerCount === 0 ? '<div class="empty-state"><p>배정된 인력이 없습니다.</p></div>' : `
-            <div class="table-container">
-              <table>
-                <thead>
-                  <tr>
-                    <th>유형</th>
-                    <th>이름/회사</th>
-                    <th>역할</th>
-                    <th>계약금액</th>
-                    <th>상태</th>
-                    <th>메모</th>
-                    <th>삭제</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${proj.workers.map((w, wi) => {
-                    const typeColorMap = { '내부인력': '#3b82f6', '외주': '#10b981', '파트너사': '#f59e0b', '아티스트': '#ef4444' };
-                    const typeBgMap = { '내부인력': 'rgba(59,130,246,0.1)', '외주': 'rgba(16,185,129,0.1)', '파트너사': 'rgba(245,158,11,0.1)', '아티스트': 'rgba(239,68,68,0.1)' };
-                    const typeColor = typeColorMap[w.type] || '#9ca3af';
-                    const typeBg = typeBgMap[w.type] || 'rgba(156,163,175,0.1)';
-                    const statusMap = { '섭외중': '#f59e0b', '확정': '#3b82f6', '진행중': '#10b981', '완료': '#9ca3af' };
-                    const statusColor = statusMap[w.status] || '#9ca3af';
-                    return `<tr>
-                      <td><span style="display:inline-block; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700; background:${typeBg}; color:${typeColor};">${w.type || '-'}</span></td>
-                      <td><strong>${w.name}</strong></td>
-                      <td style="font-size:13px;">${w.role || '-'}</td>
-                      <td style="font-weight:700;">${(w.contractAmount || 0).toLocaleString()}원</td>
-                      <td><span style="color:${statusColor}; font-weight:600; font-size:13px;">${w.status || '-'}</span></td>
-                      <td style="font-size:12px; color:var(--gray-500);">${w.memo || '-'}</td>
-                      <td><button class="btn btn-ghost btn-sm" onclick="deleteProjectWorker('${proj.id}', ${wi})" style="color:var(--red); font-size:12px;">삭제</button></td>
-                    </tr>`;
-                  }).join('')}
-                </tbody>
-              </table>
-            </div>`}
-          </div>
+    myChildren.forEach(function(child) {
+      var cType = typeLabels[child.projectType] || '공연';
+      var cColor = typeColors[child.projectType] || '#6B7280';
+      html += '<div style="padding:12px 20px 12px 36px; border-bottom:1px solid var(--gray-50); cursor:pointer; display:flex; justify-content:space-between; align-items:center;" onclick="event.stopPropagation(); toggleProjectDetail(\'' + child.id + '\')">' +
+        '<div>' +
+          '<div style="display:flex; align-items:center; gap:6px;">' +
+            '<span style="color:var(--gray-400);">\u2514</span>' +
+            '<span style="font-weight:600;">' + child.name + '</span>' +
+            '<span class="badge ' + (child.status === 'active' ? 'badge-approved' : child.status === 'planning' || child.status === 'preparing' ? 'badge-pending' : 'badge-rejected') + '" style="font-size:10px;">' + (statusLabels[child.status] || child.status) + '</span>' +
+          '</div>' +
+          '<div style="font-size:12px; color:var(--gray-500); margin-left:20px;">' + (child.location || '') + ' | ' + (child.startDate || '') + ' ~ ' + (child.endDate || '') + '</div>' +
+        '</div>' +
+        '<div style="font-size:13px; font-weight:600;">\u20A9' + ((parseInt(child.budgetInterior)||0)+(parseInt(child.budgetProduction)||0)+(parseInt(child.budgetGiveaway)||0)+(parseInt(child.budgetOther)||0)).toLocaleString() + '</div>' +
+      '</div>';
+    });
 
-          <!-- Tab: Revenue -->
-          <div id="proj-tab-${proj.id}-revenue" style="display:none;">
-            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
-              <div style="background:var(--gray-50); padding:16px; border-radius:8px; text-align:center;">
-                <div style="font-size:11px; color:var(--gray-500); font-weight:600;">예상 매출</div>
-                <div style="font-size:22px; font-weight:800; margin-top:8px;">${(proj.expectedRevenue || 0).toLocaleString()}원</div>
-              </div>
-              <div style="background:rgba(13,148,136,0.06); padding:16px; border-radius:8px; text-align:center;">
-                <div style="font-size:11px; color:var(--gray-500); font-weight:600;">실제 매출</div>
-                <div style="font-size:22px; font-weight:800; margin-top:8px; color:var(--primary);">${(proj.actualRevenue || 0).toLocaleString()}원</div>
-              </div>
-              <div style="background:rgba(239,68,68,0.06); padding:16px; border-radius:8px; text-align:center;">
-                <div style="font-size:11px; color:var(--gray-500); font-weight:600;">예상 인건비</div>
-                <div style="font-size:22px; font-weight:800; margin-top:8px; color:var(--red);">${laborCost.toLocaleString()}원</div>
-              </div>
-            </div>
-            <div style="margin-top:16px; background:var(--gray-50); padding:16px; border-radius:8px; text-align:center;">
-              <div style="font-size:11px; color:var(--gray-500); font-weight:600;">예상 순이익 (실제매출 - 인건비)</div>
-              <div style="font-size:26px; font-weight:800; margin-top:8px; color:${((proj.actualRevenue || 0) - laborCost) >= 0 ? 'var(--primary)' : 'var(--red)'};">${((proj.actualRevenue || 0) - laborCost).toLocaleString()}원</div>
-            </div>
-          </div>
+    html += '<div style="padding:8px 20px 8px 36px;">' +
+      '<button class="btn btn-sm btn-secondary" onclick="event.stopPropagation(); openProjectModal(null, \'' + parent.id + '\')">+ 하위 프로젝트 추가</button>' +
+    '</div>';
 
-          <!-- Tab: Costs -->
-          <div id="proj-tab-${proj.id}-costs" style="display:none;">
-            <div>
-              <table>
-                <thead><tr><th>항목</th><th>내용</th><th>금액</th><th>삭제</th></tr></thead>
-                <tbody id="project-costs-${proj.id}">
-                </tbody>
-                <tfoot>
-                  <tr style="font-weight:700;">
-                    <td colspan="2">비용 합계</td>
-                    <td id="project-cost-total-${proj.id}">₩0</td>
-                    <td></td>
-                  </tr>
-                  <tr style="font-weight:700; color:var(--primary);">
-                    <td colspan="2">순익 (매출 - 비용 - 인건비)</td>
-                    <td id="project-profit-${proj.id}">₩0</td>
-                    <td></td>
-                  </tr>
-                </tfoot>
-              </table>
-              <div style="margin-top:12px; display:flex; gap:8px;">
-                <input type="text" id="cost-item-${proj.id}" placeholder="항목 (예: 굿즈 제작비)" style="flex:1; padding:8px; border:1px solid var(--gray-200); border-radius:6px;">
-                <input type="text" id="cost-desc-${proj.id}" placeholder="내용" style="flex:1; padding:8px; border:1px solid var(--gray-200); border-radius:6px;">
-                <input type="number" id="cost-amount-${proj.id}" placeholder="금액" style="width:120px; padding:8px; border:1px solid var(--gray-200); border-radius:6px;">
-                <button class="btn btn-primary btn-sm" onclick="addProjectCost('${proj.id}')">추가</button>
-              </div>
-            </div>
-          </div>
+    html += '</div>' +
+      // Detail views for parent
+      '<div id="project-detail-' + parent.id + '" style="display:none; border-top:1px solid var(--gray-100); padding:16px 20px;">' + renderProjectDetailTabs(parent) + '</div>' +
+    '</div>';
 
-          <!-- Tab: Memo -->
-          <div id="proj-tab-${proj.id}-memo" style="display:none;">
-            <div style="background:var(--gray-50); padding:16px; border-radius:8px; min-height:100px; white-space:pre-wrap; line-height:1.8; font-size:14px;">
-              ${proj.memo || '메모가 없습니다.'}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
+    // Detail views for children (rendered after parent card)
+    myChildren.forEach(function(child) {
+      html += '<div id="project-detail-' + child.id + '" style="display:none; margin-bottom:16px; margin-left:24px; border:1px solid var(--gray-200); border-radius:8px; padding:16px 20px;">' + renderProjectDetailTabs(child) + '</div>';
+    });
+  });
+
+  // Render standalone projects
+  standalones.forEach(function(proj) {
+    var type = typeLabels[proj.projectType] || '프로젝트';
+    var color = typeColors[proj.projectType] || '#6B7280';
+    var budget = (parseInt(proj.budgetInterior)||0)+(parseInt(proj.budgetProduction)||0)+(parseInt(proj.budgetGiveaway)||0)+(parseInt(proj.budgetOther)||0);
+
+    html += '<div class="card" style="margin-bottom:12px; cursor:pointer; border-left:3px solid ' + color + ';" onclick="toggleProjectDetail(\'' + proj.id + '\')">' +
+      '<div class="card-body" style="padding:14px 20px;">' +
+        '<div style="display:flex; justify-content:space-between; align-items:center;">' +
+          '<div>' +
+            '<div style="display:flex; align-items:center; gap:8px;">' +
+              '<span style="background:' + color + '20; color:' + color + '; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700;">' + type + '</span>' +
+              '<span class="badge ' + (proj.status === 'active' ? 'badge-approved' : proj.status === 'planning' || proj.status === 'preparing' ? 'badge-pending' : 'badge-rejected') + '">' + (statusLabels[proj.status] || proj.status) + '</span>' +
+            '</div>' +
+            '<div style="font-size:16px; font-weight:700; margin-top:4px;">' + proj.name + '</div>' +
+            '<div style="font-size:12px; color:var(--gray-500);">' + (proj.location || '') + ' | ' + (proj.startDate || '') + ' ~ ' + (proj.endDate || '') + '</div>' +
+          '</div>' +
+          '<div style="font-size:14px; font-weight:700;">\u20A9' + budget.toLocaleString() + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div id="project-detail-' + proj.id + '" style="display:none; border-top:1px solid var(--gray-100); padding:16px 20px;">' + renderProjectDetailTabs(proj) + '</div>' +
+    '</div>';
+  });
+
+  // Orphan children (parent deleted)
+  var orphans = children.filter(function(c) { return !parents.some(function(p) { return p.id === c.parentId; }); });
+  orphans.forEach(function(proj) {
+    html += '<div class="card" style="margin-bottom:12px; cursor:pointer;" onclick="toggleProjectDetail(\'' + proj.id + '\')">' +
+      '<div class="card-body" style="padding:14px 20px;">' +
+        '<div style="font-size:16px; font-weight:700;">' + proj.name + '</div>' +
+        '<div style="font-size:12px; color:var(--gray-500);">' + (proj.location || '') + '</div>' +
+      '</div>' +
+      '<div id="project-detail-' + proj.id + '" style="display:none; border-top:1px solid var(--gray-100); padding:16px 20px;">' + renderProjectDetailTabs(proj) + '</div>' +
+    '</div>';
+  });
+
+  container.innerHTML = html;
+}
+
+function renderProjectDetailTabs(proj) {
+  var workerCount = proj.workers ? proj.workers.length : 0;
+  var laborCost = calculateProjectCost(proj);
+  var html = '';
+  html += '<div style="display:flex; gap:4px; margin-bottom:16px; border-bottom:1px solid var(--gray-100); padding-bottom:8px;">' +
+    '<button class="btn btn-ghost btn-sm proj-tab-btn" onclick="event.stopPropagation(); switchProjectTab(\'' + proj.id + '\', \'overview\')" style="font-weight:600; background:var(--primary); color:white;" data-proj-tab="' + proj.id + '-overview">개요</button>' +
+    '<button class="btn btn-ghost btn-sm proj-tab-btn" onclick="event.stopPropagation(); switchProjectTab(\'' + proj.id + '\', \'workers\')" data-proj-tab="' + proj.id + '-workers">인력</button>' +
+    '<button class="btn btn-ghost btn-sm proj-tab-btn" onclick="event.stopPropagation(); switchProjectTab(\'' + proj.id + '\', \'revenue\')" data-proj-tab="' + proj.id + '-revenue">매출</button>' +
+    '<button class="btn btn-ghost btn-sm proj-tab-btn" onclick="event.stopPropagation(); switchProjectTab(\'' + proj.id + '\', \'costs\')" data-proj-tab="' + proj.id + '-costs">비용</button>' +
+    '<button class="btn btn-ghost btn-sm proj-tab-btn" onclick="event.stopPropagation(); switchProjectTab(\'' + proj.id + '\', \'memo\')" data-proj-tab="' + proj.id + '-memo">메모</button>' +
+  '</div>';
+  // Overview tab
+  html += '<div id="proj-tab-' + proj.id + '-overview">' +
+    '<div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:14px;">' +
+      '<div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">프로젝트명</div><div style="font-weight:700; margin-top:4px;">' + proj.name + '</div></div>' +
+      '<div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">IP/작품명</div><div style="font-weight:700; margin-top:4px;">' + (proj.ip || '-') + '</div></div>' +
+      '<div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">기간</div><div style="font-weight:700; margin-top:4px;">' + (proj.startDate || '-') + ' ~ ' + (proj.endDate || '-') + '</div></div>' +
+      '<div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">국가/도시</div><div style="font-weight:700; margin-top:4px;">' + (proj.location || '-') + '</div></div>' +
+      '<div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">투입 인력</div><div style="font-weight:700; margin-top:4px;">' + workerCount + '명</div></div>' +
+      '<div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">예상 인건비</div><div style="font-weight:700; margin-top:4px;">' + laborCost.toLocaleString() + '원</div></div>' +
+    '</div>' +
+    '<div style="margin-top:16px; display:flex; gap:8px;">' +
+      '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); openProjectModal(\'' + proj.id + '\')" style="color:var(--primary);">수정</button>' +
+      '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); deleteProject(\'' + proj.id + '\')" style="color:var(--red);">삭제</button>' +
+    '</div>' +
+  '</div>';
+  // Workers tab
+  html += '<div id="proj-tab-' + proj.id + '-workers" style="display:none;">' +
+    '<div style="margin-bottom:12px;"><button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); openWorkerModal(\'' + proj.id + '\')">+ 인력 배정</button></div>';
+  if (workerCount === 0) {
+    html += '<div class="empty-state"><p>배정된 인력이 없습니다.</p></div>';
+  } else {
+    html += '<div class="table-container"><table><thead><tr><th>유형</th><th>이름/회사</th><th>역할</th><th>계약금액</th><th>상태</th><th>메모</th><th>삭제</th></tr></thead><tbody>';
+    proj.workers.forEach(function(w, wi) {
+      var typeColorMap = { '내부인력': '#3b82f6', '외주': '#10b981', '파트너사': '#f59e0b', '아티스트': '#ef4444' };
+      var typeBgMap = { '내부인력': 'rgba(59,130,246,0.1)', '외주': 'rgba(16,185,129,0.1)', '파트너사': 'rgba(245,158,11,0.1)', '아티스트': 'rgba(239,68,68,0.1)' };
+      var typeColor = typeColorMap[w.type] || '#9ca3af';
+      var typeBg = typeBgMap[w.type] || 'rgba(156,163,175,0.1)';
+      var wStatusMap = { '섭외중': '#f59e0b', '확정': '#3b82f6', '진행중': '#10b981', '완료': '#9ca3af' };
+      var statusColor = wStatusMap[w.status] || '#9ca3af';
+      html += '<tr><td><span style="display:inline-block; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700; background:' + typeBg + '; color:' + typeColor + ';">' + (w.type || '-') + '</span></td><td><strong>' + w.name + '</strong></td><td style="font-size:13px;">' + (w.role || '-') + '</td><td style="font-weight:700;">' + (w.contractAmount || 0).toLocaleString() + '원</td><td><span style="color:' + statusColor + '; font-weight:600; font-size:13px;">' + (w.status || '-') + '</span></td><td style="font-size:12px; color:var(--gray-500);">' + (w.memo || '-') + '</td><td><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); deleteProjectWorker(\'' + proj.id + '\', ' + wi + ')" style="color:var(--red); font-size:12px;">삭제</button></td></tr>';
+    });
+    html += '</tbody></table></div>';
+  }
+  html += '</div>';
+  // Revenue tab
+  html += '<div id="proj-tab-' + proj.id + '-revenue" style="display:none;">' +
+    '<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">' +
+      '<div style="background:var(--gray-50); padding:16px; border-radius:8px; text-align:center;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">예상 매출</div><div style="font-size:22px; font-weight:800; margin-top:8px;">' + (proj.expectedRevenue || 0).toLocaleString() + '원</div></div>' +
+      '<div style="background:rgba(13,148,136,0.06); padding:16px; border-radius:8px; text-align:center;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">실제 매출</div><div style="font-size:22px; font-weight:800; margin-top:8px; color:var(--primary);">' + (proj.actualRevenue || 0).toLocaleString() + '원</div></div>' +
+      '<div style="background:rgba(239,68,68,0.06); padding:16px; border-radius:8px; text-align:center;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">예상 인건비</div><div style="font-size:22px; font-weight:800; margin-top:8px; color:var(--red);">' + laborCost.toLocaleString() + '원</div></div>' +
+    '</div>' +
+    '<div style="margin-top:16px; background:var(--gray-50); padding:16px; border-radius:8px; text-align:center;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">예상 순이익 (실제매출 - 인건비)</div><div style="font-size:26px; font-weight:800; margin-top:8px; color:' + (((proj.actualRevenue || 0) - laborCost) >= 0 ? 'var(--primary)' : 'var(--red)') + ';">' + ((proj.actualRevenue || 0) - laborCost).toLocaleString() + '원</div></div>' +
+  '</div>';
+  // Costs tab
+  html += '<div id="proj-tab-' + proj.id + '-costs" style="display:none;"><div><table><thead><tr><th>항목</th><th>내용</th><th>금액</th><th>삭제</th></tr></thead><tbody id="project-costs-' + proj.id + '"></tbody><tfoot><tr style="font-weight:700;"><td colspan="2">비용 합계</td><td id="project-cost-total-' + proj.id + '">\u20A90</td><td></td></tr><tr style="font-weight:700; color:var(--primary);"><td colspan="2">순익 (매출 - 비용 - 인건비)</td><td id="project-profit-' + proj.id + '">\u20A90</td><td></td></tr></tfoot></table>' +
+    '<div style="margin-top:12px; display:flex; gap:8px;"><input type="text" id="cost-item-' + proj.id + '" placeholder="항목 (예: 굿즈 제작비)" style="flex:1; padding:8px; border:1px solid var(--gray-200); border-radius:6px;"><input type="text" id="cost-desc-' + proj.id + '" placeholder="내용" style="flex:1; padding:8px; border:1px solid var(--gray-200); border-radius:6px;"><input type="number" id="cost-amount-' + proj.id + '" placeholder="금액" style="width:120px; padding:8px; border:1px solid var(--gray-200); border-radius:6px;"><button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); addProjectCost(\'' + proj.id + '\')">추가</button></div></div></div>';
+  // Memo tab
+  html += '<div id="proj-tab-' + proj.id + '-memo" style="display:none;"><div style="background:var(--gray-50); padding:16px; border-radius:8px; min-height:100px; white-space:pre-wrap; line-height:1.8; font-size:14px;">' + (proj.memo || '메모가 없습니다.') + '</div></div>';
+  return html;
+}
+
+function toggleProjectChildren(parentId) {
+  var el = document.getElementById('proj-children-' + parentId);
+  var arrow = document.getElementById('proj-arrow-' + parentId);
+  if (!el) return;
+  if (el.style.display === 'none') {
+    el.style.display = 'block';
+    if (arrow) arrow.textContent = '\u25B2';
+  } else {
+    el.style.display = 'none';
+    if (arrow) arrow.textContent = '\u25BC';
+  }
 }
 
 function switchProjectTab(projId, tabName) {
@@ -2354,7 +2318,7 @@ function toggleProjectDetail(id) {
   detail.style.display = detail.style.display === 'none' ? 'block' : 'none';
 }
 
-function openProjectModal(projectId) {
+function openProjectModal(projectId, defaultParentId) {
   const titleEl = document.getElementById('project-modal-title');
 
   // Reset form
@@ -2365,6 +2329,8 @@ function openProjectModal(projectId) {
   // Reset team checkboxes
   document.querySelectorAll('.project-team-cb').forEach(cb => cb.checked = false);
   document.getElementById('project-operation-type').value = 'concert';
+  if (document.getElementById('project-type-select')) document.getElementById('project-type-select').value = 'concert';
+  if (document.getElementById('project-location')) document.getElementById('project-location').value = '';
   document.getElementById('project-start-date').value = '';
   document.getElementById('project-end-date').value = '';
   document.getElementById('project-required-staff').value = '';
@@ -2377,6 +2343,15 @@ function openProjectModal(projectId) {
   document.getElementById('project-target-revenue').value = '';
   document.getElementById('project-memo').value = '';
   calcProjectBudgetTotal();
+
+  // Populate parent project dropdown
+  const parentSelect = document.getElementById('project-parent');
+  if (parentSelect) {
+    const projects = JSON.parse(localStorage.getItem('bs_projects') || '[]');
+    parentSelect.innerHTML = '<option value="">없음 (독립 프로젝트)</option>' +
+      projects.filter(function(p) { return !p.parentId; }).map(function(p) { return '<option value="' + p.id + '">' + p.name + '</option>'; }).join('');
+    parentSelect.value = defaultParentId || '';
+  }
 
   if (projectId) {
     titleEl.textContent = '프로젝트 수정';
@@ -2393,7 +2368,10 @@ function openProjectModal(projectId) {
       document.querySelectorAll('.project-team-cb').forEach(cb => {
         cb.checked = teamVal.includes(cb.value);
       });
-      document.getElementById('project-operation-type').value = proj.operationType || 'alba';
+      document.getElementById('project-operation-type').value = proj.operationType || 'concert';
+      if (document.getElementById('project-type-select')) document.getElementById('project-type-select').value = proj.projectType || 'concert';
+      if (document.getElementById('project-location')) document.getElementById('project-location').value = proj.location || '';
+      if (parentSelect) parentSelect.value = proj.parentId || '';
       document.getElementById('project-start-date').value = proj.startDate || '';
       document.getElementById('project-end-date').value = proj.endDate || '';
       document.getElementById('project-required-staff').value = proj.requiredStaff || '';
@@ -2434,6 +2412,9 @@ function saveProject() {
   document.querySelectorAll('.project-team-cb:checked').forEach(cb => teamArr.push(cb.value));
   const team = teamArr.join(', ');
   const operationType = document.getElementById('project-operation-type').value;
+  const parentId = document.getElementById('project-parent') ? document.getElementById('project-parent').value : '';
+  const projectType = document.getElementById('project-type-select') ? document.getElementById('project-type-select').value : 'concert';
+  const location = document.getElementById('project-location') ? document.getElementById('project-location').value.trim() : '';
   const startDate = document.getElementById('project-start-date').value;
   const endDate = document.getElementById('project-end-date').value;
   const requiredStaff = parseInt(document.getElementById('project-required-staff').value) || 0;
@@ -2458,8 +2439,11 @@ function saveProject() {
       projects[idx].name = name;
       projects[idx].ip = ip;
       projects[idx].status = status;
-      projects[idx].team = floor;
+      projects[idx].team = team;
       projects[idx].operationType = operationType;
+      projects[idx].parentId = parentId;
+      projects[idx].projectType = projectType;
+      projects[idx].location = location;
       projects[idx].startDate = startDate;
       projects[idx].endDate = endDate;
       projects[idx].requiredStaff = requiredStaff;
@@ -2484,6 +2468,9 @@ function saveProject() {
       endDate: endDate,
       team: team,
       operationType: operationType,
+      parentId: parentId,
+      projectType: projectType,
+      location: location,
       requiredStaff: requiredStaff,
       assignedStaff: assignedStaff,
       budgetInterior: budgetInterior,
@@ -3819,10 +3806,18 @@ function renderIPTable() {
     '<td>' + (item.contact || '-') + '</td></tr>';
   }).join('');
 }
-function openIPModal() { closeModal('ip-modal'); document.getElementById('ip-modal').classList.add('active'); }
+function openIPModal() {
+  closeModal('ip-modal');
+  var projSelect = document.getElementById('ip-project-link');
+  if (projSelect) {
+    var projects = JSON.parse(localStorage.getItem('bs_projects') || '[]');
+    projSelect.innerHTML = '<option value="">없음</option>' + projects.map(function(p) { return '<option value="' + p.id + '">' + p.name + (p.location ? ' (' + p.location + ')' : '') + '</option>'; }).join('');
+  }
+  document.getElementById('ip-modal').classList.add('active');
+}
 function editIP(idx) { openIPModal(); /* TODO: fill form */ }
 function saveIP() {
-  const item = { id: 'ip_' + Date.now(), type: document.getElementById('ip-type')?.value || 'artist', name: document.getElementById('ip-name')?.value || '', genre: document.getElementById('ip-genre')?.value || '', agency: document.getElementById('ip-agency')?.value || '', status: document.getElementById('ip-status')?.value || 'candidate', nextEvent: document.getElementById('ip-next-event')?.value || '', contact: document.getElementById('ip-contact')?.value || '', fee: document.getElementById('ip-fee')?.value || '', memo: document.getElementById('ip-memo')?.value || '' };
+  const item = { id: 'ip_' + Date.now(), type: document.getElementById('ip-type')?.value || 'artist', name: document.getElementById('ip-name')?.value || '', genre: document.getElementById('ip-genre')?.value || '', agency: document.getElementById('ip-agency')?.value || '', status: document.getElementById('ip-status')?.value || 'candidate', nextEvent: document.getElementById('ip-next-event')?.value || '', contact: document.getElementById('ip-contact')?.value || '', fee: document.getElementById('ip-fee')?.value || '', memo: document.getElementById('ip-memo')?.value || '', linkedProject: document.getElementById('ip-project-link')?.value || '' };
   if (!item.name) { showToast('이름을 입력하세요', 'error'); return; }
   const store = getIPStore(); store.push(item); localStorage.setItem('bs_ip_data', JSON.stringify(store));
   closeModal('ip-modal'); renderIPTable(); showToast('IP 등록 완료', 'success');
@@ -3863,9 +3858,17 @@ function renderContractTable() {
     return '<tr><td style="font-weight:600;">' + c.name + '</td><td>' + (CONTRACT_TYPES[c.type] || c.type) + '</td><td>' + (c.party || '-') + '</td><td style="font-size:12px;">' + (c.startDate || '') + ' ~ ' + (c.endDate || '') + '</td><td>' + (c.revenueShare ? c.revenueShare + '%' : '-') + '</td><td>' + (c.mg ? '₩' + parseInt(c.mg).toLocaleString() : '-') + '</td><td><span class="badge ' + cls + '">' + label + '</span></td></tr>';
   }).join('');
 }
-function openContractModal() { closeModal('contract-modal'); document.getElementById('contract-modal').classList.add('active'); }
+function openContractModal() {
+  closeModal('contract-modal');
+  var projSelect = document.getElementById('contract-project-link');
+  if (projSelect) {
+    var projects = JSON.parse(localStorage.getItem('bs_projects') || '[]');
+    projSelect.innerHTML = '<option value="">없음</option>' + projects.map(function(p) { return '<option value="' + p.id + '">' + p.name + (p.location ? ' (' + p.location + ')' : '') + '</option>'; }).join('');
+  }
+  document.getElementById('contract-modal').classList.add('active');
+}
 function saveContract() {
-  const item = { id: 'ct_' + Date.now(), name: document.getElementById('contract-name')?.value || '', type: document.getElementById('contract-type')?.value || 'artist', party: document.getElementById('contract-party')?.value || '', startDate: document.getElementById('contract-start')?.value || '', endDate: document.getElementById('contract-end')?.value || '', revenueShare: document.getElementById('contract-revenue-share')?.value || '', mg: document.getElementById('contract-mg')?.value || '', royalty: document.getElementById('contract-royalty')?.value || '', status: document.getElementById('contract-status')?.value || 'negotiating', memo: document.getElementById('contract-memo')?.value || '' };
+  const item = { id: 'ct_' + Date.now(), name: document.getElementById('contract-name')?.value || '', type: document.getElementById('contract-type')?.value || 'artist', party: document.getElementById('contract-party')?.value || '', startDate: document.getElementById('contract-start')?.value || '', endDate: document.getElementById('contract-end')?.value || '', revenueShare: document.getElementById('contract-revenue-share')?.value || '', mg: document.getElementById('contract-mg')?.value || '', royalty: document.getElementById('contract-royalty')?.value || '', status: document.getElementById('contract-status')?.value || 'negotiating', memo: document.getElementById('contract-memo')?.value || '', linkedProject: document.getElementById('contract-project-link')?.value || '' };
   if (!item.name) { showToast('계약명을 입력하세요', 'error'); return; }
   const store = getContractStore(); store.push(item); localStorage.setItem('bs_contracts', JSON.stringify(store));
   closeModal('contract-modal'); renderContractTable(); showToast('계약 등록 완료', 'success');
@@ -4184,6 +4187,11 @@ function calcTicket() {
 function openTicketModal() {
   ['tk-name','tk-total-seats','tk-sold','tk-price','tk-date','tk-memo'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
   const el = document.getElementById('tk-revenue'); if (el) el.value = '';
+  var projSelect = document.getElementById('ticket-project-link');
+  if (projSelect) {
+    var projects = JSON.parse(localStorage.getItem('bs_projects') || '[]');
+    projSelect.innerHTML = '<option value="">없음</option>' + projects.map(function(p) { return '<option value="' + p.id + '">' + p.name + (p.location ? ' (' + p.location + ')' : '') + '</option>'; }).join('');
+  }
   closeModal('ticket-modal'); document.getElementById('ticket-modal').classList.add('active');
 }
 function saveTicket() {
@@ -4193,7 +4201,7 @@ function saveTicket() {
   if (!name) { showToast('공연명을 입력하세요', 'error'); return; }
   const sold = n('tk-sold');
   const price = n('tk-price');
-  const item = { id: 'tk_' + Date.now(), name: name, platform: v('tk-platform'), totalSeats: n('tk-total-seats'), sold: sold, price: price, revenue: sold * price, date: v('tk-date'), memo: v('tk-memo') };
+  const item = { id: 'tk_' + Date.now(), name: name, platform: v('tk-platform'), totalSeats: n('tk-total-seats'), sold: sold, price: price, revenue: sold * price, date: v('tk-date'), memo: v('tk-memo'), linkedProject: document.getElementById('ticket-project-link')?.value || '' };
   const store = getTicketStore(); store.push(item); localStorage.setItem('bs_tickets', JSON.stringify(store));
   closeModal('ticket-modal'); renderTickets(); showToast('티켓 데이터 등록 완료', 'success');
 }
@@ -4274,13 +4282,18 @@ function renderCRM() {
 }
 function openCRMModal() {
   ['crm-company','crm-country','crm-contact','crm-title','crm-email','crm-phone','crm-last-meeting','crm-next-meeting','crm-memo'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  var projSelect = document.getElementById('crm-project-link');
+  if (projSelect) {
+    var projects = JSON.parse(localStorage.getItem('bs_projects') || '[]');
+    projSelect.innerHTML = '<option value="">없음</option>' + projects.map(function(p) { return '<option value="' + p.id + '">' + p.name + (p.location ? ' (' + p.location + ')' : '') + '</option>'; }).join('');
+  }
   closeModal('crm-modal'); document.getElementById('crm-modal').classList.add('active');
 }
 function saveCRM() {
   const v = id => document.getElementById(id)?.value || '';
   const company = v('crm-company');
   if (!company) { showToast('회사/이름을 입력하세요', 'error'); return; }
-  const item = { id: 'crm_' + Date.now(), company: company, type: v('crm-type') || 'partner', country: v('crm-country'), contact: v('crm-contact'), title: v('crm-title'), email: v('crm-email'), phone: v('crm-phone'), lastMeeting: v('crm-last-meeting'), nextMeeting: v('crm-next-meeting'), status: v('crm-status') || 'new', memo: v('crm-memo') };
+  const item = { id: 'crm_' + Date.now(), company: company, type: v('crm-type') || 'partner', country: v('crm-country'), contact: v('crm-contact'), title: v('crm-title'), email: v('crm-email'), phone: v('crm-phone'), lastMeeting: v('crm-last-meeting'), nextMeeting: v('crm-next-meeting'), status: v('crm-status') || 'new', memo: v('crm-memo'), linkedProject: document.getElementById('crm-project-link')?.value || '' };
   const store = getCRMStore(); store.push(item); localStorage.setItem('bs_crm', JSON.stringify(store));
   closeModal('crm-modal'); renderCRM(); showToast('파트너 관리 등록 완료', 'success');
 }
