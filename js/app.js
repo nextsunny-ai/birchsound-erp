@@ -926,11 +926,15 @@ async function loadMembers() {
       <td style="font-size:14px; color:var(--gray-500);">${m.email}</td>
       <td>
         <select onchange="changeRole('${m.id}', this.value)" style="padding:4px 8px; border:1px solid var(--gray-200); border-radius:4px; font-size:14px;" ${isMe ? 'disabled' : ''}>
+          <option value="guest" ${m.role === 'guest' ? 'selected' : ''}>Level 1 (제한)</option>
           <option value="member" ${m.role === 'member' ? 'selected' : ''}>Level 2 (기본)</option>
           <option value="manager" ${m.role === 'manager' ? 'selected' : ''}>Level 3 (업무)</option>
           <option value="admin" ${m.role === 'admin' ? 'selected' : ''}>Level 4 (관리)</option>
           <option value="ceo" ${m.role === 'ceo' ? 'selected' : ''}>Level 5 (전체)</option>
         </select>
+        <div style="font-size:10px; color:var(--gray-400); margin-top:2px; line-height:1.3;">
+          1:대시보드만 | 2:기본업무 | 3:+캐스팅·계약 | 4:+정산·인사 | 5:전체
+        </div>
       </td>
       <td>${attStatus}</td>
       <td>
@@ -2872,7 +2876,7 @@ function openParttimeModal(editIdx) {
   document.getElementById('parttime-note').value = '';
 
   if (editIdx !== undefined && editIdx !== null) {
-    titleEl.textContent = '파트타임 연락처 수정';
+    titleEl.textContent = '외주·파트너 연락처 수정';
     document.getElementById('parttime-edit-index').value = editIdx;
     const contacts = getParttimeStore();
     const c = contacts[editIdx];
@@ -2882,7 +2886,7 @@ function openParttimeModal(editIdx) {
       document.getElementById('parttime-note').value = c.note || '';
     }
   } else {
-    titleEl.textContent = '파트타임 연락처 추가';
+    titleEl.textContent = '외주·파트너 연락처 추가';
   }
   openModal('parttime-modal');
 }
@@ -3999,8 +4003,11 @@ async function loadPermissionTable() {
           <option value="admin" ${p.role === 'admin' ? 'selected' : ''}>Level 4 (관리)</option>
           <option value="manager" ${p.role === 'manager' ? 'selected' : ''}>Level 3 (업무)</option>
           <option value="member" ${p.role === 'member' ? 'selected' : ''}>Level 2 (기본)</option>
-          <option value="guest" ${p.role === 'guest' ? 'selected' : ''}>게스트</option>
+          <option value="guest" ${p.role === 'guest' ? 'selected' : ''}>Level 1 (제한)</option>
         </select>
+        <div style="font-size:10px; color:var(--gray-400); margin-top:2px; line-height:1.3;">
+          1:대시보드만 | 2:기본업무 | 3:+캐스팅·계약 | 4:+정산·인사 | 5:전체
+        </div>
       </td>
     </tr>`).join('');
   } catch (e) {

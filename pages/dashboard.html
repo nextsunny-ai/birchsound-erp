@@ -960,7 +960,7 @@
           <div style="display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;">
             <button class="btn btn-ghost btn-sm accounts-tab-btn" onclick="switchAccountsTab('shared-accounts', this)" style="background:var(--primary); color:white;">공용 계정</button>
             <button class="btn btn-ghost btn-sm accounts-tab-btn" onclick="switchAccountsTab('emergency-contacts', this)">비상연락망</button>
-            <button class="btn btn-ghost btn-sm accounts-tab-btn" onclick="switchAccountsTab('parttime-contacts', this)">파트타임 연락처</button>
+            <button class="btn btn-ghost btn-sm accounts-tab-btn" onclick="switchAccountsTab('parttime-contacts', this)">외주·파트너 연락처</button>
           </div>
 
           <!-- Tab 1: 공용 계정 -->
@@ -1018,11 +1018,11 @@
             </div>
           </div>
 
-          <!-- Tab 3: 파트타임 연락처 -->
+          <!-- Tab 3: 외주·파트너 연락처 -->
           <div id="accounts-tab-parttime-contacts" style="display:none;">
             <div class="card">
               <div class="card-header">
-                <h3>파트타임 연락처</h3>
+                <h3>외주·파트너 연락처</h3>
                 <button class="btn btn-primary btn-sm" onclick="openParttimeModal()">+ 연락처 추가</button>
               </div>
               <div class="table-container">
@@ -2238,7 +2238,7 @@
   <div class="modal-overlay" id="parttime-modal">
     <div class="modal" style="max-width:400px;">
       <div class="modal-header">
-        <h3 id="parttime-modal-title">파트타임 연락처 추가</h3>
+        <h3 id="parttime-modal-title">외주·파트너 연락처 추가</h3>
         <button class="modal-close" onclick="closeModal('parttime-modal')">&times;</button>
       </div>
       <div class="modal-body">
