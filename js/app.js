@@ -293,7 +293,7 @@ async function loadAttendanceHistory() {
   const user = await getCurrentUser();
   if (!user) return;
 
-  const { data } = await sb
+  const { data } = await getSB()
     .from('attendance')
     .select('*')
     .eq('user_id', user.id)
@@ -333,7 +333,7 @@ async function loadAttendanceHistory() {
 
 // ---- Notices ----
 async function loadNotices() {
-  const { data } = await sb
+  const { data } = await getSB()
     .from('notices')
     .select('*, profiles(name)')
     .order('created_at', { ascending: false })
@@ -385,7 +385,7 @@ async function createNotice(title, content, tag) {
 }
 
 async function viewNotice(id) {
-  const { data } = await sb
+  const { data } = await getSB()
     .from('notices')
     .select('*, profiles(name)')
     .eq('id', id)
@@ -445,7 +445,7 @@ async function loadApprovals(filter = 'all') {
   // Load approvers for the modal
   loadApprovalApprovers();
 
-  let query = sb
+  let query = getSB()
     .from('approvals')
     .select('*, profiles!approvals_requester_id_fkey(name)')
     .order('created_at', { ascending: false });
@@ -505,7 +505,7 @@ async function createApproval(type, title, content, extras = {}) {
 
   if (!approverId) {
     // Get first admin/ceo as approver
-    const { data: admins } = await sb
+    const { data: admins } = await getSB()
       .from('profiles')
       .select('id')
       .in('role', ['admin', 'ceo'])
@@ -576,7 +576,7 @@ async function handleApproval(id, status, rejectReason) {
     updateData.reject_reason = rejectReason;
   }
 
-  const { error } = await sb
+  const { error } = await getSB()
     .from('approvals')
     .update(updateData)
     .eq('id', id);
@@ -592,7 +592,7 @@ async function handleApproval(id, status, rejectReason) {
 }
 
 async function openApprovalDetail(id) {
-  const { data: item } = await sb
+  const { data: item } = await getSB()
     .from('approvals')
     .select('*, profiles!approvals_requester_id_fkey(name)')
     .eq('id', id)
@@ -707,7 +707,7 @@ async function loadSettlements() {
   const user = await getCurrentUser();
   if (!user) return;
 
-  const { data } = await sb
+  const { data } = await getSB()
     .from('settlements')
     .select('*, profiles(name)')
     .order('created_at', { ascending: false })
@@ -765,21 +765,21 @@ async function loadDashboardStats() {
 
   // Today's attendance count
   const today = new Date().toISOString().split('T')[0];
-  const { count: attendanceCount } = await sb
+  const { count: attendanceCount } = await getSB()
     .from('attendance')
     .select('*', { count: 'exact', head: true })
     .eq('date', today)
     .not('clock_in', 'is', null);
 
   // Pending approvals count
-  const { count: pendingCount } = await sb
+  const { count: pendingCount } = await getSB()
     .from('approvals')
     .select('*', { count: 'exact', head: true })
     .eq('status', 'pending');
 
   // This month settlements total
   const firstDay = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString();
-  const { data: settlements } = await sb
+  const { data: settlements } = await getSB()
     .from('settlements')
     .select('amount')
     .gte('created_at', firstDay);
@@ -787,7 +787,7 @@ async function loadDashboardStats() {
   const totalExpense = settlements ? settlements.reduce((sum, s) => sum + (s.amount || 0), 0) : 0;
 
   // Recent notices count
-  const { count: noticeCount } = await sb
+  const { count: noticeCount } = await getSB()
     .from('notices')
     .select('*', { count: 'exact', head: true });
 
@@ -888,14 +888,14 @@ async function loadMembers() {
   }
 
   // Get all profiles
-  const { data: members } = await sb
+  const { data: members } = await getSB()
     .from('profiles')
     .select('*')
     .order('created_at', { ascending: true });
 
   // Get today's attendance
   const today = new Date().toISOString().split('T')[0];
-  const { data: todayAttendance } = await sb
+  const { data: todayAttendance } = await getSB()
     .from('attendance')
     .select('user_id, status, clock_in')
     .eq('date', today);
@@ -951,7 +951,7 @@ async function loadMembers() {
 }
 
 async function changeRole(userId, newRole) {
-  const { error } = await sb
+  const { error } = await getSB()
     .from('profiles')
     .update({ role: newRole })
     .eq('id', userId);
@@ -964,7 +964,7 @@ async function changeRole(userId, newRole) {
 }
 
 async function changeDepartment(userId, newDept) {
-  const { error } = await sb
+  const { error } = await getSB()
     .from('profiles')
     .update({ department: newDept })
     .eq('id', userId);
@@ -1053,7 +1053,7 @@ async function loadHRList() {
   }
 
   // Get all profiles from Supabase
-  const { data: members } = await sb
+  const { data: members } = await getSB()
     .from('profiles')
     .select('*')
     .order('created_at', { ascending: true });
@@ -1067,7 +1067,7 @@ async function loadHRList() {
   const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
   const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split('T')[0];
 
-  const { data: monthAttendance } = await sb
+  const { data: monthAttendance } = await getSB()
     .from('attendance')
     .select('user_id, work_hours')
     .gte('date', firstDay)
@@ -1207,7 +1207,7 @@ async function openHRModal(userId) {
     document.getElementById('hr-edit-user-id').value = userId;
 
     // Load from Supabase profile
-    const { data: profile } = await sb
+    const { data: profile } = await getSB()
       .from('profiles')
       .select('*')
       .eq('id', userId)
@@ -1291,7 +1291,7 @@ function getScheduleStore() {
       } else {
         // numeric team
         const teamNum = parseInt(val);
-        team = floorNum + '팀';
+        team = teamNum + '팀';
         startTime = '09:00';
         endTime = '18:00';
         breakMin = 60;
@@ -1997,7 +1997,7 @@ async function saveHRData() {
 
   if (userId) {
     // Update existing profile in Supabase
-    const { error } = await sb
+    const { error } = await getSB()
       .from('profiles')
       .update({ name, department, role })
       .eq('id', userId);
@@ -3617,7 +3617,7 @@ async function loadMessages() {
   var myId = user ? user.id : '';
 
   // Supabase에서 메시지 로드 (전체 + 내가 보낸/받은)
-  var { data: messages, error } = await sb
+  var { data: messages, error } = await getSB()
     .from('messages')
     .select('*')
     .order('created_at', { ascending: false })
@@ -4781,4 +4781,10 @@ function renderGlobalCal() {
   } else if (dstLegendEl) {
     dstLegendEl.innerHTML = '';
   }
+}
+
+// Missing utility functions
+function getInitials(name) {
+  if (!name) return '?';
+  return name.charAt(0).toUpperCase();
 }
