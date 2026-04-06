@@ -4349,21 +4349,24 @@ function generateAllPayslips() {
 const GLOBAL_HOLIDAYS = {
   'KR': { name: '\uD55C\uAD6D', flag: '\uD83C\uDDF0\uD83C\uDDF7', holidays: {
     '01-01': 'New Year\'s Day (\uC2E0\uC815)',
-    '01-28': 'Lunar New Year (\uC124\uB0A0)',
-    '01-29': 'Lunar New Year',
+    '02-17': 'Lunar New Year (\uC124\uB0A0)',
+    '02-18': 'Lunar New Year (\uC124\uB0A0)',
+    '02-19': 'Lunar New Year (\uC124\uB0A0)',
     '03-01': 'Independence Movement Day (\uC0BC\uC77C\uC808)',
     '05-05': 'Children\'s Day (\uC5B4\uB9B0\uC774\uB0A0)',
-    '05-06': 'Substitute Holiday (\uB300\uCCB4\uD734\uC77C)',
+    '05-24': 'Buddha\'s Birthday (\uC11D\uAC00\uD0C4\uC2E0\uC77C)',
     '06-06': 'Memorial Day (\uD604\uCDA9\uC77C)',
     '08-15': 'Liberation Day (\uAD11\uBCF5\uC808)',
+    '09-24': 'Chuseok (\uCD94\uC11D)',
+    '09-25': 'Chuseok (\uCD94\uC11D)',
+    '09-26': 'Chuseok (\uCD94\uC11D)',
     '10-03': 'National Foundation Day (\uAC1C\uCC9C\uC808)',
-    '10-06': 'Chuseok (\uCD94\uC11D)',
     '10-09': 'Hangul Day (\uD55C\uAE00\uB0A0)',
     '12-25': 'Christmas Day (\uC131\uD0C4\uC808)'
   }},
   'JP': { name: '\uC77C\uBCF8', flag: '\uD83C\uDDEF\uD83C\uDDF5', holidays: {
     '01-01': 'New Year\'s Day',
-    '01-13': 'Coming of Age Day',
+    '01-12': 'Coming of Age Day',
     '02-11': 'National Foundation Day',
     '02-23': 'Emperor\'s Birthday',
     '03-20': 'Vernal Equinox Day',
@@ -4371,80 +4374,82 @@ const GLOBAL_HOLIDAYS = {
     '05-03': 'Constitution Memorial Day',
     '05-04': 'Greenery Day',
     '05-05': 'Children\'s Day',
-    '07-21': 'Marine Day',
+    '07-20': 'Marine Day',
     '08-11': 'Mountain Day',
-    '09-15': 'Respect for the Aged Day',
+    '09-21': 'Respect for the Aged Day',
     '09-23': 'Autumnal Equinox Day',
-    '10-13': 'Sports Day',
+    '10-12': 'Sports Day',
     '11-03': 'Culture Day',
     '11-23': 'Labor Thanksgiving Day',
     '12-25': 'Christmas Day'
   }},
   'SG': { name: '\uC2F1\uAC00\uD3EC\uB974', flag: '\uD83C\uDDF8\uD83C\uDDEC', holidays: {
     '01-01': 'New Year\'s Day',
-    '01-29': 'Chinese New Year',
-    '03-31': 'Hari Raya Puasa',
-    '04-18': 'Good Friday',
-    '05-01': 'Labour Day',
-    '05-12': 'Vesak Day',
-    '06-07': 'Hari Raya Haji',
+    '02-17': 'Chinese New Year',
+    '03-20': 'Hari Raya Puasa',
+    '04-03': 'Good Friday',
+    '05-01': 'Labour Day / Vesak Day',
+    '05-27': 'Hari Raya Haji',
     '08-09': 'National Day',
     '10-20': 'Deepavali',
     '12-25': 'Christmas Day'
   }},
   'US': { name: '\uBBF8\uAD6D', flag: '\uD83C\uDDFA\uD83C\uDDF8', holidays: {
     '01-01': 'New Year\'s Day',
-    '01-20': 'Martin Luther King Jr. Day',
-    '02-17': 'Presidents\' Day',
-    '05-26': 'Memorial Day',
+    '01-19': 'Martin Luther King Jr. Day',
+    '02-16': 'Presidents\' Day',
+    '05-25': 'Memorial Day',
     '06-19': 'Juneteenth',
     '07-04': 'Independence Day',
-    '09-01': 'Labor Day',
-    '10-13': 'Indigenous Peoples\' Day',
+    '09-07': 'Labor Day',
+    '10-12': 'Indigenous Peoples\' Day',
     '11-11': 'Veterans Day',
-    '11-27': 'Thanksgiving Day',
+    '11-26': 'Thanksgiving Day',
     '12-25': 'Christmas Day'
   }},
   'GB': { name: '\uC601\uAD6D', flag: '\uD83C\uDDEC\uD83C\uDDE7', holidays: {
     '01-01': 'New Year\'s Day',
-    '04-18': 'Good Friday',
-    '04-21': 'Easter Monday',
-    '05-05': 'Early May Bank Holiday',
-    '05-26': 'Spring Bank Holiday',
-    '08-25': 'Summer Bank Holiday',
+    '04-03': 'Good Friday',
+    '04-06': 'Easter Monday',
+    '05-04': 'Early May Bank Holiday',
+    '05-25': 'Spring Bank Holiday',
+    '08-31': 'Summer Bank Holiday',
     '12-25': 'Christmas Day',
     '12-26': 'Boxing Day'
   }},
   'CN': { name: '\uC911\uAD6D', flag: '\uD83C\uDDE8\uD83C\uDDF3', holidays: {
     '01-01': 'New Year\'s Day',
-    '01-28': 'Spring Festival',
-    '01-29': 'Spring Festival',
-    '04-04': 'Ching Ming Festival',
+    '02-17': 'Spring Festival',
+    '02-18': 'Spring Festival',
+    '04-05': 'Qing Ming Festival',
     '05-01': 'Labour Day',
     '05-31': 'Dragon Boat Festival',
-    '10-01': 'National Day',
-    '10-06': 'Mid-Autumn Festival'
+    '09-25': 'Mid-Autumn Festival',
+    '10-01': 'National Day'
   }},
   'TW': { name: '\uB300\uB9CC', flag: '\uD83C\uDDF9\uD83C\uDDFC', holidays: {
     '01-01': 'New Year\'s Day',
-    '01-28': 'Chinese New Year Holiday',
-    '01-29': 'Lunar New Year',
+    '02-17': 'Chinese New Year Holiday',
+    '02-18': 'Lunar New Year',
     '02-28': '228 Peace Memorial Day',
     '04-04': 'Children\'s Day Holiday',
+    '04-05': 'Qing Ming Festival',
     '05-01': 'Labour Day',
     '05-31': 'Dragon Boat Festival Holiday',
-    '10-06': 'Mid-Autumn Festival',
+    '09-25': 'Mid-Autumn Festival',
     '10-10': 'ROC National Day',
     '12-25': 'Christmas Day'
   }},
   'TH': { name: '\uD0DC\uAD6D', flag: '\uD83C\uDDF9\uD83C\uDDED', holidays: {
     '01-01': 'New Year\'s Day',
+    '04-13': 'Songkran Festival',
     '04-14': 'Songkran Festival',
+    '04-15': 'Songkran Festival',
     '05-01': 'Labour Day',
     '05-05': 'Coronation Day',
-    '05-12': 'Visakha Bucha Holiday',
+    '05-11': 'Visakha Bucha Holiday',
     '06-03': 'Queen Suthida\'s Birthday',
-    '07-21': 'Buddhist Lent Day',
+    '07-10': 'Buddhist Lent Day',
     '07-28': 'King Vajiralongkorn\'s Birthday',
     '08-12': 'Queen Mother\'s Birthday',
     '10-13': 'King Bhumibol Memorial Day',
@@ -4454,31 +4459,29 @@ const GLOBAL_HOLIDAYS = {
   }},
   'ID': { name: '\uC778\uB3C4\uB124\uC2DC\uC544', flag: '\uD83C\uDDEE\uD83C\uDDE9', holidays: {
     '01-01': 'New Year\'s Day',
-    '01-28': 'Ascension of Prophet Muhammad',
-    '01-29': 'Chinese New Year',
-    '03-31': 'Eid al-Fitr',
-    '04-01': 'Idul Fitri',
-    '04-18': 'Good Friday',
-    '05-01': 'Labour Day',
-    '05-13': 'Waisak Day',
+    '01-17': 'Isra Mi\'raj',
+    '02-17': 'Chinese New Year',
+    '03-20': 'Eid al-Fitr',
+    '03-21': 'Idul Fitri',
+    '04-03': 'Good Friday',
+    '05-01': 'Labour Day / Waisak Day',
+    '05-27': 'Eid al-Adha',
     '05-29': 'Ascension Day of Jesus Christ',
     '06-01': 'Pancasila Day',
-    '06-07': 'Idul Adha',
-    '06-27': 'Islamic New Year',
+    '06-17': 'Islamic New Year',
     '08-17': 'Independence Day',
-    '09-05': 'Prophet Muhammad\'s Birthday',
     '12-25': 'Christmas Day'
   }},
   'MY': { name: '\uB9D0\uB808\uC774\uC2DC\uC544', flag: '\uD83C\uDDF2\uD83C\uDDFE', holidays: {
     '01-01': 'New Year\'s Day',
-    '01-29': 'Chinese New Year',
-    '03-31': 'Hari Raya Aidilfitri',
-    '04-01': 'Hari Raya Aidilfitri Holiday',
+    '02-17': 'Chinese New Year',
+    '03-20': 'Hari Raya Aidilfitri',
+    '03-21': 'Hari Raya Aidilfitri Holiday',
     '05-01': 'Labour Day',
     '06-02': 'Agong\'s Birthday',
-    '06-07': 'Hari Raya Haji',
+    '05-27': 'Hari Raya Haji',
+    '08-26': 'Prophet Muhammad\'s Birthday',
     '08-31': 'Malaysia\'s National Day',
-    '09-05': 'Prophet Muhammad\'s Birthday',
     '09-16': 'Malaysia Day Holiday',
     '10-20': 'Deepavali',
     '12-25': 'Christmas Day'
@@ -4486,9 +4489,9 @@ const GLOBAL_HOLIDAYS = {
   'PH': { name: '\uD544\uB9AC\uD540', flag: '\uD83C\uDDF5\uD83C\uDDED', holidays: {
     '01-01': 'New Year\'s Day',
     '04-09': 'Day of Valor',
-    '04-17': 'Maundy Thursday',
-    '04-18': 'Good Friday',
-    '04-19': 'Black Saturday',
+    '04-02': 'Maundy Thursday',
+    '04-03': 'Good Friday',
+    '04-04': 'Black Saturday',
     '05-01': 'Labor Day',
     '06-12': 'Independence Day',
     '08-21': 'Ninoy Aquino Day',
@@ -4501,7 +4504,7 @@ const GLOBAL_HOLIDAYS = {
   }},
   'VN': { name: '\uBCA0\uD2B8\uB0A8', flag: '\uD83C\uDDFB\uD83C\uDDF3', holidays: {
     '01-01': 'New Year\'s Day',
-    '01-28': 'Tet (Traditional New Year)',
+    '02-17': 'Tet (Traditional New Year)',
     '04-07': 'Hung Kings Commemoration Day',
     '04-30': 'Reunification Day',
     '05-01': 'Labour Day',
@@ -4510,10 +4513,10 @@ const GLOBAL_HOLIDAYS = {
   'AU': { name: '\uD638\uC8FC', flag: '\uD83C\uDDE6\uD83C\uDDFA', holidays: {
     '01-01': 'New Year\'s Day',
     '01-26': 'Australia Day',
-    '04-18': 'Good Friday',
-    '04-21': 'Easter Monday',
+    '04-03': 'Good Friday',
+    '04-06': 'Easter Monday',
     '04-25': 'Anzac Day',
-    '06-09': 'King\'s Birthday',
+    '06-08': 'King\'s Birthday',
     '12-25': 'Christmas Day',
     '12-26': 'Boxing Day'
   }},
@@ -4521,22 +4524,22 @@ const GLOBAL_HOLIDAYS = {
     '01-01': 'New Year\'s Day',
     '01-02': 'Day after New Year\'s Day',
     '02-06': 'Waitangi Day',
-    '04-18': 'Good Friday',
-    '04-21': 'Easter Monday',
+    '04-03': 'Good Friday',
+    '04-06': 'Easter Monday',
     '04-25': 'Anzac Day',
-    '06-02': 'King\'s Birthday',
-    '06-20': 'Matariki',
-    '10-27': 'Labour Day',
+    '06-01': 'King\'s Birthday',
+    '06-19': 'Matariki',
+    '10-26': 'Labour Day',
     '12-25': 'Christmas Day',
     '12-26': 'Boxing Day'
   }},
   'FR': { name: '\uD504\uB791\uC2A4', flag: '\uD83C\uDDEB\uD83C\uDDF7', holidays: {
     '01-01': 'New Year\'s Day',
-    '04-21': 'Easter Monday',
+    '04-06': 'Easter Monday',
     '05-01': 'Labour Day',
     '05-08': 'Victory Day',
-    '05-29': 'Ascension Day',
-    '06-09': 'Whit Monday',
+    '05-14': 'Ascension Day',
+    '05-25': 'Whit Monday',
     '07-14': 'Bastille Day',
     '08-15': 'Assumption Day',
     '11-01': 'All Saints\' Day',
@@ -4545,43 +4548,43 @@ const GLOBAL_HOLIDAYS = {
   }},
   'DE': { name: '\uB3C5\uC77C', flag: '\uD83C\uDDE9\uD83C\uDDEA', holidays: {
     '01-01': 'New Year\'s Day',
-    '04-18': 'Good Friday',
-    '04-21': 'Easter Monday',
+    '04-03': 'Good Friday',
+    '04-06': 'Easter Monday',
     '05-01': 'May Day',
-    '05-29': 'Ascension Day',
-    '06-09': 'Whit Monday',
+    '05-14': 'Ascension Day',
+    '05-25': 'Whit Monday',
     '10-03': 'Day of German Unity',
     '12-25': 'Christmas Day',
     '12-26': 'Boxing Day'
   }},
   'AE': { name: 'UAE', flag: '\uD83C\uDDE6\uD83C\uDDEA', holidays: {
     '01-01': 'New Year\'s Day',
-    '03-31': 'Eid al-Fitr Holiday',
-    '04-01': 'Eid al-Fitr Holiday',
-    '06-06': 'Arafat Day',
-    '06-07': 'Eid al-Adha Holiday',
-    '06-27': 'Islamic New Year',
-    '09-05': 'Mouloud',
+    '03-20': 'Eid al-Fitr Holiday',
+    '03-21': 'Eid al-Fitr Holiday',
+    '05-26': 'Arafat Day',
+    '05-27': 'Eid al-Adha Holiday',
+    '05-28': 'Eid al-Adha Holiday',
+    '06-17': 'Islamic New Year',
     '12-02': 'National Day',
     '12-03': 'National Day Holiday'
   }},
   'SA': { name: '\uC0AC\uC6B0\uB514', flag: '\uD83C\uDDF8\uD83C\uDDE6', holidays: {
     '02-22': 'Founding Day',
-    '03-31': 'Eid al-Fitr Holiday',
-    '04-01': 'Eid al-Fitr Holiday',
-    '04-02': 'Eid al-Fitr Holiday',
-    '06-05': 'Arafat Day',
-    '06-06': 'Eid al-Adha Holiday',
-    '06-07': 'Eid al-Adha Holiday',
+    '03-20': 'Eid al-Fitr Holiday',
+    '03-21': 'Eid al-Fitr Holiday',
+    '03-22': 'Eid al-Fitr Holiday',
+    '05-26': 'Eid al-Adha Holiday',
+    '05-27': 'Eid al-Adha Holiday',
+    '05-28': 'Eid al-Adha Holiday',
     '09-23': 'National Day'
   }},
   'BR': { name: '\uBE0C\uB77C\uC9C8', flag: '\uD83C\uDDE7\uD83C\uDDF7', holidays: {
     '01-01': 'New Year\'s Day',
-    '03-04': 'Carnival',
-    '04-18': 'Good Friday',
+    '02-17': 'Carnival',
+    '04-03': 'Good Friday',
     '04-21': 'Tiradentes Day',
     '05-01': 'Labour Day',
-    '06-19': 'Corpus Christi',
+    '06-04': 'Corpus Christi',
     '09-07': 'Independence Day',
     '10-12': 'Our Lady of Aparecida',
     '11-02': 'All Souls\' Day',
@@ -4591,29 +4594,42 @@ const GLOBAL_HOLIDAYS = {
   }},
   'MX': { name: '\uBA55\uC2DC\uCF54', flag: '\uD83C\uDDF2\uD83C\uDDFD', holidays: {
     '01-01': 'New Year\'s Day',
-    '02-03': 'Constitution Day',
-    '03-17': 'Benito Juarez Day',
+    '02-02': 'Constitution Day',
+    '03-16': 'Benito Juarez Day',
     '05-01': 'Labor Day',
     '09-16': 'Independence Day',
-    '11-17': 'Revolution Day',
+    '11-16': 'Revolution Day',
     '12-25': 'Christmas Day'
   }},
   'CA': { name: '\uCE90\uB098\uB2E4', flag: '\uD83C\uDDE8\uD83C\uDDE6', holidays: {
     '01-01': 'New Year\'s Day',
-    '04-18': 'Good Friday',
-    '05-19': 'Victoria Day',
+    '04-03': 'Good Friday',
+    '05-18': 'Victoria Day',
     '07-01': 'Canada Day',
-    '08-04': 'Civic Holiday',
-    '09-01': 'Labor Day',
+    '08-03': 'Civic Holiday',
+    '09-07': 'Labour Day',
     '09-30': 'Truth and Reconciliation',
-    '10-13': 'Thanksgiving',
+    '10-12': 'Thanksgiving',
     '11-11': 'Remembrance Day',
     '12-25': 'Christmas Day',
     '12-26': 'Boxing Day'
   }}
 };
 
-const RAMADAN_2025 = { start: '02-28', end: '03-29', note: 'Ramadan (\uB77C\uB9C8\uB2E8)' };
+const RAMADAN_2026 = { start: '02-18', end: '03-19', note: 'Ramadan 2026 (\uB77C\uB9C8\uB2E8)' };
+
+const DST_2026 = {
+  'US': { start: '03-08', end: '11-01', label: 'DST (UTC-4\u2192-5)', note: 'Spring Forward Mar 8, Fall Back Nov 1' },
+  'CA': { start: '03-08', end: '11-01', label: 'DST (varies)', note: 'Same as US' },
+  'GB': { start: '03-29', end: '10-25', label: 'BST (UTC+1)', note: 'British Summer Time' },
+  'FR': { start: '03-29', end: '10-25', label: 'CEST (UTC+2)', note: 'Central European Summer Time' },
+  'DE': { start: '03-29', end: '10-25', label: 'CEST (UTC+2)', note: 'Central European Summer Time' },
+  'AU': { start: '10-04', end: '04-05', label: 'AEDT (UTC+11)', note: 'Australian Eastern Daylight Time (Oct-Apr)' },
+  'NZ': { start: '09-27', end: '04-05', label: 'NZDT (UTC+13)', note: 'NZ Daylight Time (Sep-Apr)' },
+  'MX': { start: '04-05', end: '10-25', label: 'CDT (UTC-5)', note: 'Mexico DST' },
+  'BR': { start: 'none', end: 'none', label: 'No DST', note: 'Brazil abolished DST in 2019' },
+  'CL': { start: '04-04', end: '09-05', label: 'CLT (UTC-4)', note: 'Chile Standard Time (Apr-Sep), CLST (UTC-3) rest' }
+};
 
 let selectedCountries = ['KR', 'JP', 'SG', 'US', 'GB', 'TH'];
 let globalCalMonth = new Date().getMonth();
@@ -4700,7 +4716,7 @@ function renderGlobalCal() {
       if (GLOBAL_HOLIDAYS[code] && GLOBAL_HOLIDAYS[code].holidays[dateKey]) hasHoliday = true;
     });
 
-    var isRamadan = (globalCalYear === 2025) && (dateKey >= RAMADAN_2025.start && dateKey <= RAMADAN_2025.end);
+    var isRamadan = (globalCalYear === 2026) && (dateKey >= RAMADAN_2026.start && dateKey <= RAMADAN_2026.end);
 
     var rowBg = hasHoliday ? 'background:var(--primary-bg);' : isRamadan ? 'background:#FFF8E1;' : isWeekend ? 'background:var(--gray-50);' : '';
     var dayColor = isSunday ? 'color:var(--red, #FF3B30);' : dow === 6 ? 'color:var(--blue, #007AFF);' : '';
@@ -4712,10 +4728,21 @@ function renderGlobalCal() {
     selectedCountries.forEach(function(code) {
       var country = GLOBAL_HOLIDAYS[code];
       var holiday = country && country.holidays[dateKey];
+      var dst = DST_2026[code];
+      var dstText = '';
+      if (dst && dst.start !== 'none' && globalCalYear === 2026) {
+        if (dateKey === dst.start) {
+          dstText = '<div style="font-size:10px; color:#007AFF; margin-top:2px;">\uD83D\uDD50 DST Start (Spring Forward)</div>';
+        } else if (dateKey === dst.end) {
+          dstText = '<div style="font-size:10px; color:#007AFF; margin-top:2px;">\uD83D\uDD50 DST End (Fall Back)</div>';
+        }
+      }
       if (holiday) {
-        html += '<td style="font-size:12px; padding:6px 8px; background:rgba(255,59,48,0.08); border-left:2px solid var(--primary, #FF3B30);"><strong style="color:var(--primary, #FF3B30);">' + holiday + '</strong></td>';
+        html += '<td style="font-size:12px; padding:6px 8px; background:rgba(255,59,48,0.08); border-left:2px solid var(--primary, #FF3B30);"><strong style="color:var(--primary, #FF3B30);">' + holiday + '</strong>' + dstText + '</td>';
       } else if (isRamadan && ['ID','MY','AE','SA'].includes(code)) {
-        html += '<td style="font-size:11px; color:#B8860B; padding:6px 8px;">\uD83C\uDF19 Ramadan</td>';
+        html += '<td style="font-size:11px; color:#B8860B; padding:6px 8px;">\uD83C\uDF19 Ramadan' + dstText + '</td>';
+      } else if (dstText) {
+        html += '<td style="padding:6px 8px;">' + dstText + '</td>';
       } else {
         html += '<td></td>';
       }
@@ -4725,4 +4752,32 @@ function renderGlobalCal() {
   }
 
   tbody.innerHTML = html;
+
+  // DST Legend
+  var dstLegendEl = document.getElementById('global-cal-dst-legend');
+  if (!dstLegendEl) {
+    dstLegendEl = document.createElement('div');
+    dstLegendEl.id = 'global-cal-dst-legend';
+    var tableParent = tbody.closest('table');
+    if (tableParent && tableParent.parentNode) {
+      tableParent.parentNode.insertBefore(dstLegendEl, tableParent.nextSibling);
+    }
+  }
+  if (dstLegendEl && globalCalYear === 2026) {
+    var legendHtml = '<div style="margin-top:12px; padding:12px 16px; background:#F0F7FF; border:1px solid #B3D4FC; border-radius:8px; font-size:12px;">';
+    legendHtml += '<strong style="color:#007AFF;">\uD83D\uDD50 Daylight Saving Time (DST) 2026</strong>';
+    legendHtml += '<div style="display:flex; flex-wrap:wrap; gap:8px 16px; margin-top:8px;">';
+    selectedCountries.forEach(function(code) {
+      var dst = DST_2026[code];
+      if (dst) {
+        var countryInfo = GLOBAL_HOLIDAYS[code];
+        var flag = countryInfo ? countryInfo.flag : '';
+        legendHtml += '<span style="white-space:nowrap;">' + flag + ' <strong>' + code + '</strong>: ' + dst.label + ' \u2014 ' + dst.note + '</span>';
+      }
+    });
+    legendHtml += '</div></div>';
+    dstLegendEl.innerHTML = legendHtml;
+  } else if (dstLegendEl) {
+    dstLegendEl.innerHTML = '';
+  }
 }

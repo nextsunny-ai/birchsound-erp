@@ -247,7 +247,7 @@ body {
 /* Sidebar */
 .sidebar {
   width: var(--sidebar-width);
-  background: var(--gray-900);
+  background: #2D2A6E;
   border-right: none;
   display: flex;
   flex-direction: column;
