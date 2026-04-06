@@ -34,8 +34,8 @@ const ROLE_PERMISSIONS = {
   ceo: ['dashboard','attendance','approval','messages','travel','ip','contract','project','calendar','global-cal','tickets','crm','concert-settle','overseas-settle','notice','resources','accounts','hr','admin','settings','report','finance'],
   admin: ['dashboard','attendance','approval','messages','travel','ip','contract','project','calendar','global-cal','tickets','crm','concert-settle','overseas-settle','notice','resources','accounts','hr','admin','report','finance'],
   manager: ['dashboard','attendance','approval','messages','travel','ip','contract','project','calendar','global-cal','tickets','crm','notice','resources','accounts'],
-  member: ['dashboard','attendance','approval','messages','travel','project','calendar','global-cal','notice','resources'],
-  guest: ['dashboard','messages','project']
+  member: ['dashboard','attendance','approval','messages','travel','ip','contract','project','calendar','global-cal','tickets','crm','concert-settle','overseas-settle','notice','resources','accounts','hr','admin','settings','report','finance'],
+  guest: ['dashboard','attendance','approval','messages','travel','ip','contract','project','calendar','global-cal','tickets','crm','concert-settle','overseas-settle','notice','resources','accounts','hr','admin','settings','report','finance']
 };
 
 function applyPermissions() {
