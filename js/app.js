@@ -149,9 +149,9 @@ const i18n = {
   },
   en: {
     dashboard: 'Dashboard', approval: 'Approvals', messages: 'Messages',
-    ip: 'Casting', contract: 'Contracts', project: 'Projects', calendar: 'Calendar', 'global-cal': 'Global Calendar',
-    notice: 'Notices', resources: 'Resources', accounts: 'Contacts',
-    hr: 'HR', admin: 'Organization', 'concert-settle': 'Concert Settlement', 'overseas-settle': 'Overseas Settlement', tickets: 'Tickets', travel: 'Travel', crm: 'Partners', attendance: 'Attendance', settings: 'Settings',
+    ip: 'Casting', contract: 'Contracts', project: 'Projects', calendar: 'Company Calendar', 'global-cal': 'Global Calendar',
+    notice: 'Announcements', resources: 'Resources', accounts: 'Directory',
+    hr: 'HR', admin: 'Organization', 'concert-settle': 'Concert Settlement', 'overseas-settle': 'Overseas Settlement', tickets: 'Tickets', travel: 'Business Trips', crm: 'Partners', attendance: 'Attendance', settings: 'Settings',
     main: 'MAIN', business: 'BUSINESS', community: 'COMMUNITY',
     today: 'TODAY', clockIn: 'Clock In', clockOut: 'Clock Out',
     logout: 'Sign Out', save: 'Save', cancel: 'Cancel', delete: 'Delete',
