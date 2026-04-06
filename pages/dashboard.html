@@ -28,6 +28,11 @@
         </div>
       </div>
 
+      <div style="padding:4px 12px;">
+        <button onclick="toggleLang()" id="lang-toggle" style="width:100%; padding:6px; background:var(--gray-100); border:1px solid var(--gray-200); border-radius:6px; cursor:pointer; font-size:12px; font-weight:600; color:var(--gray-600); font-family:inherit;">
+          🌐 English
+        </button>
+      </div>
       <nav class="sidebar-nav">
         <div class="nav-section">
           <div class="nav-section-title">MAIN</div>
@@ -193,12 +198,12 @@
         </div>
       </div>
 
-      <!-- ===== ATTENDANCE (매장 맞춤) ===== -->
+      <!-- ===== ATTENDANCE (근무 기록) ===== -->
       <div id="section-attendance" class="page-section" style="display:none;">
         <div class="page-header">
           <div>
             <h1>출퇴근</h1>
-            <div class="header-sub">매장/사무실 근무 기록 및 휴게시간 관리</div>
+            <div class="header-sub">근무 기록 관리</div>
           </div>
         </div>
         <div class="page-body">
@@ -234,16 +239,9 @@
 
                 <div class="attendance-buttons" style="flex-wrap:wrap;">
                   <button class="btn-clock-in" id="btn-clock-in" onclick="clockIn()">출근하기</button>
-                  <button class="btn-clock-out" id="btn-break-start" onclick="breakStart()" disabled style="background:var(--yellow); color:var(--black);">휴게 시작</button>
-                  <button class="btn-clock-out" id="btn-break-end" onclick="breakEnd()" disabled style="background:#FF9500; color:white;">휴게 종료</button>
                   <button class="btn-clock-out" id="btn-clock-out" onclick="clockOut()" disabled>퇴근하기</button>
                 </div>
                 <div class="attendance-status" id="attendance-status"></div>
-
-                <!-- 수요일 휴무 안내 -->
-                <div id="wednesday-notice" style="display:none; margin-top:20px; padding:16px; background:var(--red-bg); border-radius:10px; color:var(--red); font-weight:600;">
-                  오늘은 매장 정기 휴무일(수요일)입니다
-                </div>
               </div>
             </div>
           </div>
@@ -443,28 +441,28 @@
               <div class="stat-card">
                 <div class="stat-icon red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
                 <div class="stat-value" id="settle-publisher-count">0</div>
-                <div class="stat-label">제작사 수</div>
+                <div class="stat-label">정산 건수</div>
               </div>
             </div>
 
-            <!-- 제작사별 정산 테이블 -->
+            <!-- 정산 결과 테이블 -->
             <div class="card">
               <div class="card-header">
-                <h3>제작사별 정산 결과</h3>
+                <h3>정산 결과</h3>
                 <button class="btn btn-primary btn-sm" onclick="downloadAllSettlements()">전체 정산서 다운로드 (Excel)</button>
               </div>
               <div class="table-container">
                 <table>
                   <thead>
                     <tr>
-                      <th>제작사</th>
+                      <th>구분</th>
                       <th>총매출</th>
                       <th>순매출</th>
                       <th>카드매출</th>
                       <th>현금매출</th>
                       <th>수수료 차감후</th>
-                      <th>제작사 몫</th>
-                      <th>버치사운드 몫</th>
+                      <th>파트너 몫</th>
+                      <th>자체 수익</th>
                       <th>요율</th>
                       <th>정산서</th>
                     </tr>
@@ -495,185 +493,32 @@
           <div id="settle-tab-urban" style="display:none;">
             <div class="card" style="margin-bottom:24px;">
               <div class="card-header">
-                <h3>어반플레이 정산</h3>
-                <span style="font-size:12px; color:var(--gray-400);">매장 수익분배 기반 월간 정산</span>
+                <h3>광고 수익 정산</h3>
               </div>
               <div class="card-body">
-                <div class="form-group" style="max-width:240px; margin-bottom:20px;">
-                  <label>정산 월</label>
-                  <input type="month" id="urban-settle-month" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;" onchange="calculateUrbanSettlement()">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+                  <div class="form-group"><label>광고주/대상</label><input type="text" id="ad-settle-target" placeholder="예: 삼성전자 협찬"></div>
+                  <div class="form-group"><label>정산 기간</label><input type="month" id="ad-settle-month" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;"></div>
                 </div>
-
-                <!-- 수입 -->
-                <div style="background:var(--green-bg); border-radius:10px; padding:16px 20px; margin-bottom:16px;">
-                  <div style="font-size:13px; font-weight:700; color:var(--green); margin-bottom:12px;">수입</div>
-                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                    <div class="form-group">
-                      <label style="font-size:12px;">1~3층 판매매출 (GM 25% 몫)</label>
-                      <div style="display:flex; gap:4px;">
-                        <input type="number" id="urban-store-sales" placeholder="0" oninput="calculateUrbanSettlement()" style="flex:1; padding:8px 10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
-                        <button class="btn btn-ghost btn-sm" onclick="loadStoreSalesFromSettlement()" title="제작사 정산에서 가져오기" style="padding:8px; font-size:11px; white-space:nowrap;">가져오기</button>
-                      </div>
-                      <div style="font-size:11px; color:var(--gray-400); margin-top:4px;">※ 제작사 정산 완료 후 [가져오기] 클릭하면 자동 반영</div>
-                    </div>
-                    <div class="form-group">
-                      <label style="font-size:12px;"> 매출 (22% 수수료)</label>
-                      <div style="display:flex; gap:4px;">
-                        <input type="number" id="urban-gacha-sales" placeholder="0" oninput="calculateUrbanSettlement()" style="flex:1; padding:8px 10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
-                        <button class="btn btn-ghost btn-sm" onclick="document.getElementById('gacha-file-input').click()" title=" 엑셀 업로드" style="padding:8px; font-size:11px; white-space:nowrap;">엑셀</button>
-                        <input type="file" id="gacha-file-input" accept=".xlsx,.xls" style="display:none" onchange="handleGachaUpload(this.files[0])">
-                      </div>
-                      <div style="font-size:11px; color:var(--gray-400); margin-top:4px;">※  엑셀 업로드 또는 수기 입력 (22% 수수료 자동 계산)</div>
-                    </div>
-                  </div>
-                  <div style="display:flex; justify-content:flex-end; align-items:center; gap:8px; margin-top:8px; padding-top:8px; border-top:1px solid rgba(0,0,0,0.08);">
-                    <span style="font-size:13px; font-weight:600; color:var(--gray-600);">매출 합계:</span>
-                    <span id="urban-total-revenue" style="font-size:16px; font-weight:800; color:var(--green);">₩0</span>
-                  </div>
-                </div>
-
-                <!-- 비용 -->
-                <div style="background:var(--red-bg); border-radius:10px; padding:16px 20px; margin-bottom:16px;">
-                  <div style="font-size:13px; font-weight:700; color:var(--red); margin-bottom:12px;">비용</div>
-                  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
-                    <div class="form-group">
-                      <label style="font-size:12px;">매장직 인건비</label>
-                      <div style="display:flex; gap:4px;">
-                        <input type="number" id="urban-labor-cost" placeholder="0" oninput="calculateUrbanSettlement()" style="flex:1; padding:8px 10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
-                        <button class="btn btn-ghost btn-sm" onclick="loadHRLaborCost()" title="인사관리에서 가져오기" style="padding:8px; font-size:11px; white-space:nowrap;">가져오기</button>
-                      </div>
-                      <div style="font-size:11px; color:var(--gray-400); margin-top:4px;">※ 인사관리에 급여 등록 후 [가져오기] 클릭</div>
-                    </div>
-                    <div class="form-group">
-                      <label style="font-size:12px;">소모품비</label>
-                      <input type="number" id="urban-supplies-cost" placeholder="0" oninput="calculateUrbanSettlement()" style="width:100%; padding:8px 10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
-                      <div style="font-size:11px; color:var(--gray-400); margin-top:4px;">※ 카드 영수증 합산 금액 수기 입력</div>
-                    </div>
-                    <div class="form-group">
-                      <label style="font-size:12px;">관리비 (전기/수도/CCTV 등)</label>
-                      <input type="number" id="urban-mgmt-cost" placeholder="0" oninput="calculateUrbanSettlement()" style="width:100%; padding:8px 10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
-                      <div style="font-size:11px; color:var(--gray-400); margin-top:4px;">※ 월별 관리비 수기 입력</div>
-                    </div>
-                  </div>
-                  <div style="display:flex; justify-content:flex-end; align-items:center; gap:8px; margin-top:8px; padding-top:8px; border-top:1px solid rgba(0,0,0,0.08);">
-                    <span style="font-size:13px; font-weight:600; color:var(--gray-600);">비용 합계:</span>
-                    <span id="urban-total-cost" style="font-size:16px; font-weight:800; color:var(--red);">₩0</span>
-                  </div>
-                </div>
-
-                <!-- 정산 결과 -->
-                <div style="background:var(--gray-50); border-radius:10px; padding:16px 20px;">
-                  <div style="font-size:13px; font-weight:700; color:var(--gray-700); margin-bottom:12px;">정산</div>
-                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px 24px; font-size:14px;">
-                    <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--gray-200);">
-                      <span style="color:var(--gray-600);">비용보전 (비용의 50%)</span>
-                      <span id="urban-cost-share" style="font-weight:700;">₩0</span>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--gray-200);">
-                      <span style="color:var(--gray-600);">순익 (매출 - 비용 + 비용보전)</span>
-                      <span id="urban-net-profit" style="font-weight:700;">₩0</span>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--gray-200);">
-                      <span style="color:var(--blue);">어반플레이 몫 (50%)</span>
-                      <span id="urban-urban-share" style="font-weight:700; color:var(--blue);">₩0</span>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--gray-200);">
-                      <span style="color:var(--primary);">버치사운드 몫 (50%)</span>
-                      <span id="urban-gm-share" style="font-weight:700; color:var(--primary);">₩0</span>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--gray-200);">
-                      <span style="color:var(--gray-600);">3층 임대료</span>
-                      <span id="urban-rent" style="font-weight:700;">₩2,500,000</span>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--gray-200);">
-                      <span style="color:var(--gray-600);">관리비</span>
-                      <span id="urban-mgmt-display" style="font-weight:700;">₩0</span>
-                    </div>
-                  </div>
-                  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; padding-top:12px; border-top:2px solid var(--gray-300);">
-                    <span style="font-size:16px; font-weight:800; color:var(--gray-700);">총 지급액 (VAT 포함)</span>
-                    <span id="urban-total-payment" style="font-size:22px; font-weight:800; color:var(--red);">₩0</span>
-                  </div>
-                </div>
-
-                <button class="btn btn-primary" onclick="downloadUrbanSettlement()" style="width:100%; margin-top:20px;">정산서 다운로드 (Excel)</button>
+                <div class="form-group" style="margin-bottom:16px;"><label>금액 (원)</label><input type="number" id="ad-settle-amount" placeholder="0"></div>
+                <div class="empty-state" style="padding:24px;"><p style="color:var(--gray-400);">광고 수익 정산 기능 준비 중</p></div>
               </div>
             </div>
           </div><!-- /settle-tab-urban -->
 
-          <!-- Popup Settlement Tab -->
+          <!-- Goods Settlement Tab -->
           <div id="settle-tab-popup" style="display:none;">
             <div class="card">
               <div class="card-header">
-                <h3>팝업 프로젝트별 정산</h3>
+                <h3>굿즈 판매 정산</h3>
               </div>
               <div class="card-body">
-                <!-- Project selector -->
-                <div class="form-group" style="max-width:300px; margin-bottom:20px;">
-                  <label>프로젝트 선택</label>
-                  <select id="popup-settle-project" onchange="loadPopupSettlement()" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
-                    <option value="">프로젝트를 선택하세요</option>
-                  </select>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+                  <div class="form-group"><label>굿즈/대상</label><input type="text" id="goods-settle-target" placeholder="예: 페스티벌 공식 MD"></div>
+                  <div class="form-group"><label>정산 기간</label><input type="month" id="goods-settle-month" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;"></div>
                 </div>
-
-                <div id="popup-settle-content" style="display:none;">
-                  <!-- Revenue -->
-                  <div style="background:var(--green-bg); border-radius:10px; padding:16px 20px; margin-bottom:16px;">
-                    <div style="font-size:13px; font-weight:700; color:var(--green); margin-bottom:12px;">실제 매출</div>
-                    <div class="form-group">
-                      <label style="font-size:12px;">팝업 매출액</label>
-                      <input type="number" id="popup-actual-revenue" placeholder="0" oninput="calculatePopupSettlement()" style="width:100%; padding:8px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
-                      <div style="font-size:11px; color:var(--gray-400); margin-top:4px;">※ 에서 해당 기간 매출 확인 후 입력</div>
-                    </div>
-                  </div>
-
-                  <!-- Costs from project -->
-                  <div style="background:var(--red-bg); border-radius:10px; padding:16px 20px; margin-bottom:16px;">
-                    <div style="font-size:13px; font-weight:700; color:var(--red); margin-bottom:12px;">비용 (프로젝트에서 가져옴)</div>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                      <div>
-                        <div style="font-size:12px; color:var(--gray-500);">인테리어/디자인</div>
-                        <div style="font-size:16px; font-weight:700;" id="popup-cost-interior">₩0</div>
-                      </div>
-                      <div>
-                        <div style="font-size:12px; color:var(--gray-500);">굿즈 제작</div>
-                        <div style="font-size:16px; font-weight:700;" id="popup-cost-production">₩0</div>
-                      </div>
-                      <div>
-                        <div style="font-size:12px; color:var(--gray-500);">증정 굿즈</div>
-                        <div style="font-size:16px; font-weight:700;" id="popup-cost-giveaway">₩0</div>
-                      </div>
-                      <div>
-                        <div style="font-size:12px; color:var(--gray-500);">알바 인건비 (예상)</div>
-                        <div style="font-size:16px; font-weight:700;" id="popup-cost-labor">₩0</div>
-                      </div>
-                    </div>
-                    <div style="display:flex; justify-content:flex-end; margin-top:12px; padding-top:8px; border-top:1px solid rgba(0,0,0,0.08);">
-                      <span style="font-size:13px; color:var(--gray-600);">비용 합계: </span>
-                      <span style="font-size:16px; font-weight:800; color:var(--red); margin-left:8px;" id="popup-cost-total">₩0</span>
-                    </div>
-                  </div>
-
-                  <!-- Result -->
-                  <div style="background:var(--gray-50); border-radius:10px; padding:16px 20px; margin-bottom:16px;">
-                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; text-align:center;">
-                      <div>
-                        <div style="font-size:12px; color:var(--gray-500);">매출</div>
-                        <div style="font-size:20px; font-weight:800; color:var(--green);" id="popup-result-revenue">₩0</div>
-                      </div>
-                      <div>
-                        <div style="font-size:12px; color:var(--gray-500);">비용</div>
-                        <div style="font-size:20px; font-weight:800; color:var(--red);" id="popup-result-cost">₩0</div>
-                      </div>
-                      <div>
-                        <div style="font-size:12px; color:var(--gray-500);">순익</div>
-                        <div style="font-size:20px; font-weight:800; color:var(--primary);" id="popup-result-profit">₩0</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <button class="btn btn-primary" onclick="downloadPopupSettlement()" style="width:100%;">팝업 정산서 다운로드 (Excel)</button>
-                </div>
+                <div class="form-group" style="margin-bottom:16px;"><label>금액 (원)</label><input type="number" id="goods-settle-amount" placeholder="0"></div>
+                <div class="empty-state" style="padding:24px;"><p style="color:var(--gray-400);">굿즈 판매 정산 기능 준비 중</p></div>
               </div>
             </div>
           </div><!-- /settle-tab-popup -->
@@ -695,130 +540,7 @@
         </div>
       </div>
 
-      <!-- ===== INVENTORY (재고관리) ===== -->
-      <div id="section-inventory" class="page-section" style="display:none;">
-        <div class="page-header">
-          <div>
-            <h1>재고관리</h1>
-            <div class="header-sub">입고/재고 현황 및 발주 요청</div>
-          </div>
-        </div>
-        <div class="page-body">
-
-          <!-- Inventory Tabs -->
-          <div style="display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;">
-            <button class="btn btn-ghost btn-sm inv-tab-btn" onclick="switchInventoryTab('stock', this)" style="background:var(--primary); color:white;">재고 현황</button>
-            <button class="btn btn-ghost btn-sm inv-tab-btn" onclick="switchInventoryTab('receiving', this)">입고 관리</button>
-            <button class="btn btn-ghost btn-sm inv-tab-btn" onclick="switchInventoryTab('orders', this)">발주 요청</button>
-          </div>
-
-          <!-- Tab 1: 재고 현황 -->
-          <div id="inv-tab-stock">
-            <div class="card">
-              <div class="card-header">
-                <h3>재고 현황</h3>
-                <button class="btn btn-primary btn-sm" onclick="openModal('inventory-modal')">+ 상품 등록</button>
-              </div>
-              <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; padding:0 20px;">
-                <button class="btn btn-primary btn-sm" onclick="document.getElementById('inv-file-input').click()">
-                   재고 엑셀 업로드
-                </button>
-                <button class="btn btn-secondary btn-sm" onclick="downloadInventoryExcel()">
-                  재고 현황 엑셀 다운로드
-                </button>
-                <input type="file" id="inv-file-input" accept=".xlsx,.xls" style="display:none" onchange="handleInventoryUpload(this.files[0])">
-                <span id="inv-upload-status" style="font-size:13px; color:var(--gray-500); align-self:center;"></span>
-              </div>
-              <!-- 제작사별 요약 -->
-              <div id="inv-publisher-summary" style="padding:0 20px; margin-bottom:16px;"></div>
-              <div style="padding:0 20px;">
-                <input type="text" id="inv-search" placeholder="상품명 또는 제작사 검색..." oninput="filterInventory()" style="width:100%; padding:10px; border:1px solid var(--gray-200); border-radius:8px; margin-bottom:12px; font-family:inherit; font-size:14px; box-sizing:border-box;">
-              </div>
-              <div class="table-container">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>제작사</th>
-                      <th>상품명</th>
-                      <th>현재 재고</th>
-                      <th>최소 재고</th>
-                      <th>상태</th>
-                      <th>판매가</th>
-                      <th>최종 업데이트</th>
-                      <th>관리</th>
-                    </tr>
-                  </thead>
-                  <tbody id="inventory-stock-list">
-                    <tr><td colspan="8" class="empty-state">등록된 상품이 없습니다.</td></tr>
-                  </tbody>
-                </table>
-              </div>
-              <div id="inv-show-more-wrap" style="text-align:center; padding:12px; display:none;">
-                <button class="btn btn-ghost btn-sm" id="inv-show-more-btn" onclick="showMoreInventory()" style="font-size:13px;">더보기</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Tab 2: 입고 관리 -->
-          <div id="inv-tab-receiving" style="display:none;">
-            <div class="card">
-              <div class="card-header">
-                <h3>입고 관리</h3>
-                <button class="btn btn-primary btn-sm" onclick="openModal('receiving-modal')">+ 입고 등록</button>
-              </div>
-              <div class="table-container">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>입고일</th>
-                      <th>제작사</th>
-                      <th>상품명</th>
-                      <th>예정수량</th>
-                      <th>실입고수량</th>
-                      <th>차이</th>
-                      <th>상태</th>
-                      <th>확인자</th>
-                      <th>관리</th>
-                    </tr>
-                  </thead>
-                  <tbody id="inventory-receiving-list">
-                    <tr><td colspan="9" class="empty-state">입고 기록이 없습니다.</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <!-- Tab 3: 발주 요청 -->
-          <div id="inv-tab-orders" style="display:none;">
-            <div class="card">
-              <div class="card-header">
-                <h3>발주 요청</h3>
-                <button class="btn btn-primary btn-sm" onclick="openModal('order-modal')">+ 발주 요청</button>
-              </div>
-              <div class="table-container">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>요청일</th>
-                      <th>제작사</th>
-                      <th>상품명</th>
-                      <th>요청수량</th>
-                      <th>상태</th>
-                      <th>요청자</th>
-                      <th>관리</th>
-                    </tr>
-                  </thead>
-                  <tbody id="inventory-order-list">
-                    <tr><td colspan="7" class="empty-state">발주 요청이 없습니다.</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
+      <!-- Inventory section removed -->
 
       <!-- ===== NOTICE ===== -->
       <div id="section-notice" class="page-section" style="display:none;">
@@ -971,7 +693,7 @@
         <div class="page-header">
           <div>
             <h1>근무스케줄</h1>
-            <div class="header-sub">매장 월별 근무 배정표 — 셀 클릭으로 배정 (1~4층/O/4h/휴무/연차)</div>
+            <div class="header-sub">월별 근무 배정표</div>
           </div>
           <div class="header-actions" style="display:flex; gap:8px; flex-wrap:wrap;">
             <div style="display:flex; align-items:center; gap:8px;">
@@ -985,12 +707,7 @@
         <div class="page-body">
           <!-- Legend -->
           <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:12px; font-size:12px;">
-            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:rgba(37,99,235,0.15); display:inline-block; text-align:center; font-size:10px; font-weight:700; color:#2563EB;">1</span> 1층</span>
-            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:rgba(22,163,74,0.15); display:inline-block; text-align:center; font-size:10px; font-weight:700; color:#16A34A;">2</span> 2층</span>
-            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:rgba(234,88,12,0.15); display:inline-block; text-align:center; font-size:10px; font-weight:700; color:#EA580C;">3</span> 3층</span>
-            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:rgba(147,51,234,0.15); display:inline-block; text-align:center; font-size:10px; font-weight:700; color:#9333EA;">4</span> 4층</span>
-            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:rgba(46,196,182,0.15); display:inline-block; text-align:center; font-size:10px; font-weight:700; color:var(--primary);">O</span> 전체</span>
-            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:#FFFBEB; display:inline-block; text-align:center; font-size:10px; font-weight:700; color:#B8860B;">4h</span> 반일</span>
+            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:rgba(46,196,182,0.15); display:inline-block; text-align:center; font-size:10px; font-weight:700; color:var(--primary);">O</span> 출근</span>
             <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:#F5F5F5; display:inline-block; text-align:center; font-size:10px; color:#999;">휴</span> 휴무</span>
             <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:#FEF2F2; display:inline-block; text-align:center; font-size:10px; color:#DC2626;">연</span> 연차</span>
           </div>
@@ -1172,7 +889,7 @@
         <div class="page-header">
           <div>
             <h1>프로젝트</h1>
-            <div class="header-sub">팝업/이벤트 프로젝트 관리</div>
+            <div class="header-sub">공연/페스티벌 프로젝트 관리</div>
           </div>
           <div class="header-actions">
             <button class="btn btn-primary btn-sm" onclick="openProjectModal()">
@@ -1326,7 +1043,7 @@
         <div class="page-header">
           <div>
             <h1>전체 일정</h1>
-            <div class="header-sub">매장/사무실 공유 일정표</div>
+            <div class="header-sub">전체 공유 일정표</div>
           </div>
           <div class="header-actions">
             <div style="display:flex; align-items:center; gap:12px;">
@@ -1360,8 +1077,8 @@
 
           <!-- Category Legend -->
           <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:20px; padding:12px 16px; background:var(--gray-50); border-radius:10px;">
-            <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#9333EA;"></span> 팝업</span>
-            <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#2563EB;"></span> 입고/발주</span>
+            <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#9333EA;"></span> 공연</span>
+            <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#2563EB;"></span> 리허설</span>
             <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#16A34A;"></span> 이벤트/프로모션</span>
             <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#EAB308;"></span> 회의</span>
             <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#DC2626;"></span> 마감/중요</span>
@@ -1564,19 +1281,19 @@
             </div>
             <div class="card" style="border:none; box-shadow:none; background:var(--green-bg);">
               <div class="card-body" style="padding:14px; text-align:center;">
-                <div style="font-size:11px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-gm">버치사운드 수익</div>
+                <div style="font-size:11px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-gm">자체 수익</div>
                 <div style="font-size:22px; font-weight:800; color:var(--green);" id="report-year-gm">₩0</div>
               </div>
             </div>
             <div class="card" style="border:none; box-shadow:none; background:var(--blue-bg);">
               <div class="card-body" style="padding:14px; text-align:center;">
-                <div style="font-size:11px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-pub">제작사 정산</div>
+                <div style="font-size:11px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-pub">파트너 정산</div>
                 <div style="font-size:22px; font-weight:800; color:var(--blue);" id="report-year-publisher">₩0</div>
               </div>
             </div>
             <div class="card" style="border:none; box-shadow:none; background:var(--yellow-bg);">
               <div class="card-body" style="padding:14px; text-align:center;">
-                <div style="font-size:11px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-urban">어반플레이 정산</div>
+                <div style="font-size:11px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-urban">기타 정산</div>
                 <div style="font-size:22px; font-weight:800; color:#B8860B;" id="report-year-urban">₩0</div>
               </div>
             </div>
@@ -1590,12 +1307,12 @@
             </div>
           </div>
 
-          <!-- Section B: 제작사별 누적 정산 -->
+          <!-- Section B: 파트너별 누적 정산 -->
           <div class="card" style="margin-bottom:16px;">
-            <div class="card-header"><h3>제작사별 누적 정산</h3></div>
+            <div class="card-header"><h3>파트너별 누적 정산</h3></div>
             <div class="table-container">
               <table>
-                <thead><tr><th>제작사</th><th>총매출</th><th>제작사 정산</th><th>GM 수익</th><th>정산 횟수</th><th>비중</th></tr></thead>
+                <thead><tr><th>파트너</th><th>총매출</th><th>파트너 정산</th><th>자체 수익</th><th>정산 횟수</th><th>비중</th></tr></thead>
                 <tbody id="report-publisher-table">
                   <tr><td colspan="6" class="empty-state">정산 데이터가 없습니다. 정산을 실행하면 자동으로 누적됩니다.</td></tr>
                 </tbody>
@@ -1604,22 +1321,9 @@
             </div>
           </div>
 
-          <!-- Section C: 어반플레이 정산 이력 -->
-          <div class="card" style="margin-bottom:16px;">
-            <div class="card-header"><h3>어반플레이 정산 이력</h3></div>
-            <div class="table-container">
-              <table>
-                <thead><tr><th>월</th><th>매출</th><th>비용</th><th>순익</th><th>어반 몫</th><th>GM 몫</th></tr></thead>
-                <tbody id="report-urban-table">
-                  <tr><td colspan="6" class="empty-state">어반플레이 정산 데이터가 없습니다.</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Section D: 비용/어반 월별 상세 -->
+          <!-- Section C: 비용 월별 상세 -->
           <div class="card">
-            <div class="card-header"><h3>비용/어반플레이 월별 상세</h3></div>
+            <div class="card-header"><h3>비용 월별 상세</h3></div>
             <div class="card-body" style="padding:12px 16px;">
               <!-- 요약 카드 -->
               <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px;">
@@ -1632,11 +1336,11 @@
                   <div style="font-size:18px; font-weight:800; color:#B8860B;" id="report-total-supplies">-</div>
                 </div>
                 <div style="background:var(--blue-bg); padding:12px; border-radius:8px; text-align:center;">
-                  <div style="font-size:11px; color:var(--gray-500);" id="report-cost-label-urban">어반 지급</div>
+                  <div style="font-size:11px; color:var(--gray-500);" id="report-cost-label-urban">기타 비용</div>
                   <div style="font-size:18px; font-weight:800; color:var(--blue);" id="report-total-urban-pay">-</div>
                 </div>
                 <div style="background:var(--green-bg); padding:12px; border-radius:8px; text-align:center;">
-                  <div style="font-size:11px; color:var(--gray-500);" id="report-cost-label-gm">GM 순수익</div>
+                  <div style="font-size:11px; color:var(--gray-500);" id="report-cost-label-gm">순수익</div>
                   <div style="font-size:18px; font-weight:800; color:var(--green);" id="report-total-gm-net">-</div>
                 </div>
               </div>
@@ -1650,8 +1354,8 @@
                       <th>인건비</th>
                       <th>소모품비</th>
                       <th>관리비</th>
-                      <th>어반 지급</th>
-                      <th>GM 순수익</th>
+                      <th>기타 비용</th>
+                      <th>순수익</th>
                     </tr>
                   </thead>
                   <tbody id="report-cost-monthly-table"></tbody>
@@ -2035,26 +1739,18 @@
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
           <div class="form-group">
             <label>프로젝트명</label>
-            <input type="text" id="project-name" placeholder="예: 청춘블라썸 팝업 4층">
+            <input type="text" id="project-name" placeholder="예: 2026 Summer Festival">
           </div>
           <div class="form-group">
             <label>IP/작품명</label>
             <input type="text" id="project-ip" placeholder="예: 청춘블라썸">
           </div>
           <div class="form-group">
-            <label>층 (복수 선택 가능)</label>
-            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:4px;">
-              <label style="display:flex; align-items:center; gap:4px; font-size:13px; cursor:pointer;"><input type="checkbox" class="project-floor-cb" value="2층"> 2층</label>
-              <label style="display:flex; align-items:center; gap:4px; font-size:13px; cursor:pointer;"><input type="checkbox" class="project-floor-cb" value="3층"> 3층</label>
-              <label style="display:flex; align-items:center; gap:4px; font-size:13px; cursor:pointer;"><input type="checkbox" class="project-floor-cb" value="4층"> 4층</label>
-            </div>
-          </div>
-          <div class="form-group">
             <label>운영 형태</label>
             <select id="project-operation-type" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
-              <option value="alba">알바 운영</option>
-              <option value="shelf">매대 증설</option>
-              <option value="mixed">혼합</option>
+              <option value="concert">공연</option>
+              <option value="festival">페스티벌</option>
+              <option value="showcase">쇼케이스</option>
               <option value="other">기타</option>
             </select>
           </div>
@@ -2334,8 +2030,8 @@
           <div class="form-group">
             <label>카테고리</label>
             <select id="cal-category" onchange="updateCalColor()" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
-              <option value="popup">팝업</option>
-              <option value="delivery">입고/발주</option>
+              <option value="popup">공연</option>
+              <option value="delivery">리허설</option>
               <option value="event">이벤트/프로모션</option>
               <option value="meeting">회의</option>
               <option value="deadline">마감/중요</option>
@@ -2345,11 +2041,9 @@
           <div class="form-group">
             <label>장소</label>
             <select id="cal-location" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
-              <option value="1층">1층</option>
-              <option value="2층">2층</option>
-              <option value="3층">3층</option>
-              <option value="4층">4층</option>
               <option value="사무실">사무실</option>
+              <option value="공연장">공연장</option>
+              <option value="야외">야외</option>
               <option value="전체">전체</option>
               <option value="기타">기타</option>
             </select>
@@ -2390,120 +2084,7 @@
     </div>
   </div>
 
-  <!-- Inventory Modal -->
-  <div class="modal-overlay" id="inventory-modal">
-    <div class="modal" style="max-width:480px;">
-      <div class="modal-header">
-        <h3>상품 등록</h3>
-        <button class="modal-close" onclick="closeModal('inventory-modal')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <input type="hidden" id="inv-edit-index" value="">
-        <div class="form-group">
-          <label>제작사</label>
-          <input type="text" id="inv-publisher" placeholder="예: 북극여우">
-        </div>
-        <div class="form-group">
-          <label>상품명</label>
-          <input type="text" id="inv-product-name" placeholder="상품명">
-        </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-          <div class="form-group">
-            <label>현재 재고</label>
-            <input type="number" id="inv-current-stock" placeholder="0" value="0">
-          </div>
-          <div class="form-group">
-            <label>최소 재고</label>
-            <input type="number" id="inv-min-stock" placeholder="10" value="10">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>최근 입고일</label>
-          <input type="date" id="inv-last-received">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary btn-sm" onclick="closeModal('inventory-modal')">취소</button>
-        <button class="btn btn-primary btn-sm" onclick="saveInventoryItem()">저장</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Receiving Modal -->
-  <div class="modal-overlay" id="receiving-modal">
-    <div class="modal" style="max-width:480px;">
-      <div class="modal-header">
-        <h3>입고 등록</h3>
-        <button class="modal-close" onclick="closeModal('receiving-modal')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <input type="hidden" id="recv-edit-index" value="">
-        <div class="form-group">
-          <label>입고일</label>
-          <input type="date" id="recv-date">
-        </div>
-        <div class="form-group">
-          <label>제작사</label>
-          <input type="text" id="recv-publisher" placeholder="제작사">
-        </div>
-        <div class="form-group">
-          <label>상품명</label>
-          <input type="text" id="recv-product-name" placeholder="상품명">
-        </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-          <div class="form-group">
-            <label>예정수량</label>
-            <input type="number" id="recv-expected-qty" placeholder="0">
-          </div>
-          <div class="form-group">
-            <label>실입고수량</label>
-            <input type="number" id="recv-actual-qty" placeholder="0">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>확인자</label>
-          <input type="text" id="recv-checker" placeholder="확인자 이름">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary btn-sm" onclick="closeModal('receiving-modal')">취소</button>
-        <button class="btn btn-primary btn-sm" onclick="saveReceiving()">저장</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Order Modal -->
-  <div class="modal-overlay" id="order-modal">
-    <div class="modal" style="max-width:480px;">
-      <div class="modal-header">
-        <h3>발주 요청</h3>
-        <button class="modal-close" onclick="closeModal('order-modal')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <input type="hidden" id="order-edit-index" value="">
-        <div class="form-group">
-          <label>제작사</label>
-          <input type="text" id="order-publisher" placeholder="제작사">
-        </div>
-        <div class="form-group">
-          <label>상품명</label>
-          <input type="text" id="order-product-name" placeholder="상품명">
-        </div>
-        <div class="form-group">
-          <label>요청수량</label>
-          <input type="number" id="order-qty" placeholder="0">
-        </div>
-        <div class="form-group">
-          <label>요청자</label>
-          <input type="text" id="order-requester" placeholder="요청자 이름">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary btn-sm" onclick="closeModal('order-modal')">취소</button>
-        <button class="btn btn-primary btn-sm" onclick="saveOrder()">저장</button>
-      </div>
-    </div>
-  </div>
+  <!-- Inventory/Receiving/Order modals removed -->
 
   <!-- Client Modal -->
   <div class="modal-overlay" id="client-modal">
@@ -2672,6 +2253,7 @@
       if (!session) return;
 
       await initSidebar();
+      if (typeof applyLang === 'function') applyLang();
       navigateTo('dashboard');
 
       // Start clocks
@@ -2713,7 +2295,7 @@
       if (dayOfWeek === 3) {
         schedEl.textContent = '수요일 정기휴무';
         schedEl.style.color = 'var(--red)';
-        timeEl.textContent = '매장 휴무일';
+        timeEl.textContent = '정기 휴무';
       } else if (myEntry) {
         schedEl.textContent = myEntry.floor + ' 근무';
         schedEl.style.color = 'var(--black)';
@@ -2792,24 +2374,16 @@
       const { data: attData } = await sb.from('attendance').select('*').eq('user_id', user.id).eq('date', todayStr).single();
       const btnIn = document.getElementById('dash-btn-in');
       const btnOut = document.getElementById('dash-btn-out');
-      const btnBreakS = document.getElementById('dash-btn-break-s');
-      const btnBreakE = document.getElementById('dash-btn-break-e');
       const statusBadge = document.getElementById('dash-work-status');
 
       if (btnIn) btnIn.disabled = true;
       if (btnOut) btnOut.disabled = true;
-      if (btnBreakS) btnBreakS.disabled = true;
-      if (btnBreakE) btnBreakE.disabled = true;
 
       if (!attData || !attData.clock_in) {
         if (btnIn) btnIn.disabled = false;
         if (statusBadge) { statusBadge.textContent = '미출근'; statusBadge.className = 'status-badge off'; statusBadge.style = ''; }
-      } else if (attData.status === 'break') {
-        if (btnBreakE) btnBreakE.disabled = false;
-        if (statusBadge) { statusBadge.textContent = '휴게중'; statusBadge.className = 'status-badge'; statusBadge.style.background = 'var(--yellow-bg)'; statusBadge.style.color = '#B8860B'; }
       } else if (!attData.clock_out) {
         if (btnOut) btnOut.disabled = false;
-        if (btnBreakS && !attData.break_start) btnBreakS.disabled = false;
         if (statusBadge) { statusBadge.textContent = '근무중'; statusBadge.className = 'status-badge working'; statusBadge.style = ''; }
       } else {
         if (statusBadge) { statusBadge.textContent = '퇴근완료'; statusBadge.className = 'status-badge done'; statusBadge.style = ''; }
@@ -2934,32 +2508,3 @@
 </body>
 </html>
 
-<!-- CLOSING SECTION - injected -->
-<div id="section-closing" class="page-section" style="display:none;">
-  <div class="page-header"><div><h1>마감정산</h1><div class="header-sub">일일 매출 보고</div></div></div>
-  <div class="page-body">
-    <div class="card" style="margin-bottom:16px;">
-      <div class="card-header"><h3 id="closing-date-title">오늘 마감정산</h3></div>
-      <div class="card-body">
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
-          <div class="form-group"><label>1층</label><input type="number" id="closing-1f" placeholder="0" oninput="calcClosingTotal()" style="font-size:18px; font-weight:700; text-align:right;"></div>
-          <div class="form-group"><label>2층</label><input type="number" id="closing-2f" placeholder="0" oninput="calcClosingTotal()" style="font-size:18px; font-weight:700; text-align:right;"></div>
-          <div class="form-group"><label>3층</label><input type="number" id="closing-3f" placeholder="0" oninput="calcClosingTotal()" style="font-size:18px; font-weight:700; text-align:right;"></div>
-          <div class="form-group"><label>4층 (팝업)</label><input type="number" id="closing-4f" placeholder="0" oninput="calcClosingTotal()" style="font-size:18px; font-weight:700; text-align:right;"></div>
-        </div>
-        <div style="background:var(--gray-50); padding:16px; border-radius:10px; display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-          <span style="font-size:14px; font-weight:600; color:var(--gray-600);">합계</span>
-          <span style="font-size:28px; font-weight:800; color:var(--primary);" id="closing-total">₩0</span>
-        </div>
-        <div class="form-group" style="margin-bottom:16px;"><label>메모 (특이사항)</label><textarea id="closing-memo" rows="2" placeholder="특이사항이 있으면 입력하세요" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit; resize:none;"></textarea></div>
-        <button class="btn btn-primary" onclick="submitClosing()" style="width:100%; padding:14px; font-size:16px;">마감정산 제출</button>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header"><h3>최근 마감정산 내역</h3><button class="btn btn-secondary btn-sm" onclick="downloadClosingExcel()">엑셀 다운로드</button></div>
-      <div class="table-container">
-        <table><thead><tr><th>날짜</th><th>1F</th><th>2F</th><th>3F</th><th>4F</th><th>합계</th><th>보고자</th><th>메모</th></tr></thead><tbody id="closing-history-table"></tbody></table>
-      </div>
-    </div>
-  </div>
-</div>

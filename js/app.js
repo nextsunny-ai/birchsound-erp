@@ -60,7 +60,65 @@ function updateClock() {
   }
 }
 
-// ---- Attendance (매장 맞춤: 출근→휴게시작→휴게종료→퇴근) ----
+// ---- i18n (Language Toggle) ----
+let currentLang = localStorage.getItem('bs_lang') || 'ko';
+
+const i18n = {
+  ko: {
+    dashboard: '대시보드', approval: '전자결재', messages: '메시지',
+    ip: 'IP 관리', contract: '계약 관리', project: '프로젝트', calendar: '전체 일정',
+    notice: '공지사항', resources: '자료실', accounts: '계정/연락처',
+    hr: '인사관리', admin: '조직관리',
+    main: 'MAIN', business: 'BUSINESS', community: 'COMMUNITY',
+    today: 'TODAY', clockIn: '출근', clockOut: '퇴근',
+    logout: '로그아웃', save: '저장', cancel: '취소', delete: '삭제',
+    add: '등록', search: '검색', download: '다운로드',
+    langToggle: '🌐 English'
+  },
+  en: {
+    dashboard: 'Dashboard', approval: 'Approvals', messages: 'Messages',
+    ip: 'IP Management', contract: 'Contracts', project: 'Projects', calendar: 'Calendar',
+    notice: 'Notices', resources: 'Resources', accounts: 'Contacts',
+    hr: 'HR', admin: 'Organization',
+    main: 'MAIN', business: 'BUSINESS', community: 'COMMUNITY',
+    today: 'TODAY', clockIn: 'Clock In', clockOut: 'Clock Out',
+    logout: 'Sign Out', save: 'Save', cancel: 'Cancel', delete: 'Delete',
+    add: 'Add', search: 'Search', download: 'Download',
+    langToggle: '🌐 한국어'
+  }
+};
+
+function toggleLang() {
+  currentLang = currentLang === 'ko' ? 'en' : 'ko';
+  localStorage.setItem('bs_lang', currentLang);
+  applyLang();
+}
+
+function applyLang() {
+  const t = i18n[currentLang];
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const page = item.getAttribute('data-page');
+    if (page && t[page]) {
+      const svg = item.querySelector('svg');
+      const badge = item.querySelector('.nav-badge');
+      item.textContent = '';
+      if (svg) item.appendChild(svg);
+      item.appendChild(document.createTextNode(' ' + t[page]));
+      if (badge) item.appendChild(badge);
+    }
+  });
+  document.querySelectorAll('.nav-section-title').forEach(el => {
+    const text = el.textContent.trim();
+    if (text === 'MAIN' || text === t.main) el.textContent = t.main;
+    if (text === 'BUSINESS' || text === t.business) el.textContent = t.business;
+    if (text === 'COMMUNITY' || text === t.community) el.textContent = t.community;
+    if (text === 'ADMIN') el.textContent = 'ADMIN';
+  });
+  const btn = document.getElementById('lang-toggle');
+  if (btn) btn.textContent = t.langToggle;
+}
+
+// ---- Attendance (출근/퇴근) ----
 async function clockIn() {
   const user = await getCurrentUser();
   if (!user) return;
@@ -72,36 +130,6 @@ async function clockIn() {
   const { error } = await sb.from('attendance').upsert({ user_id: user.id, date: today, clock_in: new Date().toISOString(), status: 'working' });
   if (error) { showToast('출근 실패: ' + error.message, 'error'); return; }
   showToast('출근 완료!', 'success');
-  updateAttendanceUI();
-}
-
-async function breakStart() {
-  const user = await getCurrentUser();
-  if (!user) return;
-  const today = new Date().toISOString().split('T')[0];
-
-  const { data } = await sb.from('attendance').select('*').eq('user_id', user.id).eq('date', today).single();
-  if (!data || !data.clock_in) { showToast('먼저 출근하세요.', 'error'); return; }
-  if (data.break_start && !data.break_end) { showToast('이미 휴게 중입니다.', 'error'); return; }
-
-  const { error } = await sb.from('attendance').update({ break_start: new Date().toISOString(), status: 'break' }).eq('id', data.id);
-  if (error) { showToast('휴게 시작 실패: ' + error.message, 'error'); return; }
-  showToast('휴게시간 시작!', 'info');
-  updateAttendanceUI();
-}
-
-async function breakEnd() {
-  const user = await getCurrentUser();
-  if (!user) return;
-  const today = new Date().toISOString().split('T')[0];
-
-  const { data } = await sb.from('attendance').select('*').eq('user_id', user.id).eq('date', today).single();
-  if (!data || !data.break_start) { showToast('휴게 시작을 먼저 하세요.', 'error'); return; }
-
-  const breakMins = Math.round((new Date() - new Date(data.break_start)) / 60000);
-  const { error } = await sb.from('attendance').update({ break_end: new Date().toISOString(), break_minutes: breakMins, status: 'working' }).eq('id', data.id);
-  if (error) { showToast('휴게 종료 실패: ' + error.message, 'error'); return; }
-  showToast('휴게 종료! (' + breakMins + '분)', 'success');
   updateAttendanceUI();
 }
 
@@ -140,22 +168,13 @@ async function updateAttendanceUI() {
 
   const btnIn = document.getElementById('btn-clock-in');
   const btnOut = document.getElementById('btn-clock-out');
-  const btnBreakStart = document.getElementById('btn-break-start');
-  const btnBreakEnd = document.getElementById('btn-break-end');
   const statusEl = document.getElementById('attendance-status');
   const detailEl = document.getElementById('today-status-detail');
 
   if (!btnIn) return;
 
-  // 수요일 휴무 체크
-  const dayOfWeek = new Date().getDay();
-  const wedNotice = document.getElementById('wednesday-notice');
-  if (wedNotice) wedNotice.style.display = (dayOfWeek === 3) ? 'block' : 'none';
-
   // 버튼 초기화
   btnIn.disabled = true; btnOut.disabled = true;
-  if (btnBreakStart) btnBreakStart.disabled = true;
-  if (btnBreakEnd) btnBreakEnd.disabled = true;
 
   const fmt = (iso) => iso ? new Date(iso).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }) : '-';
 
@@ -164,16 +183,9 @@ async function updateAttendanceUI() {
     btnIn.disabled = false;
     if (statusEl) statusEl.innerHTML = '<span class="status-badge off">미출근</span>';
     if (detailEl) detailEl.style.display = 'none';
-  } else if (data.status === 'break') {
-    // 휴게중
-    if (btnBreakEnd) btnBreakEnd.disabled = false;
-    if (statusEl) statusEl.innerHTML = '<span class="status-badge" style="background:var(--yellow-bg); color:#B8860B;">휴게중</span>';
-    showTodayDetail(data);
   } else if (!data.clock_out) {
     // 근무중
     btnOut.disabled = false;
-    if (btnBreakStart) btnBreakStart.disabled = !!(data.break_start && data.break_end); // 휴게 이미 했으면 비활성
-    if (!data.break_start && btnBreakStart) btnBreakStart.disabled = false;
     if (statusEl) statusEl.innerHTML = '<span class="status-badge working">근무중</span>';
     showTodayDetail(data);
   } else {
@@ -1177,15 +1189,15 @@ function getScheduleStore() {
         breakMin = 30;
       } else if (val === 'O') {
         floor = '전체';
-        startTime = '11:30';
-        endTime = '20:30';
+        startTime = '09:00';
+        endTime = '18:00';
         breakMin = 60;
       } else {
         // numeric floor
         const floorNum = parseInt(val);
         floor = floorNum + '층';
-        startTime = '11:30';
-        endTime = '20:30';
+        startTime = '09:00';
+        endTime = '18:00';
         breakMin = 60;
       }
 
@@ -1227,9 +1239,9 @@ function getScheduleStore() {
       if (val === '4h') {
         floor = '전체'; startTime = '14:00'; endTime = '18:30'; breakMin = 30;
       } else if (val === 'O') {
-        floor = '전체'; startTime = '11:30'; endTime = '20:30'; breakMin = 60;
+        floor = '전체'; startTime = '09:00'; endTime = '18:00'; breakMin = 60;
       } else {
-        floor = parseInt(val) + '층'; startTime = '11:30'; endTime = '20:30'; breakMin = 60;
+        floor = parseInt(val) + '층'; startTime = '09:00'; endTime = '18:00'; breakMin = 60;
       }
 
       defaults[dateStr].push({ name, floor, startTime, endTime, breakMin, memo: '' });
@@ -1504,9 +1516,9 @@ function saveScheduleGrid() {
       if (val === '4h') {
         floor = '전체'; startTime = '14:00'; endTime = '18:30'; breakMin = 30;
       } else if (val === 'O') {
-        floor = '전체'; startTime = '11:30'; endTime = '20:30'; breakMin = 60;
+        floor = '전체'; startTime = '09:00'; endTime = '18:00'; breakMin = 60;
       } else {
-        floor = val + '층'; startTime = '11:30'; endTime = '20:30'; breakMin = 60;
+        floor = val + '층'; startTime = '09:00'; endTime = '18:00'; breakMin = 60;
       }
 
       store[dateStr].push({ name, floor, startTime, endTime, breakMin, memo: '' });
@@ -1567,7 +1579,7 @@ function downloadScheduleExcel() {
   header2.push('');
 
   const rows = [
-    [monthStr + ' 근무스케줄 (11:30-20:30 / 4h: 14:00-18:30)'],
+    [monthStr + ' 근무스케줄 (09:00-18:00 / 4h: 14:00-18:30)'],
     [],
     header1,
     header2
@@ -1955,45 +1967,39 @@ function getProjectStore() {
     if (existing !== null) return existing;
   } catch (e) {}
 
-  // 기본 프로젝트: 전독시 팝업 (완료)
+  // 기본 프로젝트: 공연/페스티벌
   const defaults = [
     {
-      id: 'proj_jeondog',
-      name: '전지적 독자시점 POP UP 연남',
-      ip: '전지적 독자시점',
-      status: 'completed',
-      startDate: '2026-01-15',
-      endDate: '2026-02-28',
-      floor: '4층',
-      operationType: 'alba',
-      requiredAlba: 15,
-      assignedStaff: '이슬',
-      budgetInterior: 15000000,
-      budgetProduction: 2860000,
+      id: 'proj_summer_fest',
+      name: '2026 Summer Music Festival',
+      ip: 'Global Music Festival',
+      status: 'active',
+      startDate: '2026-07-15',
+      endDate: '2026-07-17',
+      floor: '',
+      operationType: 'concert',
+      requiredAlba: 20,
+      assignedStaff: '',
+      budgetInterior: 0,
+      budgetProduction: 0,
       budgetGiveaway: 0,
-      budgetOther: 67535236,
-      targetRevenue: 400000000,
-      productMemo: '전독시 전 상품 라인업 (아크릴, 키링, 인형, 장패드 등)',
-      memo: '팝업 전체 매출 4.28억, 비용 8,540만원, 실질이익 2,088만원. 4층 임대료 월 400만원 상향 제안받음.',
+      budgetOther: 0,
+      targetRevenue: 0,
+      productMemo: '',
+      memo: '3일간 야외 페스티벌',
       workers: [],
-      costs: [
-        { item: '인테리어 (목공/시트/전기)', desc: '김성기, 백승현, 백상용, 한대현, 삼성인테리어 등', amount: 15000000 },
-        { item: '쇼핑백 제작', desc: '버치사운드 쇼핑백', amount: 2860000 },
-        { item: '디자인/인쇄', desc: '신화광고, 에이프린트, 에이치제이메이커스 등', amount: 12000000 },
-        { item: '위탁/설치', desc: '김화령 위탁료, 넥스트아트, 리움 등', amount: 20000000 },
-        { item: '기타 (물류/소모품)', desc: '토빅스, 일성양행, 구성이엔아이 등', amount: 35535236 }
-      ],
-      createdAt: '2026-01-10'
+      costs: [],
+      createdAt: '2026-04-01'
     },
     {
-      id: 'proj_hwasan',
-      name: '화산귀환 팝업',
-      ip: '화산귀환',
+      id: 'proj_showcase_seoul',
+      name: 'Artist Showcase Seoul',
+      ip: 'K-Pop Showcase',
       status: 'preparing',
-      startDate: '2026-05-01',
-      endDate: '2026-05-17',
-      floor: '4층',
-      operationType: 'alba',
+      startDate: '2026-09-01',
+      endDate: '2026-09-01',
+      floor: '',
+      operationType: 'concert',
       requiredAlba: 8,
       assignedStaff: '',
       budgetInterior: 0,
@@ -2010,17 +2016,6 @@ function getProjectStore() {
   ];
 
   localStorage.setItem('bs_projects', JSON.stringify(defaults));
-
-  // 전독시 팝업 정산 데이터도 저장
-  const popupSettlement = {
-    'proj_jeondog': {
-      actualRevenue: 428126700,
-      totalCost: 85395236,
-      profit: 20875539,
-      date: '2026-03-15'
-    }
-  };
-  localStorage.setItem('bs_popup_settlement', JSON.stringify(popupSettlement));
 
   return defaults;
 }
@@ -2525,7 +2520,7 @@ function getAccountStore() {
     { name: '네이버', purpose: '', username: 'birchsound', password: 'goods151!', manager: '이슬 PM' },
     { name: '트위터(X)', purpose: '', username: 'goods_moment', password: 'Goods151!', manager: '이다비 디자이너' },
     { name: '인스타그램', purpose: '', username: 'goods_moment', password: '!o9o9o9o9', manager: '이다비 디자이너' },
-    { name: '', purpose: '매장 포스', username: '2508803575', password: '1769', manager: '' },
+    { name: '회사 공용', purpose: '업무용', username: 'birchsound_corp', password: '', manager: '' },
     { name: '네이버 스마트플레이스', purpose: '예약', username: 'forrest777', password: 'goods151!', manager: '' },
     { name: '와우프레스', purpose: '발주', username: 'birchsound', password: '17691769yys*', manager: '' },
     { name: '에이프린트', purpose: '발주', username: 'biz@birchsound.com', password: '17691769yys*', manager: '' },
@@ -2546,12 +2541,9 @@ function getContactStore() {
     { name: '육연식', nameEn: 'YUK YOEN SIK', position: 'CEO / 대표', team: 'IP사업본부', email: 'yys@birchsound.com', phone: '010-4433-8574' },
     { name: '유희정', nameEn: 'SUNNY RYU', position: 'CCO / 대표', team: 'IP사업본부', email: 'rhj@birchsound.com', phone: '010-9120-2393' },
     { name: '박정미', nameEn: 'PARK JEONG MI', position: 'Director / 본부장', team: 'IP사업본부', email: 'pjm@birchsound.com', phone: '010-6271-1005' },
-    { name: '이슬', nameEn: 'LEE SEUL', position: 'PM', team: '매장팀', email: 'is@birchsound.com', phone: '010-2869-6377' },
-    { name: '이다비', nameEn: 'LEE DA BEE', position: 'Designer', team: 'IP사업본부', email: 'idb@birchsound.com', phone: '010-3932-3263' },
-    { name: '장윤서', nameEn: 'JANG YUN SEO', position: 'Designer', team: 'IP사업본부', email: 'jys@birchsound.com', phone: '010-4612-5754' },
-    { name: '김형희', nameEn: '', position: '', team: '매장팀', email: '', phone: '010-2972-5350' },
-    { name: '문지민', nameEn: '', position: '', team: '매장팀', email: '', phone: '010-8815-0847' },
-    { name: '윤진별', nameEn: '', position: '', team: '매장팀', email: '', phone: '010-8351-4397' }
+    { name: '김민수', nameEn: '', position: '기획팀장', team: '기획', email: '', phone: '' },
+    { name: '이지현', nameEn: '', position: 'PD', team: '제작', email: '', phone: '' },
+    { name: '박서연', nameEn: '', position: '마케팅 매니저', team: '마케팅', email: '', phone: '' }
   ];
   localStorage.setItem('bs_contacts', JSON.stringify(defaults));
   return defaults;
@@ -2888,8 +2880,8 @@ const calCategoryColors = {
 };
 
 const calCategoryLabels = {
-  popup: '팝업',
-  delivery: '입고/발주',
+  popup: '공연',
+  delivery: '리허설',
   event: '이벤트/프로모션',
   meeting: '회의',
   deadline: '마감/중요',
@@ -2911,27 +2903,27 @@ function getCalendarStore() {
   const defaults = [
     {
       id: 'cal_001',
-      title: '청춘블라썸 팝업',
+      title: '2026 Summer Music Festival',
       category: 'popup',
-      startDate: '2026-04-01',
-      endDate: '2026-04-30',
+      startDate: '2026-07-15',
+      endDate: '2026-07-17',
       time: '',
-      location: '4층',
-      manager: '이슬',
-      memo: '',
+      location: '야외',
+      manager: '',
+      memo: '3일간 야외 페스티벌',
       color: '#9333EA',
       createdAt: '2026-03-25T00:00:00.000Z'
     },
     {
       id: 'cal_002',
-      title: '화산귀환 팝업',
+      title: 'Artist Showcase Seoul',
       category: 'popup',
-      startDate: '2026-05-01',
-      endDate: '2026-05-17',
-      time: '',
-      location: '4층',
+      startDate: '2026-09-01',
+      endDate: '2026-09-01',
+      time: '19:00',
+      location: '공연장',
       manager: '',
-      memo: '',
+      memo: '서울 공연',
       color: '#9333EA',
       createdAt: '2026-03-25T00:00:00.000Z'
     },
@@ -2950,7 +2942,7 @@ function getCalendarStore() {
     },
     {
       id: 'cal_004',
-      title: '제작사 미팅',
+      title: '아티스트 미팅',
       category: 'meeting',
       startDate: '2026-04-15',
       endDate: '',
@@ -3415,7 +3407,7 @@ function renderWeekView(date) {
 
     // Wednesday store closed banner
     if (isWednesday) {
-      html += '<div style="padding:6px 8px; margin-bottom:6px; border-radius:6px; font-size:11px; font-weight:600; background:var(--gray-100); color:var(--gray-500); text-align:center;">매장 휴무</div>';
+      html += '<div style="padding:6px 8px; margin-bottom:6px; border-radius:6px; font-size:11px; font-weight:600; background:var(--gray-100); color:var(--gray-500); text-align:center;">정기 휴무</div>';
     }
 
     const events = getEventsForDate(dateStr);
@@ -3669,15 +3661,10 @@ async function sendMessage() {
   loadMessages();
 }
 
-// ============================================
-// Inventory Management (재고관리)
-// ============================================
+// Inventory Management removed - not applicable for entertainment company
 
-function getInventoryStore() {
-  try {
-    var data = JSON.parse(localStorage.getItem('bs_inventory') || 'null');
-    if (data !== null) return data;
-  } catch (e) {}
+// ============================================
+// (Inventory section - HTML removed, functions kept as stubs to avoid errors)
 
   // Pre-populate sample items
   var defaults = [
