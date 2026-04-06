@@ -1196,3 +1196,50 @@ table tbody tr:last-child td {
 .tab-content.active {
   display: block;
 }
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  /* Hide sidebar, header, buttons, nav */
+  .sidebar, .sidebar-overlay, .mobile-menu-btn,
+  .page-header .header-actions, .btn, button,
+  .toast-container, .nav-badge { display: none !important; }
+
+  /* Full width content */
+  .main-content { margin-left: 0 !important; }
+  .page-body { padding: 0 !important; }
+  .page-header { position: static; border: none; padding: 16px 0; }
+  .page-header h1 { font-size: 20px; }
+
+  /* Clean cards */
+  .card { border: 1px solid #ddd; box-shadow: none; break-inside: avoid; margin-bottom: 12px; }
+  .card-header { padding: 8px 12px; }
+  .card-body { padding: 8px 12px; }
+
+  /* Table print friendly */
+  table { font-size: 11px; width: 100%; }
+  table thead th { background: #f0f0f0 !important; padding: 6px 8px; font-size: 10px; }
+  table tbody td { padding: 4px 8px; font-size: 11px; border-bottom: 1px solid #eee; }
+  .table-container { overflow: visible; max-height: none !important; }
+
+  /* Global calendar specific */
+  #global-cal-countries { display: none; }
+  #global-cal-table { min-width: 100%; }
+  #global-cal-table thead th { font-size: 9px; padding: 4px 6px; white-space: nowrap; }
+  #global-cal-table tbody td { font-size: 10px; padding: 3px 6px; }
+
+  /* Stats cards in print */
+  .stats-grid { gap: 8px; }
+  .stat-card { padding: 8px; box-shadow: none; border: 1px solid #ddd; }
+  .stat-card .stat-value { font-size: 18px; }
+
+  /* Page title for print */
+  .page-header h1::after { content: ' — BIRCH SOUND'; font-size: 12px; color: #999; font-weight: 400; }
+
+  /* Force background colors in print */
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+  /* Landscape for calendar */
+  @page { size: A4 landscape; margin: 10mm; }
+}
