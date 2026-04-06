@@ -1,0 +1,3027 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIRCH SOUND - Dashboard</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#FF3B30">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="BIRCH SOUND">
+  <link rel="apple-touch-icon" href="../logo_black.png">
+</head>
+<body>
+  <div id="toast-container" class="toast-container"></div>
+
+  <div class="app-layout">
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()" id="mobile-menu-btn">&#9776;</button>
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMobileMenu()"></div>
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="../logo_black.png" alt="BIRCH SOUND" style="height:28px;">
+        <div>
+          <h2>버치사운드</h2>
+          <span>Entertainment Management System</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">MAIN</div>
+          <a class="nav-item active" data-page="dashboard" onclick="navigateTo('dashboard')">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            대시보드
+          </a>
+          <a class="nav-item" data-page="attendance" onclick="navigateTo('attendance')">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            출퇴근
+          </a>
+          <a class="nav-item" data-page="approval" onclick="navigateTo('approval')">
+            <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            전자결재
+            <span class="nav-badge" id="nav-badge-approval" style="display:none">0</span>
+          </a>
+          <a class="nav-item" data-page="messages" onclick="navigateTo('messages')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            메시지
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">BUSINESS</div>
+          <a class="nav-item" data-page="ip" onclick="navigateTo('ip')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            IP 관리
+          </a>
+          <a class="nav-item" data-page="contract" onclick="navigateTo('contract')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            계약 관리
+          </a>
+          <a class="nav-item" data-page="project" onclick="navigateTo('project')">
+            <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+            프로젝트
+          </a>
+          <a class="nav-item" data-page="calendar" onclick="navigateTo('calendar')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            전체 일정
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">FINANCE</div>
+          <a class="nav-item" data-page="settlement" onclick="navigateTo('settlement')">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            정산
+          </a>
+          <a class="nav-item" data-page="finance" onclick="navigateTo('finance')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            회계/재무
+          </a>
+          <a class="nav-item" data-page="report" onclick="navigateTo('report')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="8" y1="15" x2="8" y2="9"/><line x1="12" y1="15" x2="12" y2="7"/><line x1="16" y1="15" x2="16" y2="11"/></svg>
+            경영 리포트
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">COMMUNITY</div>
+          <a class="nav-item" data-page="notice" onclick="navigateTo('notice')">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            공지사항
+          </a>
+          <a class="nav-item" data-page="resources" onclick="navigateTo('resources')">
+            <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+            자료실
+          </a>
+          <a class="nav-item" data-page="accounts" onclick="navigateTo('accounts')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            계정/연락처
+          </a>
+        </div>
+
+        <div class="nav-section" id="nav-admin-section">
+          <div class="nav-section-title">ADMIN</div>
+          <a class="nav-item" data-page="hr" onclick="navigateTo('hr')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+            인사관리
+          </a>
+          <a class="nav-item" data-page="admin" onclick="navigateTo('admin')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            조직관리
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-user">
+        <div class="avatar" id="user-avatar">?</div>
+        <div class="user-info">
+          <div class="user-name" id="user-display-name">로딩중...</div>
+          <div class="user-role" id="user-display-role">-</div>
+        </div>
+      </div>
+      <div style="padding:8px 12px 16px;">
+        <button onclick="logout()" style="width:100%; padding:10px; background:var(--gray-100); border:none; border-radius:var(--radius-sm); cursor:pointer; font-size:13px; font-weight:500; color:var(--gray-600); font-family:inherit; display:flex; align-items:center; justify-content:center; gap:6px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          로그아웃
+        </button>
+      </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-content">
+
+      <!-- ===== DASHBOARD ===== -->
+      <div id="section-dashboard" class="page-section">
+        <div class="page-header">
+          <div>
+            <h1>대시보드</h1>
+            <div class="header-sub" id="dash-date-display"></div>
+          </div>
+        </div>
+        <div class="page-body">
+
+          <!-- ROW 1: 오늘 내 근무 + 출퇴근 버튼 -->
+          <div class="card" style="margin-bottom:16px; border-left: 4px solid var(--primary);">
+            <div class="card-body" style="padding:16px 20px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                <div>
+                  <div style="font-size:12px; color:var(--gray-500); font-weight:600; text-transform:uppercase; letter-spacing:1px;">오늘 내 근무</div>
+                  <div id="dash-my-schedule" style="font-size:18px; font-weight:700; margin-top:4px;">로딩중...</div>
+                  <div id="dash-my-time" style="font-size:13px; color:var(--gray-500); margin-top:2px;"></div>
+                </div>
+                <div style="display:flex; gap:8px; align-items:center;">
+                  <span id="dash-work-status" class="status-badge off">미출근</span>
+                  <div id="dash-clock" style="font-size:24px; font-weight:800; font-variant-numeric:tabular-nums; color:var(--black);"></div>
+                </div>
+                <div style="display:flex; gap:8px;">
+                  <button class="btn btn-primary btn-sm" id="dash-btn-in" onclick="clockIn().then(()=>loadDashboard())">출근</button>
+                  <button class="btn btn-sm" id="dash-btn-break-s" onclick="breakStart().then(()=>loadDashboard())" disabled style="background:var(--yellow); color:var(--black); border:none; cursor:pointer; padding:8px 16px; border-radius:8px; font-weight:600; font-family:inherit;">휴게시작</button>
+                  <button class="btn btn-sm" id="dash-btn-break-e" onclick="breakEnd().then(()=>loadDashboard())" disabled style="background:#FF9500; color:white; border:none; cursor:pointer; padding:8px 16px; border-radius:8px; font-weight:600; font-family:inherit;">휴게종료</button>
+                  <button class="btn btn-secondary btn-sm" id="dash-btn-out" onclick="clockOut().then(()=>loadDashboard())" disabled>퇴근</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ROW 2: 오늘 매장 현황 (층별 누가 있는지) -->
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-body" style="padding:16px 20px;">
+              <div style="font-size:12px; color:var(--gray-500); font-weight:600; margin-bottom:8px;">오늘 매장 현황</div>
+              <div id="dash-floor-status" style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px;">
+                <div style="background:var(--gray-50); padding:10px; border-radius:8px; text-align:center;">
+                  <div style="font-size:11px; color:var(--gray-500);">1층</div>
+                  <div style="font-size:14px; font-weight:700;" id="dash-floor-1">-</div>
+                </div>
+                <div style="background:var(--gray-50); padding:10px; border-radius:8px; text-align:center;">
+                  <div style="font-size:11px; color:var(--gray-500);">2층</div>
+                  <div style="font-size:14px; font-weight:700;" id="dash-floor-2">-</div>
+                </div>
+                <div style="background:var(--gray-50); padding:10px; border-radius:8px; text-align:center;">
+                  <div style="font-size:11px; color:var(--gray-500);">3층</div>
+                  <div style="font-size:14px; font-weight:700;" id="dash-floor-3">-</div>
+                </div>
+                <div style="background:var(--gray-50); padding:10px; border-radius:8px; text-align:center;">
+                  <div style="font-size:11px; color:var(--gray-500);">4층(팝업)</div>
+                  <div style="font-size:14px; font-weight:700;" id="dash-floor-4">-</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ROW 3: 이번 주 내 스케줄 -->
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-body" style="padding:16px 20px;">
+              <div style="font-size:12px; color:var(--gray-500); font-weight:600; margin-bottom:8px;">이번 주 내 스케줄</div>
+              <div id="dash-week-schedule" style="display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center;">
+              </div>
+            </div>
+          </div>
+
+          <!-- ROW 4: 숫자 요약 (compact) -->
+          <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px;">
+            <div class="card" style="border:none; box-shadow:none; background:var(--primary-bg);">
+              <div class="card-body" style="padding:12px; text-align:center;">
+                <div style="font-size:20px; font-weight:800; color:var(--primary);" id="dash-month-days">-</div>
+                <div style="font-size:11px; color:var(--gray-500);">이번달 근무일</div>
+              </div>
+            </div>
+            <div class="card" style="border:none; box-shadow:none; background:var(--blue-bg);">
+              <div class="card-body" style="padding:12px; text-align:center;">
+                <div style="font-size:20px; font-weight:800; color:var(--blue);" id="dash-month-hours">-</div>
+                <div style="font-size:11px; color:var(--gray-500);">총 근무시간</div>
+              </div>
+            </div>
+            <div class="card" style="border:none; box-shadow:none; background:var(--yellow-bg);">
+              <div class="card-body" style="padding:12px; text-align:center;">
+                <div style="font-size:20px; font-weight:800; color:#B8860B;" id="dash-pending-approvals">-</div>
+                <div style="font-size:11px; color:var(--gray-500);">결재 대기</div>
+              </div>
+            </div>
+            <div class="card" style="border:none; box-shadow:none; background:var(--green-bg);">
+              <div class="card-body" style="padding:12px; text-align:center;">
+                <div style="font-size:20px; font-weight:800; color:var(--green);" id="dash-notices-count">-</div>
+                <div style="font-size:11px; color:var(--gray-500);">새 공지</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ROW 5: 최근 공지 + 이번 주 일정 -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div class="card">
+              <div class="card-header" style="padding:12px 16px;">
+                <h3 style="font-size:14px;">최근 공지</h3>
+                <a class="btn btn-ghost btn-sm" onclick="navigateTo('notice')" style="font-size:12px;">전체</a>
+              </div>
+              <div class="card-body" style="padding:0;">
+                <div id="dash-notices" class="notice-list" style="max-height:160px; overflow-y:auto;">
+                  <div class="empty-state" style="padding:20px;"><p style="font-size:13px;">공지 없음</p></div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header" style="padding:12px 16px;">
+                <h3 style="font-size:14px;">이번 주 일정</h3>
+                <a class="btn btn-ghost btn-sm" onclick="navigateTo('calendar')" style="font-size:12px;">전체</a>
+              </div>
+              <div class="card-body" style="padding:8px 16px; max-height:160px; overflow-y:auto;">
+                <div id="dash-week-events" style="font-size:13px; color:var(--gray-600);">일정 없음</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===== ATTENDANCE (매장 맞춤) ===== -->
+      <div id="section-attendance" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div>
+            <h1>출퇴근</h1>
+            <div class="header-sub">매장/사무실 근무 기록 및 휴게시간 관리</div>
+          </div>
+        </div>
+        <div class="page-body">
+
+          <!-- 출퇴근 + 휴게시간 -->
+          <div class="card" style="margin-bottom:24px;">
+            <div class="card-body">
+              <div class="attendance-clock">
+                <div class="time-display" id="current-time">--:--:--</div>
+                <div class="date-display" id="current-date"></div>
+
+                <!-- 오늘 상태 표시 -->
+                <div id="today-status-detail" style="margin:20px auto; max-width:500px; text-align:left; display:none;">
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                    <div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;">
+                      <div style="font-size:11px; color:var(--gray-500); font-weight:600;">출근</div>
+                      <div id="today-clock-in" style="font-size:18px; font-weight:700;">-</div>
+                    </div>
+                    <div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;">
+                      <div style="font-size:11px; color:var(--gray-500); font-weight:600;">퇴근</div>
+                      <div id="today-clock-out" style="font-size:18px; font-weight:700;">-</div>
+                    </div>
+                    <div style="background:var(--yellow-bg); padding:12px 16px; border-radius:8px;">
+                      <div style="font-size:11px; color:var(--gray-500); font-weight:600;">휴게시간</div>
+                      <div id="today-break" style="font-size:18px; font-weight:700;">-</div>
+                    </div>
+                    <div style="background:var(--green-bg); padding:12px 16px; border-radius:8px;">
+                      <div style="font-size:11px; color:var(--gray-500); font-weight:600;">실 근무시간</div>
+                      <div id="today-work-hours" style="font-size:18px; font-weight:700; color:var(--green);">-</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="attendance-buttons" style="flex-wrap:wrap;">
+                  <button class="btn-clock-in" id="btn-clock-in" onclick="clockIn()">출근하기</button>
+                  <button class="btn-clock-out" id="btn-break-start" onclick="breakStart()" disabled style="background:var(--yellow); color:var(--black);">휴게 시작</button>
+                  <button class="btn-clock-out" id="btn-break-end" onclick="breakEnd()" disabled style="background:#FF9500; color:white;">휴게 종료</button>
+                  <button class="btn-clock-out" id="btn-clock-out" onclick="clockOut()" disabled>퇴근하기</button>
+                </div>
+                <div class="attendance-status" id="attendance-status"></div>
+
+                <!-- 수요일 휴무 안내 -->
+                <div id="wednesday-notice" style="display:none; margin-top:20px; padding:16px; background:var(--red-bg); border-radius:10px; color:var(--red); font-weight:600;">
+                  오늘은 매장 정기 휴무일(수요일)입니다
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 이번 달 근무 요약 -->
+          <div class="stats-grid" style="margin-bottom:24px;">
+            <div class="stat-card">
+              <div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+              <div class="stat-value" id="month-work-days">-</div>
+              <div class="stat-label">이번 달 근무일수</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+              <div class="stat-value" id="month-work-hours">-</div>
+              <div class="stat-label">이번 달 총 근무시간</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+              <div class="stat-value" id="month-break-hours">-</div>
+              <div class="stat-label">이번 달 총 휴게시간</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+              <div class="stat-value" id="month-off-days">-</div>
+              <div class="stat-label">휴무일</div>
+            </div>
+          </div>
+
+          <!-- 근태 기록 테이블 -->
+          <div class="card">
+            <div class="card-header">
+              <h3>근태 기록</h3>
+              <select id="attendance-month-filter" onchange="loadAttendanceHistory()" style="padding:6px 12px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:13px;">
+              </select>
+            </div>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>날짜</th>
+                    <th>요일</th>
+                    <th>출근</th>
+                    <th>퇴근</th>
+                    <th>휴게시간</th>
+                    <th>실 근무</th>
+                    <th>상태</th>
+                  </tr>
+                </thead>
+                <tbody id="attendance-history">
+                  <tr><td colspan="7" class="empty-state">기록이 없습니다.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 팀 현황 (관리자용) -->
+          <div class="card" style="margin-top:24px;">
+            <div class="card-header">
+              <h3>오늘 팀 현황</h3>
+            </div>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>이름</th>
+                    <th>부서</th>
+                    <th>출근</th>
+                    <th>현재 상태</th>
+                    <th>근무시간</th>
+                  </tr>
+                </thead>
+                <tbody id="team-attendance-today">
+                  <tr><td colspan="5" class="empty-state">오늘 출근 기록이 없습니다.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===== APPROVAL ===== -->
+      <div id="section-approval" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div>
+            <h1>결재</h1>
+            <div class="header-sub">연차, 휴가, 지출, 구매 요청 등 전자결재</div>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-primary btn-sm" onclick="openModal('approval-modal')">
+              + 결재 요청
+            </button>
+          </div>
+        </div>
+        <div class="page-body">
+          <div class="card">
+            <div class="card-header">
+              <h3>결재 내역</h3>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-ghost btn-sm" onclick="loadApprovals('all')">전체</button>
+                <button class="btn btn-ghost btn-sm" onclick="loadApprovals('my')">내 결재</button>
+                <button class="btn btn-ghost btn-sm" onclick="loadApprovals('pending')">승인 대기</button>
+              </div>
+            </div>
+            <div id="approval-list">
+              <div class="empty-state"><p>결재 내역이 없습니다.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SETTLEMENT (이지포스 정산 자동화) ===== -->
+      <div id="section-settlement" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div>
+            <h1>정산</h1>
+            <div class="header-sub">수익원별 정산 관리</div>
+          </div>
+        </div>
+        <div class="page-body">
+
+          <!-- Settlement Tabs -->
+          <div class="tabs" style="margin-bottom:16px; display:flex; gap:0; border-bottom:2px solid var(--gray-200);">
+            <div class="tab-item active" onclick="switchSettleTab('publisher')" id="settle-tab-btn-publisher" style="padding:10px 20px; font-weight:600; font-size:14px; cursor:pointer; border-bottom:2px solid var(--primary); margin-bottom:-2px; color:var(--primary);">공연 수익</div>
+            <div class="tab-item" onclick="switchSettleTab('urban')" id="settle-tab-btn-urban" style="padding:10px 20px; font-weight:600; font-size:14px; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; color:var(--gray-500);">광고 수익</div>
+            <div class="tab-item" onclick="switchSettleTab('popup')" id="settle-tab-btn-popup" style="padding:10px 20px; font-weight:600; font-size:14px; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; color:var(--gray-500);">굿즈 판매</div>
+            <div class="tab-item" onclick="switchSettleTab('overseas')" id="settle-tab-btn-overseas" style="padding:10px 20px; font-weight:600; font-size:14px; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; color:var(--gray-500);">해외 수익</div>
+          </div>
+
+          <div id="settle-tab-publisher">
+          <!-- STEP 1: 엑셀 업로드 -->
+          <div id="settle-step1" class="card" style="margin-bottom:24px;">
+            <div class="card-header">
+              <h3>1. 이지포스 엑셀 업로드</h3>
+            </div>
+            <div class="card-body">
+              <div id="settle-dropzone" style="border:2px dashed var(--gray-300); border-radius:12px; padding:48px; text-align:center; cursor:pointer; transition:all 0.2s;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="1.5" style="margin-bottom:16px;"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <p style="font-size:16px; font-weight:600; color:var(--gray-700); margin-bottom:4px;">이지포스 엑셀 파일을 드래그하거나 클릭하세요</p>
+                <p style="font-size:13px; color:var(--gray-400);">특정기간 상품별 데이터 (.xlsx)</p>
+                <input type="file" id="settle-file-input" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleSettleFile(this.files[0])">
+              </div>
+              <div id="settle-file-info" style="display:none; margin-top:16px; padding:12px 16px; background:var(--green-bg); border-radius:8px; font-size:14px; color:var(--green);">
+                <span id="settle-file-name"></span> 로드 완료
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 2: 정산 설정 -->
+          <div id="settle-step2" style="display:none; margin-bottom:24px;">
+            <div class="card" style="margin-bottom:24px;">
+              <div class="card-header">
+                <h3>2. 정산 설정</h3>
+              </div>
+              <div class="card-body">
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-bottom:20px;">
+                  <div class="form-group">
+                    <label>정산 월</label>
+                    <input type="month" id="settle-month" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                  </div>
+                  <div class="form-group">
+                    <label>카드 결제대행 수수료 (%)</label>
+                    <input type="number" id="settle-card-fee" value="2.5" step="0.1" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                  </div>
+                  <div class="form-group">
+                    <label>데이터 유형</label>
+                    <select id="settle-data-type" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                      <option value="monthly">월간 상품별 (현금/카드 미구분)</option>
+                      <option value="daily">일별 데이터 (현금/카드 구분)</option>
+                    </select>
+                  </div>
+                </div>
+                <button class="btn btn-primary" onclick="runSettlement()" style="width:100%;">정산 계산 실행</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3: 결과 -->
+          <div id="settle-step3" style="display:none;">
+            <!-- 전체 요약 -->
+            <div class="stats-grid" style="margin-bottom:24px;">
+              <div class="stat-card">
+                <div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+                <div class="stat-value" id="settle-total-sales">0</div>
+                <div class="stat-label">총 매출</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+                <div class="stat-value" id="settle-card-sales">0</div>
+                <div class="stat-label">카드 매출</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+                <div class="stat-value" id="settle-cash-sales">0</div>
+                <div class="stat-label">현금 매출</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                <div class="stat-value" id="settle-publisher-count">0</div>
+                <div class="stat-label">제작사 수</div>
+              </div>
+            </div>
+
+            <!-- 제작사별 정산 테이블 -->
+            <div class="card">
+              <div class="card-header">
+                <h3>제작사별 정산 결과</h3>
+                <button class="btn btn-primary btn-sm" onclick="downloadAllSettlements()">전체 정산서 다운로드 (Excel)</button>
+              </div>
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>제작사</th>
+                      <th>총매출</th>
+                      <th>순매출</th>
+                      <th>카드매출</th>
+                      <th>현금매출</th>
+                      <th>수수료 차감후</th>
+                      <th>제작사 몫</th>
+                      <th>버치사운드 몫</th>
+                      <th>요율</th>
+                      <th>정산서</th>
+                    </tr>
+                  </thead>
+                  <tbody id="settle-result-table">
+                  </tbody>
+                  <tfoot>
+                    <tr style="font-weight:800; background:var(--gray-50);">
+                      <td>합계</td>
+                      <td id="settle-foot-total">-</td>
+                      <td id="settle-foot-net">-</td>
+                      <td id="settle-foot-card">-</td>
+                      <td id="settle-foot-cash">-</td>
+                      <td id="settle-foot-after">-</td>
+                      <td id="settle-foot-publisher">-</td>
+                      <td id="settle-foot-gm">-</td>
+                      <td>-</td>
+                      <td></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+          </div><!-- /settle-tab-publisher -->
+
+          <!-- Urban Play Settlement Tab -->
+          <div id="settle-tab-urban" style="display:none;">
+            <div class="card" style="margin-bottom:24px;">
+              <div class="card-header">
+                <h3>어반플레이 정산</h3>
+                <span style="font-size:12px; color:var(--gray-400);">매장 수익분배 기반 월간 정산</span>
+              </div>
+              <div class="card-body">
+                <div class="form-group" style="max-width:240px; margin-bottom:20px;">
+                  <label>정산 월</label>
+                  <input type="month" id="urban-settle-month" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;" onchange="calculateUrbanSettlement()">
+                </div>
+
+                <!-- 수입 -->
+                <div style="background:var(--green-bg); border-radius:10px; padding:16px 20px; margin-bottom:16px;">
+                  <div style="font-size:13px; font-weight:700; color:var(--green); margin-bottom:12px;">수입</div>
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                    <div class="form-group">
+                      <label style="font-size:12px;">1~3층 판매매출 (GM 25% 몫)</label>
+                      <div style="display:flex; gap:4px;">
+                        <input type="number" id="urban-store-sales" placeholder="0" oninput="calculateUrbanSettlement()" style="flex:1; padding:8px 10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                        <button class="btn btn-ghost btn-sm" onclick="loadStoreSalesFromSettlement()" title="제작사 정산에서 가져오기" style="padding:8px; font-size:11px; white-space:nowrap;">가져오기</button>
+                      </div>
+                      <div style="font-size:11px; color:var(--gray-400); margin-top:4px;">※ 제작사 정산 완료 후 [가져오기] 클릭하면 자동 반영</div>
+                    </div>
+                    <div class="form-group">
+                      <label style="font-size:12px;">가챠 매출 (22% 수수료)</label>
+                      <div style="display:flex; gap:4px;">
+                        <input type="number" id="urban-gacha-sales" placeholder="0" oninput="calculateUrbanSettlement()" style="flex:1; padding:8px 10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                        <button class="btn btn-ghost btn-sm" onclick="document.getElementById('gacha-file-input').click()" title="가챠 엑셀 업로드" style="padding:8px; font-size:11px; white-space:nowrap;">엑셀</button>
+                        <input type="file" id="gacha-file-input" accept=".xlsx,.xls" style="display:none" onchange="handleGachaUpload(this.files[0])">
+                      </div>
+                      <div style="font-size:11px; color:var(--gray-400); margin-top:4px;">※ 가챠 엑셀 업로드 또는 수기 입력 (22% 수수료 자동 계산)</div>
+                    </div>
+                  </div>
+                  <div style="display:flex; justify-content:flex-end; align-items:center; gap:8px; margin-top:8px; padding-top:8px; border-top:1px solid rgba(0,0,0,0.08);">
+                    <span style="font-size:13px; font-weight:600; color:var(--gray-600);">매출 합계:</span>
+                    <span id="urban-total-revenue" style="font-size:16px; font-weight:800; color:var(--green);">₩0</span>
+                  </div>
+                </div>
+
+                <!-- 비용 -->
+                <div style="background:var(--red-bg); border-radius:10px; padding:16px 20px; margin-bottom:16px;">
+                  <div style="font-size:13px; font-weight:700; color:var(--red); margin-bottom:12px;">비용</div>
+                  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+                    <div class="form-group">
+                      <label style="font-size:12px;">매장직 인건비</label>
+                      <div style="display:flex; gap:4px;">
+                        <input type="number" id="urban-labor-cost" placeholder="0" oninput="calculateUrbanSettlement()" style="flex:1; padding:8px 10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                        <button class="btn btn-ghost btn-sm" onclick="loadHRLaborCost()" title="인사관리에서 가져오기" style="padding:8px; font-size:11px; white-space:nowrap;">가져오기</button>
+                      </div>
+                      <div style="font-size:11px; color:var(--gray-400); margin-top:4px;">※ 인사관리에 급여 등록 후 [가져오기] 클릭</div>
+                    </div>
+                    <div class="form-group">
+                      <label style="font-size:12px;">소모품비</label>
+                      <input type="number" id="urban-supplies-cost" placeholder="0" oninput="calculateUrbanSettlement()" style="width:100%; padding:8px 10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                      <div style="font-size:11px; color:var(--gray-400); margin-top:4px;">※ 카드 영수증 합산 금액 수기 입력</div>
+                    </div>
+                    <div class="form-group">
+                      <label style="font-size:12px;">관리비 (전기/수도/CCTV 등)</label>
+                      <input type="number" id="urban-mgmt-cost" placeholder="0" oninput="calculateUrbanSettlement()" style="width:100%; padding:8px 10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                      <div style="font-size:11px; color:var(--gray-400); margin-top:4px;">※ 월별 관리비 수기 입력</div>
+                    </div>
+                  </div>
+                  <div style="display:flex; justify-content:flex-end; align-items:center; gap:8px; margin-top:8px; padding-top:8px; border-top:1px solid rgba(0,0,0,0.08);">
+                    <span style="font-size:13px; font-weight:600; color:var(--gray-600);">비용 합계:</span>
+                    <span id="urban-total-cost" style="font-size:16px; font-weight:800; color:var(--red);">₩0</span>
+                  </div>
+                </div>
+
+                <!-- 정산 결과 -->
+                <div style="background:var(--gray-50); border-radius:10px; padding:16px 20px;">
+                  <div style="font-size:13px; font-weight:700; color:var(--gray-700); margin-bottom:12px;">정산</div>
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px 24px; font-size:14px;">
+                    <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--gray-200);">
+                      <span style="color:var(--gray-600);">비용보전 (비용의 50%)</span>
+                      <span id="urban-cost-share" style="font-weight:700;">₩0</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--gray-200);">
+                      <span style="color:var(--gray-600);">순익 (매출 - 비용 + 비용보전)</span>
+                      <span id="urban-net-profit" style="font-weight:700;">₩0</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--gray-200);">
+                      <span style="color:var(--blue);">어반플레이 몫 (50%)</span>
+                      <span id="urban-urban-share" style="font-weight:700; color:var(--blue);">₩0</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--gray-200);">
+                      <span style="color:var(--primary);">버치사운드 몫 (50%)</span>
+                      <span id="urban-gm-share" style="font-weight:700; color:var(--primary);">₩0</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--gray-200);">
+                      <span style="color:var(--gray-600);">3층 임대료</span>
+                      <span id="urban-rent" style="font-weight:700;">₩2,500,000</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--gray-200);">
+                      <span style="color:var(--gray-600);">관리비</span>
+                      <span id="urban-mgmt-display" style="font-weight:700;">₩0</span>
+                    </div>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; padding-top:12px; border-top:2px solid var(--gray-300);">
+                    <span style="font-size:16px; font-weight:800; color:var(--gray-700);">총 지급액 (VAT 포함)</span>
+                    <span id="urban-total-payment" style="font-size:22px; font-weight:800; color:var(--red);">₩0</span>
+                  </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="downloadUrbanSettlement()" style="width:100%; margin-top:20px;">정산서 다운로드 (Excel)</button>
+              </div>
+            </div>
+          </div><!-- /settle-tab-urban -->
+
+          <!-- Popup Settlement Tab -->
+          <div id="settle-tab-popup" style="display:none;">
+            <div class="card">
+              <div class="card-header">
+                <h3>팝업 프로젝트별 정산</h3>
+              </div>
+              <div class="card-body">
+                <!-- Project selector -->
+                <div class="form-group" style="max-width:300px; margin-bottom:20px;">
+                  <label>프로젝트 선택</label>
+                  <select id="popup-settle-project" onchange="loadPopupSettlement()" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                    <option value="">프로젝트를 선택하세요</option>
+                  </select>
+                </div>
+
+                <div id="popup-settle-content" style="display:none;">
+                  <!-- Revenue -->
+                  <div style="background:var(--green-bg); border-radius:10px; padding:16px 20px; margin-bottom:16px;">
+                    <div style="font-size:13px; font-weight:700; color:var(--green); margin-bottom:12px;">실제 매출</div>
+                    <div class="form-group">
+                      <label style="font-size:12px;">팝업 매출액</label>
+                      <input type="number" id="popup-actual-revenue" placeholder="0" oninput="calculatePopupSettlement()" style="width:100%; padding:8px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+                      <div style="font-size:11px; color:var(--gray-400); margin-top:4px;">※ 이지포스에서 해당 기간 매출 확인 후 입력</div>
+                    </div>
+                  </div>
+
+                  <!-- Costs from project -->
+                  <div style="background:var(--red-bg); border-radius:10px; padding:16px 20px; margin-bottom:16px;">
+                    <div style="font-size:13px; font-weight:700; color:var(--red); margin-bottom:12px;">비용 (프로젝트에서 가져옴)</div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                      <div>
+                        <div style="font-size:12px; color:var(--gray-500);">인테리어/디자인</div>
+                        <div style="font-size:16px; font-weight:700;" id="popup-cost-interior">₩0</div>
+                      </div>
+                      <div>
+                        <div style="font-size:12px; color:var(--gray-500);">굿즈 제작</div>
+                        <div style="font-size:16px; font-weight:700;" id="popup-cost-production">₩0</div>
+                      </div>
+                      <div>
+                        <div style="font-size:12px; color:var(--gray-500);">증정 굿즈</div>
+                        <div style="font-size:16px; font-weight:700;" id="popup-cost-giveaway">₩0</div>
+                      </div>
+                      <div>
+                        <div style="font-size:12px; color:var(--gray-500);">알바 인건비 (예상)</div>
+                        <div style="font-size:16px; font-weight:700;" id="popup-cost-labor">₩0</div>
+                      </div>
+                    </div>
+                    <div style="display:flex; justify-content:flex-end; margin-top:12px; padding-top:8px; border-top:1px solid rgba(0,0,0,0.08);">
+                      <span style="font-size:13px; color:var(--gray-600);">비용 합계: </span>
+                      <span style="font-size:16px; font-weight:800; color:var(--red); margin-left:8px;" id="popup-cost-total">₩0</span>
+                    </div>
+                  </div>
+
+                  <!-- Result -->
+                  <div style="background:var(--gray-50); border-radius:10px; padding:16px 20px; margin-bottom:16px;">
+                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; text-align:center;">
+                      <div>
+                        <div style="font-size:12px; color:var(--gray-500);">매출</div>
+                        <div style="font-size:20px; font-weight:800; color:var(--green);" id="popup-result-revenue">₩0</div>
+                      </div>
+                      <div>
+                        <div style="font-size:12px; color:var(--gray-500);">비용</div>
+                        <div style="font-size:20px; font-weight:800; color:var(--red);" id="popup-result-cost">₩0</div>
+                      </div>
+                      <div>
+                        <div style="font-size:12px; color:var(--gray-500);">순익</div>
+                        <div style="font-size:20px; font-weight:800; color:var(--primary);" id="popup-result-profit">₩0</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button class="btn btn-primary" onclick="downloadPopupSettlement()" style="width:100%;">팝업 정산서 다운로드 (Excel)</button>
+                </div>
+              </div>
+            </div>
+          </div><!-- /settle-tab-popup -->
+
+          <div id="settle-tab-overseas" style="display:none;">
+            <div class="card">
+              <div class="card-header"><h3>해외 수익 정산</h3></div>
+              <div class="card-body">
+                <div class="table-container">
+                  <table>
+                    <thead><tr><th>구분</th><th>파트너</th><th>기간</th><th>매출</th><th>수수료</th><th>정산액</th><th>상태</th></tr></thead>
+                    <tbody id="overseas-settle-body"><tr><td colspan="7" class="empty-state">해외 수익 정산 데이터가 없습니다.</td></tr></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div><!-- /settle-tab-overseas -->
+
+        </div>
+      </div>
+
+      <!-- ===== INVENTORY (재고관리) ===== -->
+      <div id="section-inventory" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div>
+            <h1>재고관리</h1>
+            <div class="header-sub">입고/재고 현황 및 발주 요청</div>
+          </div>
+        </div>
+        <div class="page-body">
+
+          <!-- Inventory Tabs -->
+          <div style="display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;">
+            <button class="btn btn-ghost btn-sm inv-tab-btn" onclick="switchInventoryTab('stock', this)" style="background:var(--primary); color:white;">재고 현황</button>
+            <button class="btn btn-ghost btn-sm inv-tab-btn" onclick="switchInventoryTab('receiving', this)">입고 관리</button>
+            <button class="btn btn-ghost btn-sm inv-tab-btn" onclick="switchInventoryTab('orders', this)">발주 요청</button>
+          </div>
+
+          <!-- Tab 1: 재고 현황 -->
+          <div id="inv-tab-stock">
+            <div class="card">
+              <div class="card-header">
+                <h3>재고 현황</h3>
+                <button class="btn btn-primary btn-sm" onclick="openModal('inventory-modal')">+ 상품 등록</button>
+              </div>
+              <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; padding:0 20px;">
+                <button class="btn btn-primary btn-sm" onclick="document.getElementById('inv-file-input').click()">
+                  이지포스 재고 엑셀 업로드
+                </button>
+                <button class="btn btn-secondary btn-sm" onclick="downloadInventoryExcel()">
+                  재고 현황 엑셀 다운로드
+                </button>
+                <input type="file" id="inv-file-input" accept=".xlsx,.xls" style="display:none" onchange="handleInventoryUpload(this.files[0])">
+                <span id="inv-upload-status" style="font-size:13px; color:var(--gray-500); align-self:center;"></span>
+              </div>
+              <!-- 제작사별 요약 -->
+              <div id="inv-publisher-summary" style="padding:0 20px; margin-bottom:16px;"></div>
+              <div style="padding:0 20px;">
+                <input type="text" id="inv-search" placeholder="상품명 또는 제작사 검색..." oninput="filterInventory()" style="width:100%; padding:10px; border:1px solid var(--gray-200); border-radius:8px; margin-bottom:12px; font-family:inherit; font-size:14px; box-sizing:border-box;">
+              </div>
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>제작사</th>
+                      <th>상품명</th>
+                      <th>현재 재고</th>
+                      <th>최소 재고</th>
+                      <th>상태</th>
+                      <th>판매가</th>
+                      <th>최종 업데이트</th>
+                      <th>관리</th>
+                    </tr>
+                  </thead>
+                  <tbody id="inventory-stock-list">
+                    <tr><td colspan="8" class="empty-state">등록된 상품이 없습니다.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div id="inv-show-more-wrap" style="text-align:center; padding:12px; display:none;">
+                <button class="btn btn-ghost btn-sm" id="inv-show-more-btn" onclick="showMoreInventory()" style="font-size:13px;">더보기</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2: 입고 관리 -->
+          <div id="inv-tab-receiving" style="display:none;">
+            <div class="card">
+              <div class="card-header">
+                <h3>입고 관리</h3>
+                <button class="btn btn-primary btn-sm" onclick="openModal('receiving-modal')">+ 입고 등록</button>
+              </div>
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>입고일</th>
+                      <th>제작사</th>
+                      <th>상품명</th>
+                      <th>예정수량</th>
+                      <th>실입고수량</th>
+                      <th>차이</th>
+                      <th>상태</th>
+                      <th>확인자</th>
+                      <th>관리</th>
+                    </tr>
+                  </thead>
+                  <tbody id="inventory-receiving-list">
+                    <tr><td colspan="9" class="empty-state">입고 기록이 없습니다.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 3: 발주 요청 -->
+          <div id="inv-tab-orders" style="display:none;">
+            <div class="card">
+              <div class="card-header">
+                <h3>발주 요청</h3>
+                <button class="btn btn-primary btn-sm" onclick="openModal('order-modal')">+ 발주 요청</button>
+              </div>
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>요청일</th>
+                      <th>제작사</th>
+                      <th>상품명</th>
+                      <th>요청수량</th>
+                      <th>상태</th>
+                      <th>요청자</th>
+                      <th>관리</th>
+                    </tr>
+                  </thead>
+                  <tbody id="inventory-order-list">
+                    <tr><td colspan="7" class="empty-state">발주 요청이 없습니다.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===== NOTICE ===== -->
+      <div id="section-notice" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div>
+            <h1>공지사항</h1>
+            <div class="header-sub">팀 공지 및 소식</div>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-primary btn-sm" onclick="openModal('notice-modal')">
+              + 공지 작성
+            </button>
+          </div>
+        </div>
+        <div class="page-body">
+          <div class="card">
+            <div id="notice-list" class="notice-list">
+              <div class="empty-state"><p>등록된 공지사항이 없습니다.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== MESSAGES (메시지) ===== -->
+      <div id="section-messages" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div>
+            <h1>메시지</h1>
+            <div class="header-sub">직원 간 메시지</div>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-primary btn-sm" onclick="openMessageModal()">
+              + 새 메시지
+            </button>
+          </div>
+        </div>
+        <div class="page-body">
+          <div class="card">
+            <div class="card-body" id="message-list" style="min-height:200px;">
+              <div class="empty-state"><p>메시지가 없습니다.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== RESOURCES (자료실) ===== -->
+      <div id="section-resources" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div>
+            <h1>자료실</h1>
+            <div class="header-sub">문서 양식, 회의록, 경영자료 링크 관리</div>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-primary btn-sm" onclick="openModal('resource-modal')">
+              + 자료 등록
+            </button>
+          </div>
+        </div>
+        <div class="page-body">
+          <!-- 카테고리 탭 -->
+          <div style="display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;">
+            <button class="btn btn-ghost btn-sm resource-tab" data-category="전체" onclick="filterResources('전체', this)" style="background:var(--primary); color:white;">전체</button>
+            <button class="btn btn-ghost btn-sm resource-tab" data-category="양식" onclick="filterResources('양식', this)">양식</button>
+            <button class="btn btn-ghost btn-sm resource-tab" data-category="회의록" onclick="filterResources('회의록', this)">회의록</button>
+            <button class="btn btn-ghost btn-sm resource-tab" data-category="경영자료" onclick="filterResources('경영자료', this)">경영자료</button>
+            <button class="btn btn-ghost btn-sm resource-tab" data-category="기타" onclick="filterResources('기타', this)">기타</button>
+          </div>
+
+          <!-- 문서 목록 -->
+          <div class="card">
+            <div class="card-header">
+              <h3>문서 목록</h3>
+              <span style="font-size:12px; color:var(--gray-400);" id="resource-count">0건</span>
+            </div>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>제목</th>
+                    <th>카테고리</th>
+                    <th>등록일</th>
+                    <th>링크</th>
+                    <th>삭제</th>
+                  </tr>
+                </thead>
+                <tbody id="resource-list">
+                  <tr><td colspan="5" class="empty-state">등록된 자료가 없습니다.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== ADMIN (조직관리) ===== -->
+      <div id="section-admin" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div>
+            <h1>조직관리</h1>
+            <div class="header-sub">팀원 현황 및 권한 관리</div>
+          </div>
+        </div>
+        <div class="page-body">
+          <!-- Team Overview -->
+          <div class="stats-grid" style="margin-bottom:24px;">
+            <div class="stat-card">
+              <div class="stat-icon red">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              </div>
+              <div class="stat-value" id="stat-total-members">-</div>
+              <div class="stat-label">전체 인원</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="stat-value" id="stat-today-working">-</div>
+              <div class="stat-label">오늘 출근</div>
+            </div>
+          </div>
+
+          <!-- Members Table -->
+          <div class="card">
+            <div class="card-header">
+              <h3>팀원 목록</h3>
+            </div>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>이름</th>
+                    <th>부서</th>
+                    <th>이메일</th>
+                    <th>권한</th>
+                    <th>오늘 출근</th>
+                    <th>관리</th>
+                  </tr>
+                </thead>
+                <tbody id="members-list">
+                  <tr><td colspan="6" class="empty-state">팀원 정보를 불러오는 중...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SCHEDULE (근무 스케줄) ===== -->
+      <div id="section-schedule" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div>
+            <h1>근무스케줄</h1>
+            <div class="header-sub">매장 월별 근무 배정표 — 셀 클릭으로 배정 (1~4층/O/4h/휴무/연차)</div>
+          </div>
+          <div class="header-actions" style="display:flex; gap:8px; flex-wrap:wrap;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button class="btn btn-ghost btn-sm" onclick="prevMonth()">&#9664;</button>
+              <span id="schedule-month-label" style="font-size:16px; font-weight:700; min-width:120px; text-align:center;"></span>
+              <button class="btn btn-ghost btn-sm" onclick="nextMonth()">&#9654;</button>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="downloadScheduleExcel()">엑셀 다운로드</button>
+          </div>
+        </div>
+        <div class="page-body">
+          <!-- Legend -->
+          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:12px; font-size:12px;">
+            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:rgba(37,99,235,0.15); display:inline-block; text-align:center; font-size:10px; font-weight:700; color:#2563EB;">1</span> 1층</span>
+            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:rgba(22,163,74,0.15); display:inline-block; text-align:center; font-size:10px; font-weight:700; color:#16A34A;">2</span> 2층</span>
+            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:rgba(234,88,12,0.15); display:inline-block; text-align:center; font-size:10px; font-weight:700; color:#EA580C;">3</span> 3층</span>
+            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:rgba(147,51,234,0.15); display:inline-block; text-align:center; font-size:10px; font-weight:700; color:#9333EA;">4</span> 4층</span>
+            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:rgba(46,196,182,0.15); display:inline-block; text-align:center; font-size:10px; font-weight:700; color:var(--primary);">O</span> 전체</span>
+            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:#FFFBEB; display:inline-block; text-align:center; font-size:10px; font-weight:700; color:#B8860B;">4h</span> 반일</span>
+            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:#F5F5F5; display:inline-block; text-align:center; font-size:10px; color:#999;">휴</span> 휴무</span>
+            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:#FEF2F2; display:inline-block; text-align:center; font-size:10px; color:#DC2626;">연</span> 연차</span>
+          </div>
+
+          <!-- Schedule Grid -->
+          <div class="card" style="margin-bottom:16px;">
+            <div id="schedule-grid-container" style="overflow-x:auto; -webkit-overflow-scrolling:touch;"></div>
+          </div>
+
+          <!-- 주간 근무시간 현황 -->
+          <div class="card">
+            <div class="card-header">
+              <h3>주간 근무시간 현황</h3>
+              <span style="font-size:12px; color:var(--gray-400);">근로기준법 기반 자동 계산</span>
+            </div>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>이름</th>
+                    <th>이번 주</th>
+                    <th>이번 달</th>
+                    <th>시급</th>
+                    <th>예상 월급</th>
+                    <th>상태</th>
+                  </tr>
+                </thead>
+                <tbody id="schedule-hours-table">
+                  <tr><td colspan="6" class="empty-state">스케줄 데이터를 불러오는 중...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===== HR (인사관리) ===== -->
+      <div id="section-hr" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div>
+            <h1>인사관리</h1>
+            <div class="header-sub">직원 정보, 연차, 급여 관리</div>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-primary btn-sm" onclick="openHRModal()">
+              + 직원 등록
+            </button>
+          </div>
+        </div>
+        <div class="page-body">
+
+          <!-- 이번 달 급여 요약 -->
+          <div class="stats-grid" style="margin-bottom:24px;">
+            <div class="stat-card">
+              <div class="stat-icon red">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+              </div>
+              <div class="stat-value" id="hr-stat-total-pay">-</div>
+              <div class="stat-label">총 인건비</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              </div>
+              <div class="stat-value" id="hr-stat-salary-pay">-</div>
+              <div class="stat-label">정규직 급여</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon yellow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="stat-value" id="hr-stat-hourly-pay">-</div>
+              <div class="stat-label">알바 급여</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="stat-value" id="hr-stat-avg-hours">-</div>
+              <div class="stat-label">평균 근무시간</div>
+            </div>
+          </div>
+
+          <!-- 직원 목록 -->
+          <div class="card" style="margin-bottom:24px;">
+            <div class="card-header">
+              <h3>직원 목록</h3>
+            </div>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>이름</th>
+                    <th>부서</th>
+                    <th>직급</th>
+                    <th>계약형태</th>
+                    <th>시급/월급</th>
+                    <th>입사일</th>
+                    <th>연락처</th>
+                    <th>상태</th>
+                    <th>관리</th>
+                  </tr>
+                </thead>
+                <tbody id="hr-employee-list">
+                  <tr><td colspan="9" class="empty-state">직원 정보를 불러오는 중...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 연차 관리 -->
+          <div class="card">
+            <div class="card-header">
+              <h3>연차 관리</h3>
+              <span style="font-size:12px; color:var(--gray-400);">출퇴근 데이터 기반 요약</span>
+            </div>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>이름</th>
+                    <th>총 연차</th>
+                    <th>사용</th>
+                    <th>잔여</th>
+                    <th>상태</th>
+                  </tr>
+                </thead>
+                <tbody id="hr-leave-list">
+                  <tr><td colspan="5" class="empty-state">연차 정보가 없습니다.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 급여명세서 -->
+          <div class="card" style="margin-top:16px;">
+            <div class="card-header">
+              <h3>급여명세서</h3>
+              <div style="display:flex; gap:8px;">
+                <select id="payslip-month" style="padding:6px 12px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:13px;">
+                  <!-- filled by JS -->
+                </select>
+                <button class="btn btn-primary btn-sm" onclick="generateAllPayslips()">전체 급여명세서 다운로드</button>
+              </div>
+            </div>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>이름</th>
+                    <th>부서</th>
+                    <th>계약형태</th>
+                    <th>세전 급여</th>
+                    <th>4대보험</th>
+                    <th>세후 지급액</th>
+                    <th>급여명세서</th>
+                  </tr>
+                </thead>
+                <tbody id="payslip-table"></tbody>
+                <tfoot>
+                  <tr style="font-weight:800; background:var(--gray-50);">
+                    <td colspan="3">합계 (총 인건비)</td>
+                    <td id="payslip-total-gross">-</td>
+                    <td id="payslip-total-deduct">-</td>
+                    <td id="payslip-total-net">-</td>
+                    <td></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===== PROJECT (프로젝트 관리) ===== -->
+      <div id="section-project" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div>
+            <h1>프로젝트</h1>
+            <div class="header-sub">팝업/이벤트 프로젝트 관리</div>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-primary btn-sm" onclick="openProjectModal()">
+              + 프로젝트 생성
+            </button>
+          </div>
+        </div>
+        <div class="page-body">
+
+          <!-- Stats -->
+          <div class="stats-grid" style="margin-bottom:24px;">
+            <div class="stat-card">
+              <div class="stat-icon green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="stat-value" id="proj-stat-active">0</div>
+              <div class="stat-label">진행중 프로젝트</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+              </div>
+              <div class="stat-value" id="proj-stat-budget">0원</div>
+              <div class="stat-label">진행중 계획 비용</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon yellow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              </div>
+              <div class="stat-value" id="proj-stat-workers">0명</div>
+              <div class="stat-label">투입 알바 수</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon red">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+              </div>
+              <div class="stat-value" id="proj-stat-completed">0</div>
+              <div class="stat-label">완료 프로젝트</div>
+            </div>
+          </div>
+
+          <!-- Project List -->
+          <div id="project-list">
+            <div class="empty-state"><p>등록된 프로젝트가 없습니다.</p></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===== ACCOUNTS (계정/연락처 관리) ===== -->
+      <div id="section-accounts" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div>
+            <h1>계정/연락처</h1>
+            <div class="header-sub">공용 계정 및 비상연락망 관리</div>
+          </div>
+        </div>
+        <div class="page-body">
+          <!-- Tabs -->
+          <div style="display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;">
+            <button class="btn btn-ghost btn-sm accounts-tab-btn" onclick="switchAccountsTab('shared-accounts', this)" style="background:var(--primary); color:white;">공용 계정</button>
+            <button class="btn btn-ghost btn-sm accounts-tab-btn" onclick="switchAccountsTab('emergency-contacts', this)">비상연락망</button>
+            <button class="btn btn-ghost btn-sm accounts-tab-btn" onclick="switchAccountsTab('parttime-contacts', this)">파트타임 연락처</button>
+          </div>
+
+          <!-- Tab 1: 공용 계정 -->
+          <div id="accounts-tab-shared-accounts">
+            <div class="card">
+              <div class="card-header">
+                <h3>공용 계정 목록</h3>
+                <button class="btn btn-primary btn-sm" onclick="openAccountModal()">+ 계정 추가</button>
+              </div>
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>계정명</th>
+                      <th>용도</th>
+                      <th>아이디</th>
+                      <th>비밀번호</th>
+                      <th>담당자</th>
+                      <th>관리</th>
+                    </tr>
+                  </thead>
+                  <tbody id="accounts-list">
+                    <tr><td colspan="6" class="empty-state">등록된 계정이 없습니다.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2: 비상연락망 -->
+          <div id="accounts-tab-emergency-contacts" style="display:none;">
+            <div class="card">
+              <div class="card-header">
+                <h3>비상연락망</h3>
+                <button class="btn btn-primary btn-sm" onclick="openContactModal()">+ 연락처 추가</button>
+              </div>
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>이름</th>
+                      <th>영문명</th>
+                      <th>직급</th>
+                      <th>팀</th>
+                      <th>이메일</th>
+                      <th>연락처</th>
+                      <th>관리</th>
+                    </tr>
+                  </thead>
+                  <tbody id="contacts-list">
+                    <tr><td colspan="7" class="empty-state">등록된 연락처가 없습니다.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 3: 파트타임 연락처 -->
+          <div id="accounts-tab-parttime-contacts" style="display:none;">
+            <div class="card">
+              <div class="card-header">
+                <h3>파트타임 연락처</h3>
+                <button class="btn btn-primary btn-sm" onclick="openParttimeModal()">+ 연락처 추가</button>
+              </div>
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>이름</th>
+                      <th>연락처</th>
+                      <th>비고</th>
+                      <th>관리</th>
+                    </tr>
+                  </thead>
+                  <tbody id="parttime-contacts-list">
+                    <tr><td colspan="4" class="empty-state">등록된 연락처가 없습니다.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===== CALENDAR (전체 일정) ===== -->
+      <div id="section-calendar" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div>
+            <h1>전체 일정</h1>
+            <div class="header-sub">매장/사무실 공유 일정표</div>
+          </div>
+          <div class="header-actions">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div id="cal-nav-year" style="display:none; align-items:center; gap:8px;">
+                <button class="btn btn-ghost btn-sm" onclick="prevCalYear()" style="padding:6px 12px; font-size:18px;">&lt;</button>
+                <span id="cal-year-label" style="font-size:16px; font-weight:700; min-width:100px; text-align:center;">2026년</span>
+                <button class="btn btn-ghost btn-sm" onclick="nextCalYear()" style="padding:6px 12px; font-size:18px;">&gt;</button>
+              </div>
+              <div id="cal-nav-month" style="display:flex; align-items:center; gap:8px;">
+                <button class="btn btn-ghost btn-sm" onclick="prevCalMonth()" style="padding:6px 12px; font-size:18px;">&lt;</button>
+                <span id="cal-month-label" style="font-size:16px; font-weight:700; min-width:140px; text-align:center;">2026년 04월</span>
+                <button class="btn btn-ghost btn-sm" onclick="nextCalMonth()" style="padding:6px 12px; font-size:18px;">&gt;</button>
+              </div>
+              <div id="cal-nav-week" style="display:none; align-items:center; gap:8px;">
+                <button class="btn btn-ghost btn-sm" onclick="prevCalWeek()" style="padding:6px 12px; font-size:18px;">&lt;</button>
+                <span id="cal-week-label" style="font-size:16px; font-weight:700; min-width:180px; text-align:center;">2026년 04월 1주</span>
+                <button class="btn btn-ghost btn-sm" onclick="nextCalWeek()" style="padding:6px 12px; font-size:18px;">&gt;</button>
+              </div>
+            </div>
+            <div style="display:flex; gap:4px;">
+              <button class="btn btn-sm" id="cal-view-year" onclick="switchCalView('year')" style="background:var(--gray-100); color:var(--gray-600);">연간</button>
+              <button class="btn btn-sm" id="cal-view-month" onclick="switchCalView('month')" style="background:var(--primary); color:white;">월간</button>
+              <button class="btn btn-sm" id="cal-view-week" onclick="switchCalView('week')" style="background:var(--gray-100); color:var(--gray-600);">주간</button>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="openCalendarModal()">
+              + 일정 등록
+            </button>
+          </div>
+        </div>
+        <div class="page-body">
+
+          <!-- Category Legend -->
+          <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:20px; padding:12px 16px; background:var(--gray-50); border-radius:10px;">
+            <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#9333EA;"></span> 팝업</span>
+            <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#2563EB;"></span> 입고/발주</span>
+            <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#16A34A;"></span> 이벤트/프로모션</span>
+            <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#EAB308;"></span> 회의</span>
+            <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#DC2626;"></span> 마감/중요</span>
+            <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#6B7280;"></span> 기타</span>
+          </div>
+
+          <!-- Year View -->
+          <div id="cal-year-view" style="display:none;">
+            <div id="cal-year-grid"></div>
+          </div>
+
+          <!-- Month View -->
+          <div id="cal-month-view">
+            <div class="card" style="margin-bottom:24px;">
+              <div class="table-container" style="overflow-x:auto;">
+                <table id="cal-grid-table" style="table-layout:fixed; width:100%;">
+                  <thead>
+                    <tr>
+                      <th style="width:14.28%; text-align:center; color:var(--red);">일</th>
+                      <th style="width:14.28%; text-align:center;">월</th>
+                      <th style="width:14.28%; text-align:center;">화</th>
+                      <th style="width:14.28%; text-align:center;">수</th>
+                      <th style="width:14.28%; text-align:center;">목</th>
+                      <th style="width:14.28%; text-align:center;">금</th>
+                      <th style="width:14.28%; text-align:center; color:var(--blue);">토</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cal-grid-body">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Week View -->
+          <div id="cal-week-view" style="display:none;">
+            <div id="cal-week-grid"></div>
+          </div>
+
+          <!-- Event List for Month -->
+          <div class="card">
+            <div class="card-header">
+              <h3 id="cal-event-list-title">이번 달 일정 리스트</h3>
+              <span style="font-size:12px; color:var(--gray-400);" id="cal-event-count">0건</span>
+            </div>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>날짜</th>
+                    <th>카테고리</th>
+                    <th>제목</th>
+                    <th>장소</th>
+                    <th>시간</th>
+                    <th>담당자</th>
+                    <th>관리</th>
+                  </tr>
+                </thead>
+                <tbody id="cal-event-list">
+                  <tr><td colspan="7" class="empty-state">등록된 일정이 없습니다.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===== CLIENTS (거래처 관리) ===== -->
+      <div id="section-clients" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div>
+            <h1>거래처 관리</h1>
+            <div class="header-sub">제작사/파트너 계약 및 연락처</div>
+          </div>
+        </div>
+        <div class="page-body">
+          <!-- Tabs -->
+          <div style="display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;">
+            <button class="btn btn-ghost btn-sm client-tab-btn" onclick="switchClientTab('list', this)" style="background:var(--primary); color:white;">제작사 목록</button>
+            <button class="btn btn-ghost btn-sm client-tab-btn" onclick="switchClientTab('contract', this)">계약 현황</button>
+          </div>
+
+          <!-- Tab 1: 제작사 목록 -->
+          <div id="clients-tab-list">
+            <div class="card">
+              <div class="card-header">
+                <h3>제작사 목록</h3>
+                <button class="btn btn-primary btn-sm" onclick="openClientModal()">+ 거래처 추가</button>
+              </div>
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>제작사명</th>
+                      <th>계약상태</th>
+                      <th>담당자</th>
+                      <th>이메일</th>
+                      <th>연락처</th>
+                    </tr>
+                  </thead>
+                  <tbody id="client-list">
+                    <tr><td colspan="9" class="empty-state">등록된 거래처가 없습니다.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2: 계약 현황 -->
+          <div id="clients-tab-contract" style="display:none;">
+            <!-- Summary Stats -->
+            <div class="stats-grid" style="margin-bottom:24px;">
+              <div class="stat-card">
+                <div class="stat-icon blue">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+                </div>
+                <div class="stat-value" id="stat-total-clients">0</div>
+                <div class="stat-label">총 거래처 수</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon green">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+                </div>
+                <div class="stat-value" id="stat-contracted-clients">0</div>
+                <div class="stat-label">계약완료</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon yellow">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                </div>
+                <div class="stat-value" id="stat-negotiating-clients">0</div>
+                <div class="stat-label">협의중</div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3>계약 현황</h3>
+              </div>
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>제작사명</th>
+                      <th>계약일자</th>
+                      <th>계약기간</th>
+                      <th>수수료</th>
+                      <th>정산자료 제공일</th>
+                      <th>정산 지급일</th>
+                      <th>특이사항</th>
+                    </tr>
+                  </thead>
+                  <tbody id="contract-status-list">
+                    <tr><td colspan="7" class="empty-state">등록된 계약이 없습니다.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===== REPORT (경영 리포트) ===== -->
+      <div id="section-report" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div>
+            <h1>경영 리포트</h1>
+            <div class="header-sub">매출, 정산, 비용 누적 현황</div>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-secondary btn-sm" onclick="window.print()">인쇄 / PDF 저장</button>
+          </div>
+        </div>
+        <div class="page-body">
+
+          <!-- Period Selector -->
+          <div style="display:flex; gap:8px; align-items:center; margin-bottom:20px;">
+            <select id="report-period" style="padding:8px 12px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:13px;">
+              <option value="monthly">월별</option>
+              <option value="quarterly">분기별</option>
+              <option value="half">상반기/하반기</option>
+              <option value="yearly">연간</option>
+            </select>
+            <select id="report-year" style="padding:8px 12px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:13px;">
+              <option value="2026">2026년</option>
+              <option value="2025">2025년</option>
+            </select>
+            <button class="btn btn-primary btn-sm" onclick="loadReport()">조회</button>
+          </div>
+
+          <!-- Stats Cards -->
+          <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px;">
+            <div class="card" style="border:none; box-shadow:none; background:var(--primary-bg);">
+              <div class="card-body" style="padding:14px; text-align:center;">
+                <div style="font-size:11px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-sales">총매출</div>
+                <div style="font-size:22px; font-weight:800; color:var(--primary);" id="report-year-sales">₩0</div>
+              </div>
+            </div>
+            <div class="card" style="border:none; box-shadow:none; background:var(--green-bg);">
+              <div class="card-body" style="padding:14px; text-align:center;">
+                <div style="font-size:11px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-gm">버치사운드 수익</div>
+                <div style="font-size:22px; font-weight:800; color:var(--green);" id="report-year-gm">₩0</div>
+              </div>
+            </div>
+            <div class="card" style="border:none; box-shadow:none; background:var(--blue-bg);">
+              <div class="card-body" style="padding:14px; text-align:center;">
+                <div style="font-size:11px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-pub">제작사 정산</div>
+                <div style="font-size:22px; font-weight:800; color:var(--blue);" id="report-year-publisher">₩0</div>
+              </div>
+            </div>
+            <div class="card" style="border:none; box-shadow:none; background:var(--yellow-bg);">
+              <div class="card-body" style="padding:14px; text-align:center;">
+                <div style="font-size:11px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-urban">어반플레이 정산</div>
+                <div style="font-size:22px; font-weight:800; color:#B8860B;" id="report-year-urban">₩0</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section A: 월별 매출 추이 -->
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-header"><h3>월별 매출 추이</h3></div>
+            <div class="card-body" id="report-monthly-chart">
+              <div class="empty-state"><p>조회 버튼을 눌러주세요.</p></div>
+            </div>
+          </div>
+
+          <!-- Section B: 제작사별 누적 정산 -->
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-header"><h3>제작사별 누적 정산</h3></div>
+            <div class="table-container">
+              <table>
+                <thead><tr><th>제작사</th><th>총매출</th><th>제작사 정산</th><th>GM 수익</th><th>정산 횟수</th><th>비중</th></tr></thead>
+                <tbody id="report-publisher-table">
+                  <tr><td colspan="6" class="empty-state">정산 데이터가 없습니다. 정산을 실행하면 자동으로 누적됩니다.</td></tr>
+                </tbody>
+                <tfoot><tr style="font-weight:800;"><td>합계</td><td id="report-pub-total-sales">-</td><td id="report-pub-total-share">-</td><td id="report-pub-total-gm">-</td><td>-</td><td>100%</td></tr></tfoot>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section C: 어반플레이 정산 이력 -->
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-header"><h3>어반플레이 정산 이력</h3></div>
+            <div class="table-container">
+              <table>
+                <thead><tr><th>월</th><th>매출</th><th>비용</th><th>순익</th><th>어반 몫</th><th>GM 몫</th></tr></thead>
+                <tbody id="report-urban-table">
+                  <tr><td colspan="6" class="empty-state">어반플레이 정산 데이터가 없습니다.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section D: 비용/어반 월별 상세 -->
+          <div class="card">
+            <div class="card-header"><h3>비용/어반플레이 월별 상세</h3></div>
+            <div class="card-body" style="padding:12px 16px;">
+              <!-- 요약 카드 -->
+              <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px;">
+                <div style="background:var(--primary-bg); padding:12px; border-radius:8px; text-align:center;">
+                  <div style="font-size:11px; color:var(--gray-500);" id="report-cost-label-labor">인건비</div>
+                  <div style="font-size:18px; font-weight:800; color:var(--primary);" id="report-total-labor">-</div>
+                </div>
+                <div style="background:var(--yellow-bg); padding:12px; border-radius:8px; text-align:center;">
+                  <div style="font-size:11px; color:var(--gray-500);" id="report-cost-label-supplies">소모품비</div>
+                  <div style="font-size:18px; font-weight:800; color:#B8860B;" id="report-total-supplies">-</div>
+                </div>
+                <div style="background:var(--blue-bg); padding:12px; border-radius:8px; text-align:center;">
+                  <div style="font-size:11px; color:var(--gray-500);" id="report-cost-label-urban">어반 지급</div>
+                  <div style="font-size:18px; font-weight:800; color:var(--blue);" id="report-total-urban-pay">-</div>
+                </div>
+                <div style="background:var(--green-bg); padding:12px; border-radius:8px; text-align:center;">
+                  <div style="font-size:11px; color:var(--gray-500);" id="report-cost-label-gm">GM 순수익</div>
+                  <div style="font-size:18px; font-weight:800; color:var(--green);" id="report-total-gm-net">-</div>
+                </div>
+              </div>
+              <!-- 월별 테이블 -->
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>월</th>
+                      <th>매출</th>
+                      <th>인건비</th>
+                      <th>소모품비</th>
+                      <th>관리비</th>
+                      <th>어반 지급</th>
+                      <th>GM 순수익</th>
+                    </tr>
+                  </thead>
+                  <tbody id="report-cost-monthly-table"></tbody>
+                  <tfoot>
+                    <tr style="font-weight:800; background:var(--gray-50);">
+                      <td>합계</td>
+                      <td id="report-cost-foot-sales">-</td>
+                      <td id="report-cost-foot-labor">-</td>
+                      <td id="report-cost-foot-supplies">-</td>
+                      <td id="report-cost-foot-mgmt">-</td>
+                      <td id="report-cost-foot-urban">-</td>
+                      <td id="report-cost-foot-gm" style="color:var(--green);">-</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===== IP Management ===== -->
+      <div id="section-ip" class="page-section" style="display:none;">
+        <div class="page-header"><div><h1>IP 관리</h1><div class="header-sub">아티스트, 공연, 콘텐츠 관리</div></div>
+        <div class="header-actions"><button class="btn btn-primary btn-sm" onclick="openIPModal()">+ IP 등록</button></div></div>
+        <div class="page-body">
+          <div style="display:flex; gap:8px; margin-bottom:16px;">
+            <button class="btn btn-sm btn-primary" onclick="switchIPTab('artist')" id="ip-tab-artist">아티스트</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchIPTab('show')" id="ip-tab-show">공연</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchIPTab('content')" id="ip-tab-content">콘텐츠</button>
+          </div>
+          <div class="card"><div class="table-container">
+            <table><thead><tr id="ip-table-header"><th>이름</th><th>장르</th><th>계약 상태</th><th>다음 일정</th><th>연락처</th></tr></thead>
+            <tbody id="ip-table-body"><tr><td colspan="5" class="empty-state">IP 데이터를 등록하세요.</td></tr></tbody></table>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- ===== Contract Management ===== -->
+      <div id="section-contract" class="page-section" style="display:none;">
+        <div class="page-header"><div><h1>계약 관리</h1><div class="header-sub">계약 현황 및 만료 알림</div></div>
+        <div class="header-actions"><button class="btn btn-primary btn-sm" onclick="openContractModal()">+ 계약 등록</button></div></div>
+        <div class="page-body">
+          <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px;">
+            <div style="background:var(--primary-bg); padding:12px; border-radius:8px; text-align:center;"><div style="font-size:20px; font-weight:800; color:var(--primary);" id="contract-total">0</div><div style="font-size:11px; color:var(--gray-500);">총 계약</div></div>
+            <div style="background:var(--green-bg); padding:12px; border-radius:8px; text-align:center;"><div style="font-size:20px; font-weight:800; color:var(--green);" id="contract-active">0</div><div style="font-size:11px; color:var(--gray-500);">체결</div></div>
+            <div style="background:var(--yellow-bg); padding:12px; border-radius:8px; text-align:center;"><div style="font-size:20px; font-weight:800; color:#B8860B;" id="contract-expiring">0</div><div style="font-size:11px; color:var(--gray-500);">만료 예정</div></div>
+            <div style="background:var(--gray-100); padding:12px; border-radius:8px; text-align:center;"><div style="font-size:20px; font-weight:800; color:var(--gray-600);" id="contract-nego">0</div><div style="font-size:11px; color:var(--gray-500);">협상중</div></div>
+          </div>
+          <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
+            <button class="btn btn-sm btn-primary" onclick="switchContractTab('all')" id="ct-tab-all">전체</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchContractTab('artist')" id="ct-tab-artist">아티스트</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchContractTab('venue')" id="ct-tab-venue">대관</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchContractTab('ad')" id="ct-tab-ad">광고</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchContractTab('show')" id="ct-tab-show">공연</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchContractTab('overseas')" id="ct-tab-overseas">해외</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchContractTab('copyright')" id="ct-tab-copyright">저작권</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchContractTab('collab')" id="ct-tab-collab">콜라보</button>
+          </div>
+          <div class="card"><div class="table-container">
+            <table><thead><tr><th>계약명</th><th>유형</th><th>상대방</th><th>기간</th><th>수익배분</th><th>MG</th><th>상태</th></tr></thead>
+            <tbody id="contract-table-body"><tr><td colspan="7" class="empty-state">계약 데이터를 등록하세요.</td></tr></tbody></table>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- ===== Finance ===== -->
+      <div id="section-finance" class="page-section" style="display:none;">
+        <div class="page-header"><div><h1>회계/재무</h1><div class="header-sub">매출, 비용, 프로젝트별 손익</div></div>
+        <div class="header-actions"><button class="btn btn-primary btn-sm" onclick="openFinanceModal()">+ 거래 등록</button></div></div>
+        <div class="page-body">
+          <div style="display:flex; gap:8px; margin-bottom:16px;">
+            <button class="btn btn-sm btn-primary" onclick="switchFinanceTab('revenue')" id="fin-tab-revenue">매출/매입</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchFinanceTab('expense')" id="fin-tab-expense">비용</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchFinanceTab('pl')" id="fin-tab-pl">프로젝트별 손익</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchFinanceTab('budget')" id="fin-tab-budget">예산 관리</button>
+          </div>
+          <div class="card"><div class="table-container">
+            <table><thead><tr id="finance-table-header"><th>날짜</th><th>구분</th><th>항목</th><th>금액</th><th>프로젝트</th><th>비고</th></tr></thead>
+            <tbody id="finance-table-body"><tr><td colspan="6" class="empty-state">거래 데이터를 등록하면 여기서 확인할 수 있습니다.</td></tr></tbody></table>
+          </div></div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ===== MODALS ===== -->
+
+  <!-- HR Modal -->
+  <div class="modal-overlay" id="hr-modal">
+    <div class="modal" style="max-width:560px;">
+      <div class="modal-header">
+        <h3 id="hr-modal-title">직원 등록</h3>
+        <button class="modal-close" onclick="closeModal('hr-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="hr-edit-user-id">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label>이름</label>
+            <input type="text" id="hr-name" placeholder="이름">
+          </div>
+          <div class="form-group">
+            <label>이메일</label>
+            <input type="email" id="hr-email" placeholder="이메일">
+          </div>
+          <div class="form-group">
+            <label>연락처</label>
+            <input type="tel" id="hr-phone" placeholder="010-0000-0000">
+          </div>
+          <div class="form-group">
+            <label>부서</label>
+            <select id="hr-department">
+              <option value="">미지정</option>
+              <option value="경영">경영</option>
+              <option value="기획">기획</option>
+              <option value="제작">제작</option>
+              <option value="아티스트">아티스트</option>
+              <option value="마케팅">마케팅</option>
+              <option value="디자인">디자인</option>
+              <option value="기술">기술</option>
+              <option value="기타">기타</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>직급</label>
+            <select id="hr-role">
+              <option value="ceo">대표</option>
+              <option value="admin">관리자</option>
+              <option value="manager">팀장</option>
+              <option value="member">팀원</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>계약형태</label>
+            <select id="hr-contract-type">
+              <option value="정규직">정규직</option>
+              <option value="계약직">계약직</option>
+              <option value="알바">알바</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>급여유형</label>
+            <select id="hr-pay-type">
+              <option value="월급">월급</option>
+              <option value="시급">시급</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>급여액 (원)</label>
+            <input type="number" id="hr-pay-amount" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>입사일</label>
+            <input type="date" id="hr-join-date">
+          </div>
+          <div class="form-group">
+            <label>상태</label>
+            <select id="hr-status">
+              <option value="재직">재직</option>
+              <option value="퇴직">퇴직</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:4px;">
+          <label>메모</label>
+          <textarea id="hr-memo" placeholder="메모 (선택)" style="height:60px;"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('hr-modal')">취소</button>
+        <button class="btn btn-primary btn-sm" onclick="saveHRData()">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Approval Modal -->
+  <div class="modal-overlay" id="approval-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>결재 요청</h3>
+        <button class="modal-close" onclick="closeModal('approval-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>결재 종류</label>
+          <select id="approval-type" onchange="onApprovalTypeChange()">
+            <option value="leave">연차 신청</option>
+            <option value="vacation">휴가 신청 (반차/병가/경조사 등)</option>
+            <option value="expense">지출 결의 (경비 청구)</option>
+            <option value="purchase">구매 요청</option>
+            <option value="report">업무 보고</option>
+            <option value="other">기타</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>결재자</label>
+          <select id="approval-approver">
+            <option value="">자동 배정</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>제목</label>
+          <input type="text" id="approval-title" placeholder="결재 제목">
+        </div>
+        <div id="approval-date-fields" style="display:block;">
+          <div class="form-group" style="display:flex; gap:8px;">
+            <div style="flex:1;">
+              <label>시작일</label>
+              <input type="date" id="approval-start-date">
+            </div>
+            <div style="flex:1;">
+              <label>종료일</label>
+              <input type="date" id="approval-end-date">
+            </div>
+          </div>
+        </div>
+        <div id="approval-amount-field" style="display:none;">
+          <div class="form-group">
+            <label>금액 (원)</label>
+            <input type="number" id="approval-amount" placeholder="금액을 입력하세요" min="0">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>상세 내용</label>
+          <textarea id="approval-content" placeholder="상세 내용을 입력하세요"></textarea>
+        </div>
+        <div class="form-group">
+          <label>첨부 메모</label>
+          <textarea id="approval-attachment-memo" placeholder="영수증 설명, 첨부파일 메모 등" rows="2"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('approval-modal')">취소</button>
+        <button class="btn btn-primary btn-sm" onclick="submitApproval()">요청</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Approval Detail Modal -->
+  <div class="modal-overlay" id="approval-detail-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>결재 상세</h3>
+        <button class="modal-close" onclick="closeModal('approval-detail-modal')">&times;</button>
+      </div>
+      <div class="modal-body" id="approval-detail-content">
+      </div>
+      <div class="modal-footer" id="approval-detail-actions">
+      </div>
+    </div>
+  </div>
+
+  <!-- Settlement Modal -->
+  <div class="modal-overlay" id="settlement-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>정산 등록</h3>
+        <button class="modal-close" onclick="closeModal('settlement-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>프로젝트</label>
+          <input type="text" id="settlement-project" placeholder="프로젝트명 (예: 2026 페스티벌)">
+        </div>
+        <div class="form-group">
+          <label>내용</label>
+          <input type="text" id="settlement-desc" placeholder="지출 내용">
+        </div>
+        <div class="form-group">
+          <label>금액 (원)</label>
+          <input type="number" id="settlement-amount" placeholder="0">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('settlement-modal')">취소</button>
+        <button class="btn btn-primary btn-sm" onclick="submitSettlement()">등록</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notice Modal -->
+  <div class="modal-overlay" id="notice-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>공지 작성</h3>
+        <button class="modal-close" onclick="closeModal('notice-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>분류</label>
+          <select id="notice-tag">
+            <option value="general">일반</option>
+            <option value="important">중요</option>
+            <option value="event">행사</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>제목</label>
+          <input type="text" id="notice-title" placeholder="공지 제목">
+        </div>
+        <div class="form-group">
+          <label>내용</label>
+          <textarea id="notice-content" placeholder="공지 내용을 입력하세요"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('notice-modal')">취소</button>
+        <button class="btn btn-primary btn-sm" onclick="submitNotice()">등록</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notice View Modal -->
+  <div class="modal-overlay" id="notice-view-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="view-notice-title">공지</h3>
+        <button class="modal-close" onclick="closeModal('notice-view-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="view-notice-meta" style="font-size:12px; color:var(--gray-400); margin-bottom:16px;"></div>
+        <div id="view-notice-content" style="white-space:pre-wrap; line-height:1.8;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Schedule Modal removed - replaced by Excel-style grid editor -->
+
+  <!-- Resource Modal -->
+  <div class="modal-overlay" id="resource-modal">
+    <div class="modal" style="max-width:480px;">
+      <div class="modal-header">
+        <h3>자료 등록</h3>
+        <button class="modal-close" onclick="closeModal('resource-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>제목</label>
+          <input type="text" id="resource-title" placeholder="자료 제목">
+        </div>
+        <div class="form-group">
+          <label>카테고리</label>
+          <select id="resource-category" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+            <option value="양식">양식</option>
+            <option value="회의록">회의록</option>
+            <option value="경영자료">경영자료</option>
+            <option value="기타">기타</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>URL (Google Drive 등)</label>
+          <input type="url" id="resource-url" placeholder="https://drive.google.com/...">
+        </div>
+        <div class="form-group">
+          <label>메모</label>
+          <textarea id="resource-memo" placeholder="메모 (선택)" style="height:60px;"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('resource-modal')">취소</button>
+        <button class="btn btn-primary btn-sm" onclick="saveResource()">등록</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Modal -->
+  <div class="modal-overlay" id="project-modal">
+    <div class="modal" style="max-width:640px; max-height:90vh; overflow-y:auto;">
+      <div class="modal-header">
+        <h3 id="project-modal-title">프로젝트 생성</h3>
+        <button class="modal-close" onclick="closeModal('project-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="project-edit-id">
+
+        <!-- 기본 정보 -->
+        <div style="font-size:12px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">기본 정보</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label>프로젝트명</label>
+            <input type="text" id="project-name" placeholder="예: 청춘블라썸 팝업 4층">
+          </div>
+          <div class="form-group">
+            <label>IP/작품명</label>
+            <input type="text" id="project-ip" placeholder="예: 청춘블라썸">
+          </div>
+          <div class="form-group">
+            <label>층 (복수 선택 가능)</label>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:4px;">
+              <label style="display:flex; align-items:center; gap:4px; font-size:13px; cursor:pointer;"><input type="checkbox" class="project-floor-cb" value="2층"> 2층</label>
+              <label style="display:flex; align-items:center; gap:4px; font-size:13px; cursor:pointer;"><input type="checkbox" class="project-floor-cb" value="3층"> 3층</label>
+              <label style="display:flex; align-items:center; gap:4px; font-size:13px; cursor:pointer;"><input type="checkbox" class="project-floor-cb" value="4층"> 4층</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>운영 형태</label>
+            <select id="project-operation-type" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+              <option value="alba">알바 운영</option>
+              <option value="shelf">매대 증설</option>
+              <option value="mixed">혼합</option>
+              <option value="other">기타</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>시작일</label>
+            <input type="date" id="project-start-date">
+          </div>
+          <div class="form-group">
+            <label>종료일</label>
+            <input type="date" id="project-end-date">
+          </div>
+          <div class="form-group">
+            <label>상태</label>
+            <select id="project-status" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+              <option value="preparing">준비중</option>
+              <option value="active">진행중</option>
+              <option value="completed">완료</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 인원 계획 -->
+        <div style="font-size:12px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin:20px 0 8px;">인원 계획</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label>필요 알바 수</label>
+            <input type="number" id="project-required-alba" placeholder="0" min="0">
+          </div>
+          <div class="form-group">
+            <label>정직원 배정 (담당자)</label>
+            <input type="text" id="project-assigned-staff" placeholder="예: 이슬">
+          </div>
+        </div>
+
+        <!-- 비용 계획 -->
+        <div style="font-size:12px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin:20px 0 8px;">비용 계획</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label>인테리어/디자인비</label>
+            <input type="number" id="project-budget-interior" placeholder="0" min="0" oninput="calcProjectBudgetTotal()">
+          </div>
+          <div class="form-group">
+            <label>굿즈 제작비</label>
+            <input type="number" id="project-budget-production" placeholder="0" min="0" oninput="calcProjectBudgetTotal()">
+          </div>
+          <div class="form-group">
+            <label>증정용 굿즈 예산</label>
+            <input type="number" id="project-budget-giveaway" placeholder="0" min="0" oninput="calcProjectBudgetTotal()">
+          </div>
+          <div class="form-group">
+            <label>기타 비용</label>
+            <input type="number" id="project-budget-other" placeholder="0" min="0" oninput="calcProjectBudgetTotal()">
+          </div>
+        </div>
+        <div style="text-align:right; font-size:14px; margin-top:4px;">
+          <span style="color:var(--gray-600);">비용 합계: </span>
+          <span id="project-budget-total" style="font-weight:800; color:var(--red);">₩0</span>
+        </div>
+
+        <!-- 상품 계획 -->
+        <div style="font-size:12px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin:20px 0 8px;">상품 계획</div>
+        <div class="form-group">
+          <label>메모/설명 (어떤 상품이 들어오는지)</label>
+          <textarea id="project-product-memo" placeholder="예: 전독시 전 상품 + 신상 아크릴..." style="height:60px;"></textarea>
+        </div>
+
+        <!-- 목표 -->
+        <div style="font-size:12px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin:20px 0 8px;">목표</div>
+        <div class="form-group">
+          <label>목표 매출 (원)</label>
+          <input type="number" id="project-target-revenue" placeholder="0" min="0">
+        </div>
+        <div class="form-group" style="margin-top:4px;">
+          <label>메모</label>
+          <textarea id="project-memo" placeholder="메모 (선택)" style="height:60px;"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('project-modal')">취소</button>
+        <button class="btn btn-primary btn-sm" onclick="saveProject()">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Worker Modal -->
+  <div class="modal-overlay" id="project-worker-modal">
+    <div class="modal" style="max-width:480px;">
+      <div class="modal-header">
+        <h3>알바 배정</h3>
+        <button class="modal-close" onclick="closeModal('project-worker-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="project-worker-project-id">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label>이름</label>
+            <input type="text" id="project-worker-name" placeholder="이름">
+          </div>
+          <div class="form-group">
+            <label>연락처</label>
+            <input type="tel" id="project-worker-phone" placeholder="010-0000-0000">
+          </div>
+          <div class="form-group">
+            <label>시급 (원)</label>
+            <input type="number" id="project-worker-rate" placeholder="10030" value="10030">
+          </div>
+          <div class="form-group">
+            <label>근무 시작일</label>
+            <input type="date" id="project-worker-start">
+          </div>
+          <div class="form-group" style="grid-column:span 2;">
+            <label>근무 종료일</label>
+            <input type="date" id="project-worker-end">
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:4px;">
+          <label>메모</label>
+          <textarea id="project-worker-memo" placeholder="메모 (선택)" style="height:60px;"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('project-worker-modal')">취소</button>
+        <button class="btn btn-primary btn-sm" onclick="saveProjectWorker()">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Account Modal -->
+  <div class="modal-overlay" id="account-modal">
+    <div class="modal" style="max-width:480px;">
+      <div class="modal-header">
+        <h3 id="account-modal-title">계정 추가</h3>
+        <button class="modal-close" onclick="closeModal('account-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="account-edit-index" value="">
+        <div class="form-group">
+          <label>계정명</label>
+          <input type="text" id="account-name" placeholder="예: 네이버">
+        </div>
+        <div class="form-group">
+          <label>용도</label>
+          <input type="text" id="account-purpose" placeholder="예: SNS 운영">
+        </div>
+        <div class="form-group">
+          <label>아이디</label>
+          <input type="text" id="account-username" placeholder="아이디">
+        </div>
+        <div class="form-group">
+          <label>비밀번호</label>
+          <input type="text" id="account-password" placeholder="비밀번호">
+        </div>
+        <div class="form-group">
+          <label>담당자</label>
+          <input type="text" id="account-manager" placeholder="담당자">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('account-modal')">취소</button>
+        <button class="btn btn-primary btn-sm" onclick="saveAccount()">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Modal -->
+  <div class="modal-overlay" id="contact-modal">
+    <div class="modal" style="max-width:520px;">
+      <div class="modal-header">
+        <h3 id="contact-modal-title">연락처 추가</h3>
+        <button class="modal-close" onclick="closeModal('contact-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="contact-edit-index" value="">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label>이름</label>
+            <input type="text" id="contact-name" placeholder="이름">
+          </div>
+          <div class="form-group">
+            <label>영문명</label>
+            <input type="text" id="contact-name-en" placeholder="영문명">
+          </div>
+          <div class="form-group">
+            <label>직급</label>
+            <input type="text" id="contact-position" placeholder="직급">
+          </div>
+          <div class="form-group">
+            <label>팀</label>
+            <input type="text" id="contact-team" placeholder="팀">
+          </div>
+          <div class="form-group">
+            <label>이메일</label>
+            <input type="email" id="contact-email" placeholder="이메일">
+          </div>
+          <div class="form-group">
+            <label>연락처</label>
+            <input type="tel" id="contact-phone" placeholder="010-0000-0000">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('contact-modal')">취소</button>
+        <button class="btn btn-primary btn-sm" onclick="saveContact()">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Parttime Contact Modal -->
+  <div class="modal-overlay" id="parttime-modal">
+    <div class="modal" style="max-width:400px;">
+      <div class="modal-header">
+        <h3 id="parttime-modal-title">파트타임 연락처 추가</h3>
+        <button class="modal-close" onclick="closeModal('parttime-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="parttime-edit-index" value="">
+        <div class="form-group">
+          <label>이름</label>
+          <input type="text" id="parttime-name" placeholder="이름">
+        </div>
+        <div class="form-group">
+          <label>연락처</label>
+          <input type="tel" id="parttime-phone" placeholder="010-0000-0000">
+        </div>
+        <div class="form-group">
+          <label>비고</label>
+          <input type="text" id="parttime-note" placeholder="비고">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('parttime-modal')">취소</button>
+        <button class="btn btn-primary btn-sm" onclick="saveParttimeContact()">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message Modal -->
+  <div class="modal-overlay" id="message-modal">
+    <div class="modal" style="max-width:480px;">
+      <div class="modal-header">
+        <h3>새 메시지</h3>
+        <button class="modal-close" onclick="closeModal('message-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>받는 사람</label>
+          <select id="message-to" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+            <option value="all">전체</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>내용</label>
+          <textarea id="message-content" placeholder="메시지를 입력하세요" style="min-height:120px;"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('message-modal')">취소</button>
+        <button class="btn btn-primary btn-sm" onclick="sendMessage()">보내기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calendar Modal -->
+  <div class="modal-overlay" id="calendar-modal">
+    <div class="modal" style="max-width:560px;">
+      <div class="modal-header">
+        <h3 id="calendar-modal-title">일정 등록</h3>
+        <button class="modal-close" onclick="closeModal('calendar-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="cal-edit-id">
+        <div class="form-group">
+          <label>제목</label>
+          <input type="text" id="cal-title" placeholder="일정 제목">
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label>카테고리</label>
+            <select id="cal-category" onchange="updateCalColor()" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+              <option value="popup">팝업</option>
+              <option value="delivery">입고/발주</option>
+              <option value="event">이벤트/프로모션</option>
+              <option value="meeting">회의</option>
+              <option value="deadline">마감/중요</option>
+              <option value="other">기타</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>장소</label>
+            <select id="cal-location" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+              <option value="1층">1층</option>
+              <option value="2층">2층</option>
+              <option value="3층">3층</option>
+              <option value="4층">4층</option>
+              <option value="사무실">사무실</option>
+              <option value="전체">전체</option>
+              <option value="기타">기타</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>시작일</label>
+            <input type="date" id="cal-start-date" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+          </div>
+          <div class="form-group">
+            <label>종료일 (선택)</label>
+            <input type="date" id="cal-end-date" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+          </div>
+          <div class="form-group">
+            <label>시간 (선택)</label>
+            <input type="time" id="cal-time" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+          </div>
+          <div class="form-group">
+            <label>담당자</label>
+            <input type="text" id="cal-manager" placeholder="담당자" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>내용/메모</label>
+          <textarea id="cal-memo" placeholder="메모 (선택)" style="height:60px;"></textarea>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--gray-500);">
+          <span>색상:</span>
+          <span id="cal-color-preview" style="display:inline-block; width:16px; height:16px; border-radius:50%; background:#9333EA;"></span>
+          <span id="cal-color-label">팝업</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost btn-sm" id="cal-delete-btn" onclick="deleteCalendarEvent()" style="color:var(--red); display:none;">삭제</button>
+        <div style="flex:1;"></div>
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('calendar-modal')">취소</button>
+        <button class="btn btn-primary btn-sm" onclick="saveCalendarEvent()">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inventory Modal -->
+  <div class="modal-overlay" id="inventory-modal">
+    <div class="modal" style="max-width:480px;">
+      <div class="modal-header">
+        <h3>상품 등록</h3>
+        <button class="modal-close" onclick="closeModal('inventory-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="inv-edit-index" value="">
+        <div class="form-group">
+          <label>제작사</label>
+          <input type="text" id="inv-publisher" placeholder="예: 북극여우">
+        </div>
+        <div class="form-group">
+          <label>상품명</label>
+          <input type="text" id="inv-product-name" placeholder="상품명">
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label>현재 재고</label>
+            <input type="number" id="inv-current-stock" placeholder="0" value="0">
+          </div>
+          <div class="form-group">
+            <label>최소 재고</label>
+            <input type="number" id="inv-min-stock" placeholder="10" value="10">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>최근 입고일</label>
+          <input type="date" id="inv-last-received">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('inventory-modal')">취소</button>
+        <button class="btn btn-primary btn-sm" onclick="saveInventoryItem()">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Receiving Modal -->
+  <div class="modal-overlay" id="receiving-modal">
+    <div class="modal" style="max-width:480px;">
+      <div class="modal-header">
+        <h3>입고 등록</h3>
+        <button class="modal-close" onclick="closeModal('receiving-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="recv-edit-index" value="">
+        <div class="form-group">
+          <label>입고일</label>
+          <input type="date" id="recv-date">
+        </div>
+        <div class="form-group">
+          <label>제작사</label>
+          <input type="text" id="recv-publisher" placeholder="제작사">
+        </div>
+        <div class="form-group">
+          <label>상품명</label>
+          <input type="text" id="recv-product-name" placeholder="상품명">
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label>예정수량</label>
+            <input type="number" id="recv-expected-qty" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>실입고수량</label>
+            <input type="number" id="recv-actual-qty" placeholder="0">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>확인자</label>
+          <input type="text" id="recv-checker" placeholder="확인자 이름">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('receiving-modal')">취소</button>
+        <button class="btn btn-primary btn-sm" onclick="saveReceiving()">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Modal -->
+  <div class="modal-overlay" id="order-modal">
+    <div class="modal" style="max-width:480px;">
+      <div class="modal-header">
+        <h3>발주 요청</h3>
+        <button class="modal-close" onclick="closeModal('order-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="order-edit-index" value="">
+        <div class="form-group">
+          <label>제작사</label>
+          <input type="text" id="order-publisher" placeholder="제작사">
+        </div>
+        <div class="form-group">
+          <label>상품명</label>
+          <input type="text" id="order-product-name" placeholder="상품명">
+        </div>
+        <div class="form-group">
+          <label>요청수량</label>
+          <input type="number" id="order-qty" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label>요청자</label>
+          <input type="text" id="order-requester" placeholder="요청자 이름">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('order-modal')">취소</button>
+        <button class="btn btn-primary btn-sm" onclick="saveOrder()">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Client Modal -->
+  <div class="modal-overlay" id="client-modal">
+    <div class="modal" style="max-width:640px;">
+      <div class="modal-header">
+        <h3 id="client-modal-title">거래처 추가</h3>
+        <button class="modal-close" onclick="closeModal('client-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="client-edit-index" value="">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label>제작사명</label>
+            <input type="text" id="client-name" placeholder="제작사명">
+          </div>
+          <div class="form-group">
+            <label>사업자번호</label>
+            <input type="text" id="client-bizno" placeholder="000-00-00000">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>법인 통장 정보</label>
+          <input type="text" id="client-bank" placeholder="은행명 / 계좌번호 / 예금주">
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label>계약일자</label>
+            <input type="date" id="client-contract-date">
+          </div>
+          <div class="form-group">
+            <label>계약기간</label>
+            <input type="text" id="client-contract-period" placeholder="예: 1년, 2025.01~2025.12">
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label>계약상태</label>
+            <select id="client-status">
+              <option value="계약완료">계약완료</option>
+              <option value="협의중">협의중</option>
+              <option value="대기">대기</option>
+              <option value="종료">종료</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>수수료율 (%)</label>
+            <input type="text" id="client-fee-rate" placeholder="예: 25%">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>수수료 기준</label>
+          <select id="client-fee-basis">
+            <option value="부가세수수료제외">부가세수수료제외</option>
+            <option value="부가세수수료포함">부가세수수료포함</option>
+          </select>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label>정산자료 제공일</label>
+            <input type="text" id="client-data-date" placeholder="예: 익월 7일">
+          </div>
+          <div class="form-group">
+            <label>정산 지급일</label>
+            <input type="text" id="client-pay-date" placeholder="예: 익월 말일">
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label>담당자 이름</label>
+            <input type="text" id="client-contact-name" placeholder="담당자 이름">
+          </div>
+          <div class="form-group">
+            <label>담당자 연락처</label>
+            <input type="text" id="client-contact-phone" placeholder="연락처">
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label>담당자 이메일</label>
+            <input type="text" id="client-contact-email" placeholder="이메일">
+          </div>
+          <div class="form-group">
+            <label>세금계산서 이메일</label>
+            <input type="text" id="client-tax-email" placeholder="세금계산서용 이메일">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>발주 담당자 이메일</label>
+          <input type="text" id="client-order-email" placeholder="발주 담당자 이메일">
+        </div>
+        <div class="form-group">
+          <label>특이사항/메모</label>
+          <textarea id="client-memo" rows="3" placeholder="특이사항이나 메모를 입력하세요"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost btn-sm" id="client-delete-btn" onclick="deleteClient()" style="color:var(--red); margin-right:auto; display:none;">삭제</button>
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('client-modal')">취소</button>
+        <button class="btn btn-primary btn-sm" onclick="saveClient()">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- IP Modal -->
+  <div class="modal-overlay" id="ip-modal">
+    <div class="modal"><div class="modal-header"><h3>IP 등록</h3><button class="modal-close" onclick="closeModal('ip-modal')">×</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>유형</label><select id="ip-type"><option value="artist">아티스트</option><option value="show">공연</option><option value="content">콘텐츠</option></select></div>
+      <div class="form-group"><label>이름</label><input type="text" id="ip-name" placeholder="아티스트/공연/콘텐츠명"></div>
+      <div class="form-group"><label>장르</label><input type="text" id="ip-genre" placeholder="장르"></div>
+      <div class="form-group"><label>소속/매니지먼트</label><input type="text" id="ip-agency" placeholder="소속사"></div>
+      <div class="form-group"><label>계약 상태</label><select id="ip-status"><option value="active">활동중</option><option value="negotiating">협상중</option><option value="completed">완료</option></select></div>
+      <div class="form-group"><label>다음 일정</label><input type="text" id="ip-next-event" placeholder="다음 공연/이벤트"></div>
+      <div class="form-group"><label>연락처</label><input type="text" id="ip-contact" placeholder="연락처/이메일"></div>
+      <div class="form-group"><label>메모</label><textarea id="ip-memo" rows="3" placeholder="메모"></textarea></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('ip-modal')">취소</button><button class="btn btn-primary" onclick="saveIP()">저장</button></div>
+    </div>
+  </div>
+
+  <!-- Contract Modal -->
+  <div class="modal-overlay" id="contract-modal">
+    <div class="modal"><div class="modal-header"><h3>계약 등록</h3><button class="modal-close" onclick="closeModal('contract-modal')">×</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>계약명</label><input type="text" id="contract-name" placeholder="계약명"></div>
+      <div class="form-group"><label>유형</label><select id="contract-type"><option value="artist">아티스트</option><option value="venue">대관</option><option value="ad">광고</option><option value="show">공연</option><option value="overseas">해외</option><option value="copyright">저작권</option><option value="collab">콜라보</option></select></div>
+      <div class="form-group"><label>상대방</label><input type="text" id="contract-party" placeholder="계약 상대방"></div>
+      <div class="form-group"><label>시작일</label><input type="date" id="contract-start"></div>
+      <div class="form-group"><label>종료일</label><input type="date" id="contract-end"></div>
+      <div class="form-group"><label>수익 배분율 (%)</label><input type="number" id="contract-revenue-share" placeholder="예: 70"></div>
+      <div class="form-group"><label>MG (최소보장금)</label><input type="number" id="contract-mg" placeholder="0"></div>
+      <div class="form-group"><label>로열티율 (%)</label><input type="number" id="contract-royalty" placeholder="0"></div>
+      <div class="form-group"><label>상태</label><select id="contract-status"><option value="negotiating">협상중</option><option value="signed">체결</option><option value="expiring">만료 예정</option><option value="expired">만료</option></select></div>
+      <div class="form-group"><label>메모</label><textarea id="contract-memo" rows="3" placeholder="계약 상세 내용"></textarea></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('contract-modal')">취소</button><button class="btn btn-primary" onclick="saveContract()">저장</button></div>
+    </div>
+  </div>
+
+  <!-- Finance Modal -->
+  <div class="modal-overlay" id="finance-modal">
+    <div class="modal"><div class="modal-header"><h3>거래 등록</h3><button class="modal-close" onclick="closeModal('finance-modal')">×</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>구분</label><select id="finance-type"><option value="revenue">매출</option><option value="purchase">매입</option><option value="expense">비용</option></select></div>
+      <div class="form-group"><label>날짜</label><input type="date" id="finance-date"></div>
+      <div class="form-group"><label>항목</label><input type="text" id="finance-item" placeholder="항목명"></div>
+      <div class="form-group"><label>금액</label><input type="number" id="finance-amount" placeholder="0"></div>
+      <div class="form-group"><label>프로젝트</label><input type="text" id="finance-project" placeholder="관련 프로젝트 (선택)"></div>
+      <div class="form-group"><label>비고</label><textarea id="finance-note" rows="2" placeholder="비고"></textarea></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('finance-modal')">취소</button><button class="btn btn-primary" onclick="saveFinance()">저장</button></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/settlement.js"></script>
+  <script>
+    // ---- Init ----
+    (async () => {
+      const session = await checkAuth();
+      if (!session) return;
+
+      await initSidebar();
+      navigateTo('dashboard');
+
+      // Start clocks
+      updateClock();
+      setInterval(updateClock, 1000);
+      updateDashClock();
+      setInterval(updateDashClock, 1000);
+    })();
+
+    function updateDashClock() {
+      const el = document.getElementById('dash-clock');
+      const dateEl = document.getElementById('dash-date-display');
+      if (!el) return;
+      const now = new Date();
+      el.textContent = now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+      if (dateEl) dateEl.textContent = now.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
+    }
+
+    async function loadDashboard() {
+      const user = await getCurrentUser();
+      if (!user || !user.profile) return;
+      const userName = user.profile.name;
+      const today = new Date();
+      const todayStr = today.toISOString().split('T')[0];
+      const dayOfWeek = today.getDay(); // 0=Sun
+
+      // --- 1. Today's schedule for current user ---
+      const schedData = getScheduleStore();
+      const todayEntries = schedData[todayStr] || [];
+      const myEntry = todayEntries.find(e => {
+        if (!e.name) return false;
+        const clean = e.name.replace(/[MPT]/g, '');
+        return userName === e.name || userName.includes(clean) || e.name.includes(userName) || clean.includes(userName);
+      });
+
+      const schedEl = document.getElementById('dash-my-schedule');
+      const timeEl = document.getElementById('dash-my-time');
+
+      if (dayOfWeek === 3) {
+        schedEl.textContent = '수요일 정기휴무';
+        schedEl.style.color = 'var(--red)';
+        timeEl.textContent = '매장 휴무일';
+      } else if (myEntry) {
+        schedEl.textContent = myEntry.floor + ' 근무';
+        schedEl.style.color = 'var(--black)';
+        timeEl.textContent = myEntry.startTime + ' ~ ' + myEntry.endTime + ' (휴게 ' + myEntry.breakMin + '분)';
+      } else {
+        schedEl.textContent = '오늘 스케줄 없음';
+        schedEl.style.color = 'var(--gray-400)';
+        timeEl.textContent = '';
+      }
+
+      // --- 2. Floor status (who's on each floor today) ---
+      const floors = { 1: [], 2: [], 3: [], 4: [] };
+      if (dayOfWeek === 3) {
+        for (let f = 1; f <= 4; f++) {
+          const el = document.getElementById('dash-floor-' + f);
+          if (el) { el.textContent = '휴무'; el.style.color = 'var(--red)'; el.style.fontSize = '13px'; }
+        }
+      } else {
+        todayEntries.forEach(e => {
+          const shortName = e.name ? e.name.replace(/[MPT]/g, '') : e.name;
+          if (e.floor === '전체') {
+            [1,2,3,4].forEach(f => floors[f].push(shortName));
+          } else {
+            const fNum = parseInt(e.floor);
+            if (fNum >= 1 && fNum <= 4) floors[fNum].push(shortName);
+          }
+        });
+        for (let f = 1; f <= 4; f++) {
+          const el = document.getElementById('dash-floor-' + f);
+          if (el) {
+            el.textContent = floors[f].length > 0 ? floors[f].join(', ') : '-';
+            el.style.color = floors[f].length > 0 ? 'var(--black)' : 'var(--gray-400)';
+            el.style.fontSize = floors[f].length > 2 ? '12px' : '14px';
+          }
+        }
+      }
+
+      // --- 3. This week's schedule (Mon-Sun) ---
+      const weekEl = document.getElementById('dash-week-schedule');
+      const mon = new Date(today);
+      const dayIdx = today.getDay() === 0 ? 6 : today.getDay() - 1;
+      mon.setDate(today.getDate() - dayIdx);
+
+      if (weekEl) {
+        const dayNames = ['월','화','수','목','금','토','일'];
+        let html = '';
+        for (let i = 0; i < 7; i++) {
+          const d = new Date(mon);
+          d.setDate(mon.getDate() + i);
+          const dStr = d.toISOString().split('T')[0];
+          const isToday = dStr === todayStr;
+          const isWed = d.getDay() === 3;
+          const entries = schedData[dStr] || [];
+          const myDayEntry = entries.find(e => {
+            if (!e.name) return false;
+            const clean = e.name.replace(/[MPT]/g, '');
+            return userName === e.name || userName.includes(clean) || e.name.includes(userName) || clean.includes(userName);
+          });
+
+          let floorText = '-';
+          let floorColor = 'var(--gray-400)';
+          if (isWed) { floorText = '휴무'; floorColor = 'var(--red)'; }
+          else if (myDayEntry) { floorText = myDayEntry.floor; floorColor = 'var(--black)'; }
+
+          const borderStyle = isToday ? 'border:2px solid var(--primary);' : 'border:1px solid var(--gray-200);';
+          const bgStyle = isToday ? 'background:var(--primary-bg);' : '';
+          html += `<div style="padding:6px 2px; border-radius:6px; ${borderStyle} ${bgStyle}">
+            <div style="font-size:11px; color:${isToday ? 'var(--primary)' : 'var(--gray-500)'}; font-weight:${isToday ? '700' : '500'};">${dayNames[i]}</div>
+            <div style="font-size:12px; font-weight:700; color:${floorColor}; margin-top:2px;">${floorText}</div>
+          </div>`;
+        }
+        weekEl.innerHTML = html;
+      }
+
+      // --- 4. Attendance button states ---
+      const { data: attData } = await sb.from('attendance').select('*').eq('user_id', user.id).eq('date', todayStr).single();
+      const btnIn = document.getElementById('dash-btn-in');
+      const btnOut = document.getElementById('dash-btn-out');
+      const btnBreakS = document.getElementById('dash-btn-break-s');
+      const btnBreakE = document.getElementById('dash-btn-break-e');
+      const statusBadge = document.getElementById('dash-work-status');
+
+      if (btnIn) btnIn.disabled = true;
+      if (btnOut) btnOut.disabled = true;
+      if (btnBreakS) btnBreakS.disabled = true;
+      if (btnBreakE) btnBreakE.disabled = true;
+
+      if (!attData || !attData.clock_in) {
+        if (btnIn) btnIn.disabled = false;
+        if (statusBadge) { statusBadge.textContent = '미출근'; statusBadge.className = 'status-badge off'; statusBadge.style = ''; }
+      } else if (attData.status === 'break') {
+        if (btnBreakE) btnBreakE.disabled = false;
+        if (statusBadge) { statusBadge.textContent = '휴게중'; statusBadge.className = 'status-badge'; statusBadge.style.background = 'var(--yellow-bg)'; statusBadge.style.color = '#B8860B'; }
+      } else if (!attData.clock_out) {
+        if (btnOut) btnOut.disabled = false;
+        if (btnBreakS && !attData.break_start) btnBreakS.disabled = false;
+        if (statusBadge) { statusBadge.textContent = '근무중'; statusBadge.className = 'status-badge working'; statusBadge.style = ''; }
+      } else {
+        if (statusBadge) { statusBadge.textContent = '퇴근완료'; statusBadge.className = 'status-badge done'; statusBadge.style = ''; }
+      }
+
+      // --- 5. Dashboard stats ---
+      const firstOfMonth = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
+      const lastOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).toISOString().split('T')[0];
+      const { data: monthAtt } = await sb.from('attendance').select('date, work_hours').eq('user_id', user.id).gte('date', firstOfMonth).lte('date', lastOfMonth).not('clock_in', 'is', null);
+      const workDays = monthAtt ? monthAtt.length : 0;
+      const totalHours = monthAtt ? monthAtt.reduce((s, r) => s + (r.work_hours || 0), 0) : 0;
+
+      const _el = (id) => document.getElementById(id);
+      if (_el('dash-month-days')) _el('dash-month-days').textContent = workDays + '일';
+      if (_el('dash-month-hours')) _el('dash-month-hours').textContent = totalHours.toFixed(1) + 'h';
+
+      const { count: pendingCount } = await sb.from('approvals').select('*', { count: 'exact', head: true }).eq('status', 'pending');
+      if (_el('dash-pending-approvals')) _el('dash-pending-approvals').textContent = pendingCount || 0;
+
+      const weekAgo = new Date(today); weekAgo.setDate(weekAgo.getDate() - 7);
+      const { count: noticeCount } = await sb.from('notices').select('*', { count: 'exact', head: true }).gte('created_at', weekAgo.toISOString());
+      if (_el('dash-notices-count')) _el('dash-notices-count').textContent = noticeCount || 0;
+
+      // --- 6. Recent notices ---
+      const { data: notices } = await sb.from('notices').select('*, profiles(name)').order('created_at', { ascending: false }).limit(5);
+      const noticeList = document.getElementById('dash-notices');
+      if (noticeList) {
+        if (!notices || notices.length === 0) {
+          noticeList.innerHTML = '<div class="empty-state" style="padding:20px;"><p style="font-size:13px;">공지 없음</p></div>';
+        } else {
+          noticeList.innerHTML = notices.map(n => {
+            const tagClass = n.tag === 'important' ? 'important' : n.tag === 'event' ? 'event' : 'general';
+            const tagText = n.tag === 'important' ? '중요' : n.tag === 'event' ? '행사' : '일반';
+            const date = new Date(n.created_at).toLocaleDateString('ko-KR');
+            return `<div class="notice-item" onclick="viewNotice('${n.id}')">
+              <div><span class="notice-tag ${tagClass}">${tagText}</span><span class="notice-title">${n.title}</span></div>
+              <div class="notice-meta">${n.profiles?.name || ''} &middot; ${date}</div>
+            </div>`;
+          }).join('');
+        }
+      }
+
+      // --- 7. This week's calendar events ---
+      const eventsEl = document.getElementById('dash-week-events');
+      if (eventsEl) {
+        const calData = getCalendarStore();
+        const monStr = new Date(mon).toISOString().split('T')[0];
+        const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+        const sunStr = sun.toISOString().split('T')[0];
+
+        const weekEvents = (calData || []).filter(ev => {
+          const start = ev.startDate;
+          const end = ev.endDate || ev.startDate;
+          return start <= sunStr && end >= monStr;
+        });
+
+        if (weekEvents.length === 0) {
+          eventsEl.textContent = '일정 없음';
+        } else {
+          eventsEl.innerHTML = weekEvents.map(ev => {
+            const catLabel = (typeof calCategoryLabels !== 'undefined' ? calCategoryLabels[ev.category] : ev.category) || ev.category;
+            const dot = `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${ev.color || 'var(--primary)'};margin-right:6px;"></span>`;
+            const timeStr = ev.time ? ' ' + ev.time : '';
+            return `<div style="padding:4px 0; border-bottom:1px solid var(--gray-100);">
+              ${dot}<span style="font-weight:600;">${ev.title}</span>
+              <span style="color:var(--gray-400); font-size:12px; margin-left:6px;">${catLabel}${timeStr}</span>
+            </div>`;
+          }).join('');
+        }
+      }
+    }
+
+    // Form submissions
+    function submitApproval() {
+      const type = document.getElementById('approval-type').value;
+      const title = document.getElementById('approval-title').value.trim();
+      const content = document.getElementById('approval-content').value.trim();
+      const approver = document.getElementById('approval-approver').value;
+      const startDate = document.getElementById('approval-start-date').value;
+      const endDate = document.getElementById('approval-end-date').value;
+      const amount = document.getElementById('approval-amount').value;
+      const attachmentMemo = document.getElementById('approval-attachment-memo').value.trim();
+      if (!title) { showToast('제목을 입력해주세요.', 'error'); return; }
+      if ((type === 'leave' || type === 'vacation') && (!startDate || !endDate)) {
+        showToast('기간을 입력해주세요.', 'error'); return;
+      }
+      if ((type === 'expense' || type === 'purchase') && !amount) {
+        showToast('금액을 입력해주세요.', 'error'); return;
+      }
+      createApproval(type, title, content, {
+        approver_id: approver || null,
+        start_date: startDate || null,
+        end_date: endDate || null,
+        amount: amount ? parseInt(amount) : null,
+        attachment_memo: attachmentMemo || null
+      });
+    }
+
+    function submitSettlement() {
+      const project = document.getElementById('settlement-project').value.trim();
+      const desc = document.getElementById('settlement-desc').value.trim();
+      const amount = document.getElementById('settlement-amount').value;
+      if (!desc || !amount) { showToast('내용과 금액을 입력해주세요.', 'error'); return; }
+      createSettlement(project, desc, amount);
+    }
+
+    function submitNotice() {
+      const tag = document.getElementById('notice-tag').value;
+      const title = document.getElementById('notice-title').value.trim();
+      const content = document.getElementById('notice-content').value.trim();
+      if (!title) { showToast('제목을 입력해주세요.', 'error'); return; }
+      createNotice(title, content, tag);
+    }
+
+    // Close modal on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) overlay.classList.remove('active');
+      });
+    });
+  </script>
+</body>
+</html>
+
+<!-- CLOSING SECTION - injected -->
+<div id="section-closing" class="page-section" style="display:none;">
+  <div class="page-header"><div><h1>마감정산</h1><div class="header-sub">일일 매출 보고</div></div></div>
+  <div class="page-body">
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header"><h3 id="closing-date-title">오늘 마감정산</h3></div>
+      <div class="card-body">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+          <div class="form-group"><label>1층</label><input type="number" id="closing-1f" placeholder="0" oninput="calcClosingTotal()" style="font-size:18px; font-weight:700; text-align:right;"></div>
+          <div class="form-group"><label>2층</label><input type="number" id="closing-2f" placeholder="0" oninput="calcClosingTotal()" style="font-size:18px; font-weight:700; text-align:right;"></div>
+          <div class="form-group"><label>3층</label><input type="number" id="closing-3f" placeholder="0" oninput="calcClosingTotal()" style="font-size:18px; font-weight:700; text-align:right;"></div>
+          <div class="form-group"><label>4층 (팝업)</label><input type="number" id="closing-4f" placeholder="0" oninput="calcClosingTotal()" style="font-size:18px; font-weight:700; text-align:right;"></div>
+        </div>
+        <div style="background:var(--gray-50); padding:16px; border-radius:10px; display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <span style="font-size:14px; font-weight:600; color:var(--gray-600);">합계</span>
+          <span style="font-size:28px; font-weight:800; color:var(--primary);" id="closing-total">₩0</span>
+        </div>
+        <div class="form-group" style="margin-bottom:16px;"><label>메모 (특이사항)</label><textarea id="closing-memo" rows="2" placeholder="특이사항이 있으면 입력하세요" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit; resize:none;"></textarea></div>
+        <button class="btn btn-primary" onclick="submitClosing()" style="width:100%; padding:14px; font-size:16px;">마감정산 제출</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><h3>최근 마감정산 내역</h3><button class="btn btn-secondary btn-sm" onclick="downloadClosingExcel()">엑셀 다운로드</button></div>
+      <div class="table-container">
+        <table><thead><tr><th>날짜</th><th>1F</th><th>2F</th><th>3F</th><th>4F</th><th>합계</th><th>보고자</th><th>메모</th></tr></thead><tbody id="closing-history-table"></tbody></table>
+      </div>
+    </div>
+  </div>
+</div>

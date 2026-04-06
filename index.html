@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>BIRCH SOUND - Entertainment Management System</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#FF3B30">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="BIRCH SOUND">
+  <link rel="apple-touch-icon" href="logo_black.png">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { display:flex; justify-content:center; align-items:center; min-height:100vh; background:var(--gray-50); }
+    .login-container { background:var(--white); border-radius:16px; padding:40px; width:100%; max-width:400px; box-shadow:var(--shadow-lg); }
+    .login-logo { text-align:center; margin-bottom:32px; }
+    .login-logo img { height:48px; margin-bottom:12px; }
+    .login-logo h1 { font-size:22px; font-weight:800; letter-spacing:-0.5px; }
+    .login-logo p { font-size:13px; color:var(--gray-400); margin-top:4px; }
+    .form-group { margin-bottom:16px; }
+    .form-group label { display:block; font-size:13px; font-weight:600; color:var(--gray-600); margin-bottom:6px; }
+    .form-group input, .form-group select { width:100%; padding:12px 14px; border:1.5px solid var(--gray-200); border-radius:8px; font-size:15px; font-family:inherit; box-sizing:border-box; transition:border 0.2s; }
+    .form-group input:focus, .form-group select:focus { outline:none; border-color:var(--primary); }
+    .btn-login { width:100%; padding:14px; background:var(--primary); color:white; border:none; border-radius:10px; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; transition:background 0.2s; }
+    .btn-login:hover { background:var(--primary-dark); }
+    .login-switch { text-align:center; margin-top:16px; font-size:13px; color:var(--gray-500); }
+    .login-switch a { color:var(--primary); font-weight:600; cursor:pointer; text-decoration:none; }
+    .login-error { display:none; background:#FEE2E2; color:#DC2626; padding:10px 14px; border-radius:8px; font-size:13px; margin-bottom:16px; }
+    @media(max-width:768px) { .login-container { margin:16px; padding:28px 24px; } }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-logo">
+      <img src="logo_black.png" alt="BIRCH SOUND">
+      <h1>BIRCH SOUND</h1>
+      <p>Entertainment Management System</p>
+    </div>
+    <div id="auth-error" class="login-error"></div>
+    <form id="login-form" onsubmit="handleLogin(event)">
+      <div class="form-group"><label>이메일</label><input type="email" id="login-email" placeholder="name@birchsound.com" required></div>
+      <div class="form-group"><label>비밀번호</label><input type="password" id="login-password" placeholder="비밀번호" required></div>
+      <button type="submit" class="btn-login">로그인</button>
+      <div class="login-switch">계정이 없나요? <a onclick="toggleForm('signup')">회원가입</a></div>
+    </form>
+    <form id="signup-form" style="display:none" onsubmit="handleSignup(event)">
+      <div class="form-group"><label>이름</label><input type="text" id="signup-name" placeholder="이름" required></div>
+      <div class="form-group"><label>부서</label><select id="signup-dept"><option value="경영">경영</option><option value="기획">기획</option><option value="제작">제작</option><option value="아티스트">아티스트</option><option value="마케팅">마케팅</option><option value="디자인">디자인</option><option value="기술">기술</option><option value="기타">기타</option></select></div>
+      <div class="form-group"><label>이메일</label><input type="email" id="signup-email" placeholder="name@birchsound.com" required></div>
+      <div class="form-group"><label>비밀번호</label><input type="password" id="signup-password" placeholder="6자 이상" required></div>
+      <button type="submit" class="btn-login">회원가입</button>
+      <div class="login-switch">이미 계정이 있나요? <a onclick="toggleForm('login')">로그인</a></div>
+    </form>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script>checkSession();</script>
+  <script>if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});</script>
+</body>
+</html>
