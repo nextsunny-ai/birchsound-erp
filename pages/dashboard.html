@@ -387,7 +387,7 @@
           <div class="tabs" style="margin-bottom:16px; display:flex; gap:0; border-bottom:2px solid var(--gray-200);">
             <div class="tab-item active" onclick="switchSettleTab('publisher')" id="settle-tab-btn-publisher" style="padding:10px 20px; font-weight:600; font-size:14px; cursor:pointer; border-bottom:2px solid var(--primary); margin-bottom:-2px; color:var(--primary);">공연 수익</div>
             <div class="tab-item" onclick="switchSettleTab('ad')" id="settle-tab-btn-ad" style="padding:10px 20px; font-weight:600; font-size:14px; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; color:var(--gray-500);">광고 수익</div>
-            <div class="tab-item" onclick="switchSettleTab('popup')" id="settle-tab-btn-popup" style="padding:10px 20px; font-weight:600; font-size:14px; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; color:var(--gray-500);">굿즈 판매</div>
+            <div class="tab-item" onclick="switchSettleTab('popup')" id="settle-tab-btn-popup" style="padding:10px 20px; font-weight:600; font-size:14px; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; color:var(--gray-500);">MD 판매</div>
             <div class="tab-item" onclick="switchSettleTab('overseas')" id="settle-tab-btn-overseas" style="padding:10px 20px; font-weight:600; font-size:14px; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; color:var(--gray-500);">해외 수익</div>
           </div>
 
@@ -530,15 +530,15 @@
           <div id="settle-tab-popup" style="display:none;">
             <div class="card">
               <div class="card-header">
-                <h3>굿즈 판매 정산</h3>
+                <h3>MD 판매 정산</h3>
               </div>
               <div class="card-body">
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
-                  <div class="form-group"><label>굿즈/대상</label><input type="text" id="goods-settle-target" placeholder="예: 페스티벌 공식 MD"></div>
+                  <div class="form-group"><label>MD/대상</label><input type="text" id="goods-settle-target" placeholder="예: 페스티벌 공식 MD"></div>
                   <div class="form-group"><label>정산 기간</label><input type="month" id="goods-settle-month" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;"></div>
                 </div>
                 <div class="form-group" style="margin-bottom:16px;"><label>금액 (원)</label><input type="number" id="goods-settle-amount" placeholder="0"></div>
-                <div class="empty-state" style="padding:24px;"><p style="color:var(--gray-400);">굿즈 판매 정산 기능 준비 중</p></div>
+                <div class="empty-state" style="padding:24px;"><p style="color:var(--gray-400);">MD 판매 정산 기능 준비 중</p></div>
               </div>
             </div>
           </div><!-- /settle-tab-popup -->
@@ -801,7 +801,7 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               </div>
               <div class="stat-value" id="hr-stat-hourly-pay">-</div>
-              <div class="stat-label">외주 급여</div>
+              <div class="stat-label">외주 비용</div>
             </div>
             <div class="stat-card">
               <div class="stat-icon green">
@@ -1967,8 +1967,8 @@
             </select>
           </div>
           <div class="form-group">
-            <label>IP/작품명</label>
-            <input type="text" id="project-ip" placeholder="예: 청춘블라썸">
+            <label>공연/이벤트명</label>
+            <input type="text" id="project-ip" placeholder="예: Asia Tour 2027">
           </div>
           <div class="form-group">
             <label>운영 형태</label>
@@ -2010,8 +2010,8 @@
             <input type="number" id="project-required-staff" placeholder="0" min="0">
           </div>
           <div class="form-group">
-            <label>정직원 배정 (담당자)</label>
-            <input type="text" id="project-assigned-staff" placeholder="예: 이슬">
+            <label>담당 PD</label>
+            <input type="text" id="project-assigned-staff" placeholder="예: 필립 리">
           </div>
         </div>
 
@@ -2019,15 +2019,15 @@
         <div style="font-size:12px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin:20px 0 8px;">비용 계획</div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
           <div class="form-group">
-            <label>인테리어/디자인비</label>
+            <label>공연장/대관비</label>
             <input type="number" id="project-budget-interior" placeholder="0" min="0" oninput="calcProjectBudgetTotal()">
           </div>
           <div class="form-group">
-            <label>굿즈 제작비</label>
+            <label>아티스트 출연료</label>
             <input type="number" id="project-budget-production" placeholder="0" min="0" oninput="calcProjectBudgetTotal()">
           </div>
           <div class="form-group">
-            <label>증정용 굿즈 예산</label>
+            <label>제작/장비/무대</label>
             <input type="number" id="project-budget-giveaway" placeholder="0" min="0" oninput="calcProjectBudgetTotal()">
           </div>
           <div class="form-group">
@@ -2040,11 +2040,11 @@
           <span id="project-budget-total" style="font-weight:800; color:var(--red);">₩0</span>
         </div>
 
-        <!-- 상품 계획 -->
-        <div style="font-size:12px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin:20px 0 8px;">상품 계획</div>
+        <!-- 프로젝트 메모 -->
+        <div style="font-size:12px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin:20px 0 8px;">프로젝트 메모</div>
         <div class="form-group">
-          <label>메모/설명 (어떤 상품이 들어오는지)</label>
-          <textarea id="project-product-memo" placeholder="예: 전독시 전 상품 + 신상 아크릴..." style="height:60px;"></textarea>
+          <label>기획 내용 / 특이사항</label>
+          <textarea id="project-product-memo" placeholder="예: 공연장 조건, 스폰서 요구사항, 라이더 등" style="height:60px;"></textarea>
         </div>
 
         <!-- 목표 -->
