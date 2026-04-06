@@ -4795,3 +4795,6 @@ function getInitials(name) {
   if (!name) return '?';
   return name.charAt(0).toUpperCase();
 }
+
+// Payslip stub (not needed for birchsound yet but called from loadHRList)
+function loadPayslips() {}

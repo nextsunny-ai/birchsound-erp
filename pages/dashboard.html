@@ -171,6 +171,7 @@
                 <div>
                   <div style="font-size:14px; color:var(--gray-500); font-weight:600; text-transform:uppercase; letter-spacing:1px;">TODAY</div>
                   <div id="dash-my-schedule" style="font-size:18px; font-weight:700; margin-top:4px;">오늘의 일정을 확인하세요</div>
+                  <div id="dash-my-time" style="font-size:13px; color:var(--gray-500); margin-top:2px;"></div>
                 </div>
                 <div id="dash-clock" style="font-size:24px; font-weight:800; font-variant-numeric:tabular-nums; color:var(--black);"></div>
               </div>
@@ -1617,15 +1618,15 @@
       <!-- ===== 파트너 관리 (파트너/스폰서 관계 관리) ===== -->
       <div id="section-crm" class="page-section" style="display:none;">
         <div class="page-header"><div><h1>파트너 관리</h1><div class="header-sub">파트너, 스폰서, 투자자 관계 관리</div></div>
-        <div class="header-actions"><button class="btn btn-primary btn-sm" onclick="open파트너 관리Modal()">+ 관계 등록</button></div></div>
+        <div class="header-actions"><button class="btn btn-primary btn-sm" onclick="openCRMModal()">+ 관계 등록</button></div></div>
         <div class="page-body">
           <div style="display:flex; gap:8px; margin-bottom:16px;">
-            <button class="btn btn-sm btn-primary" onclick="switch파트너 관리Tab('all')" id="crm-tab-all">전체</button>
-            <button class="btn btn-sm btn-secondary" onclick="switch파트너 관리Tab('partner')" id="crm-tab-partner">파트너</button>
-            <button class="btn btn-sm btn-secondary" onclick="switch파트너 관리Tab('sponsor')" id="crm-tab-sponsor">스폰서</button>
-            <button class="btn btn-sm btn-secondary" onclick="switch파트너 관리Tab('investor')" id="crm-tab-investor">투자자</button>
-            <button class="btn btn-sm btn-secondary" onclick="switch파트너 관리Tab('venue')" id="crm-tab-venue">공연장</button>
-            <button class="btn btn-sm btn-secondary" onclick="switch파트너 관리Tab('agency')" id="crm-tab-agency">에이전시</button>
+            <button class="btn btn-sm btn-primary" onclick="switchCRMTab('all')" id="crm-tab-all">전체</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchCRMTab('partner')" id="crm-tab-partner">파트너</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchCRMTab('sponsor')" id="crm-tab-sponsor">스폰서</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchCRMTab('investor')" id="crm-tab-investor">투자자</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchCRMTab('venue')" id="crm-tab-venue">공연장</button>
+            <button class="btn btn-sm btn-secondary" onclick="switchCRMTab('agency')" id="crm-tab-agency">에이전시</button>
           </div>
           <div class="card"><div class="table-container">
             <table><thead><tr><th>이름/회사</th><th>유형</th><th>국가</th><th>담당자</th><th>연락처</th><th>최근 미팅</th><th>상태</th><th>메모</th></tr></thead>
@@ -2691,9 +2692,9 @@
       const timeEl = document.getElementById('dash-my-time');
 
       if (dayOfWeek === 3) {
-        schedEl.textContent = '수요일 정기휴무';
+        schedEl.textContent = '오늘 스케줄 없음';
         schedEl.style.color = 'var(--red)';
-        timeEl.textContent = '정기 휴무';
+        timeEl.textContent = '';
       } else if (myEntry) {
         schedEl.textContent = myEntry.team + ' 근무';
         schedEl.style.color = 'var(--black)';
