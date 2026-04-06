@@ -4022,13 +4022,37 @@ function saveSettings() {
   showToast('설정이 저장되었습니다.', 'success');
 }
 
+// 설정 → 사이드바 매핑 (하나의 설정이 여러 메뉴를 제어)
+const SETTING_PAGE_MAP = {
+  attendance: ['attendance'],
+  approval: ['approval'],
+  messages: ['messages'],
+  ip: ['ip'],
+  contract: ['contract'],
+  settlement: ['concert-settle', 'overseas-settle', 'settlement']
+};
+
 function applySettings() {
   const settings = JSON.parse(localStorage.getItem('bs_settings') || '{}');
-  const features = ['attendance', 'approval', 'messages', 'ip', 'contract', 'settlement'];
-  features.forEach(f => {
-    const navItem = document.querySelector('[data-page="' + f + '"]');
-    if (navItem) navItem.style.display = settings[f] === false ? 'none' : '';
+  Object.entries(SETTING_PAGE_MAP).forEach(([key, pages]) => {
+    const hidden = settings[key] === false;
+    pages.forEach(page => {
+      const navItem = document.querySelector('[data-page="' + page + '"]');
+      if (navItem) navItem.style.display = hidden ? 'none' : '';
+    });
   });
+  // FINANCE 섹션 전체 숨기기 (정산 끄면)
+  if (settings.settlement === false) {
+    document.querySelectorAll('.nav-section').forEach(sec => {
+      const title = sec.querySelector('.nav-section-title');
+      if (title && title.textContent.trim() === 'FINANCE') sec.style.display = 'none';
+    });
+  } else {
+    document.querySelectorAll('.nav-section').forEach(sec => {
+      const title = sec.querySelector('.nav-section-title');
+      if (title && title.textContent.trim() === 'FINANCE') sec.style.display = '';
+    });
+  }
 }
 
 function openPasswordModal() {
