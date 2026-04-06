@@ -3668,12 +3668,12 @@ async function sendMessage() {
 
   // Pre-populate sample items
   var defaults = [
-    { publisher: '북극여우', name: '꿈이상 아크릴 키링', currentStock: 45, minStock: 10, lastReceived: '2026-03-20' },
-    { publisher: '북극여우', name: '향막 포스터 세트', currentStock: 8, minStock: 15, lastReceived: '2026-03-15' },
-    { publisher: '작두', name: '작두 스티커팩', currentStock: 120, minStock: 20, lastReceived: '2026-03-25' },
-    { publisher: '작두', name: '작두 엽서 세트', currentStock: 0, minStock: 10, lastReceived: '2026-02-28' },
-    { publisher: '킬러배드로', name: '킬배 미니피규어', currentStock: 32, minStock: 10, lastReceived: '2026-03-28' },
-    { publisher: '킬러배드로', name: '킬배 폰케이스', currentStock: 5, minStock: 8, lastReceived: '2026-03-10' }
+    { publisher: 'Sony Music', name: '꿈이상 공연 기획', currentStock: 45, minStock: 10, lastReceived: '2026-03-20' },
+    { publisher: 'Sony Music', name: '향막 무대 디자인', currentStock: 8, minStock: 15, lastReceived: '2026-03-15' },
+    { publisher: 'YG Entertainment', name: 'YG Entertainment 음향 장비', currentStock: 120, minStock: 20, lastReceived: '2026-03-25' },
+    { publisher: 'YG Entertainment', name: 'YG Entertainment 조명 장비', currentStock: 0, minStock: 10, lastReceived: '2026-02-28' },
+    { publisher: 'JYP Entertainment', name: '킬배 영상 제작', currentStock: 32, minStock: 10, lastReceived: '2026-03-28' },
+    { publisher: 'JYP Entertainment', name: '킬배 MD 상품', currentStock: 5, minStock: 8, lastReceived: '2026-03-10' }
   ];
   localStorage.setItem('bs_inventory', JSON.stringify(defaults));
   return defaults;
@@ -3686,9 +3686,9 @@ function getReceivingStore() {
   } catch (e) {}
 
   var defaults = [
-    { date: '2026-03-28', publisher: '킬러배드로', name: '킬배 미니피규어', expectedQty: 50, actualQty: 50, status: 'completed', checker: '이슬' },
-    { date: '2026-03-25', publisher: '작두', name: '작두 스티커팩', expectedQty: 100, actualQty: 100, status: 'completed', checker: '김형희' },
-    { date: '2026-04-05', publisher: '북극여우', name: '향막 포스터 세트', expectedQty: 30, actualQty: 0, status: 'expected', checker: '' }
+    { date: '2026-03-28', publisher: 'JYP Entertainment', name: '킬배 영상 제작', expectedQty: 50, actualQty: 50, status: 'completed', checker: '이슬' },
+    { date: '2026-03-25', publisher: 'YG Entertainment', name: 'YG Entertainment 음향 장비', expectedQty: 100, actualQty: 100, status: 'completed', checker: '김형희' },
+    { date: '2026-04-05', publisher: 'Sony Music', name: '향막 무대 디자인', expectedQty: 30, actualQty: 0, status: 'expected', checker: '' }
   ];
   localStorage.setItem('bs_receiving', JSON.stringify(defaults));
   return defaults;
@@ -3701,8 +3701,8 @@ function getOrderStore() {
   } catch (e) {}
 
   var defaults = [
-    { date: '2026-04-02', publisher: '작두', name: '작두 엽서 세트', qty: 50, status: 'requested', requester: '문지민' },
-    { date: '2026-04-03', publisher: '북극여우', name: '향막 포스터 세트', qty: 30, status: 'ordered', requester: '이슬' }
+    { date: '2026-04-02', publisher: 'YG Entertainment', name: 'YG Entertainment 조명 장비', qty: 50, status: 'requested', requester: '문지민' },
+    { date: '2026-04-03', publisher: 'Sony Music', name: '향막 무대 디자인', qty: 30, status: 'ordered', requester: '이슬' }
   ];
   localStorage.setItem('bs_orders', JSON.stringify(defaults));
   return defaults;
@@ -3805,7 +3805,7 @@ function renderInventoryStock() {
     }
   }
 
-  // 제작사별 요약 렌더링
+  // 파트너별 요약 렌더링
   renderPublisherSummaryCards(items);
 }
 
@@ -3827,7 +3827,7 @@ function renderPublisherSummaryCards(items) {
 
   if (publishers.length === 0) { container.innerHTML = ''; return; }
 
-  container.innerHTML = '<div style="font-size:12px; font-weight:600; color:var(--gray-500); margin-bottom:8px;">제작사별 재고 요약</div>' +
+  container.innerHTML = '<div style="font-size:12px; font-weight:600; color:var(--gray-500); margin-bottom:8px;">파트너별 재고 요약</div>' +
     '<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:8px;">' +
     publishers.map(function(entry) {
       var name = entry[0], data = entry[1];
@@ -3986,7 +3986,7 @@ function downloadInventoryExcel() {
   var wb = XLSX.utils.book_new();
 
   // Sheet 1: 재고 현황
-  var header = ['제작사', '상품코드', '상품명', '현재고', '최소재고', '상태', '판매가', '최종 업데이트'];
+  var header = ['파트너', '상품코드', '상품명', '현재고', '최소재고', '상태', '판매가', '최종 업데이트'];
   var dataRows = items.map(function(item) {
     var st = (item.currentStock || 0) <= 0 ? '품절' : (item.currentStock || 0) <= (item.minStock || 5) ? '부족' : '정상';
     return [
@@ -4027,7 +4027,7 @@ function saveInventoryItem() {
   var minStock = parseInt(document.getElementById('inv-min-stock').value) || 10;
   var lastReceived = document.getElementById('inv-last-received').value;
 
-  if (!publisher) { showToast('제작사를 입력해주세요.', 'error'); return; }
+  if (!publisher) { showToast('파트너를 입력해주세요.', 'error'); return; }
   if (!name) { showToast('상품명을 입력해주세요.', 'error'); return; }
 
   var items = getInventoryStore();
@@ -4114,7 +4114,7 @@ function saveReceiving() {
   var checker = document.getElementById('recv-checker').value.trim();
 
   if (!date) { showToast('입고일을 입력해주세요.', 'error'); return; }
-  if (!publisher) { showToast('제작사를 입력해주세요.', 'error'); return; }
+  if (!publisher) { showToast('파트너를 입력해주세요.', 'error'); return; }
   if (!name) { showToast('상품명을 입력해주세요.', 'error'); return; }
 
   var status = actualQty > 0 ? 'completed' : 'expected';
@@ -4205,7 +4205,7 @@ function saveOrder() {
   var qty = parseInt(document.getElementById('order-qty').value) || 0;
   var requester = document.getElementById('order-requester').value.trim();
 
-  if (!publisher) { showToast('제작사를 입력해주세요.', 'error'); return; }
+  if (!publisher) { showToast('파트너를 입력해주세요.', 'error'); return; }
   if (!name) { showToast('상품명을 입력해주세요.', 'error'); return; }
   if (!qty) { showToast('요청수량을 입력해주세요.', 'error'); return; }
 
@@ -4515,23 +4515,23 @@ function setClientStore(data) {
 // Default client data (pre-populated from known publishers)
 function getDefaultClients() {
   return [
-    { id: 'cl_1', name: '(주)다온크리에이티브', bizNo: '', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '익월10일', payDate: '익월말일', contactName: '홍성일 파트장', contactEmail: 'sungil1102@daoncreative.com', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
+    { id: 'cl_1', name: '(주)Live Nation', bizNo: '', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '익월10일', payDate: '익월말일', contactName: '홍성일 파트장', contactEmail: 'sungil1102@daoncreative.com', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
     { id: 'cl_2', name: '주식회사 제이비케이콘텐츠', bizNo: '', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '익월7일', payDate: '정산후2주', contactName: '안병하 부장', contactEmail: 'ahn@jbkcorp.kr', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
-    { id: 'cl_3', name: '(주)재담미디어', bizNo: '105-87-84058', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '익월7일', payDate: '익월15일', contactName: '이문수 PD', contactEmail: 'sio@jaedam.com', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
-    { id: 'cl_4', name: '주식회사 두세븐엔터테인먼트', bizNo: '332-86-02331', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '28%', feeBasis: '부가세수수료포함', dataDate: '익월10일', payDate: '익월말일', contactName: '전민희 차장', contactEmail: 'jeon@do7ent.com', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
-    { id: 'cl_5', name: '씨엔씨레볼루션(주)', bizNo: '220-86-24783', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '익월7일', payDate: '익월말일', contactName: '황은해 팀장', contactEmail: 'hwang@cncrevolution.kr', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
-    { id: 'cl_6', name: '콘텐츠퍼스트 주식회사', bizNo: '113-86-67000', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25% (웻샌드20%)', feeBasis: '부가세수수료제외', dataDate: '익월10일', payDate: '익월말일', contactName: '황혜조 매니저', contactEmail: 'mickey@tappytoon.com', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
-    { id: 'cl_7', name: '코드엠아이엔씨(주)', bizNo: '333-81-00743', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '30%', feeBasis: '부가세수수료포함', dataDate: '익월5일', payDate: '익월말일', contactName: '이하늘 팀장', contactEmail: 'haneul@bifrostkr.com', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
-    { id: 'cl_8', name: '주식회사 북극여우', bizNo: '384-81-01468', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '익월10일', payDate: '익월말일', contactName: '박세민', contactEmail: 'psmin@polarfoxbook.com', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
-    { id: 'cl_9', name: '디씨씨이엔티 주식회사', bizNo: '119-87-06686', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '익월7일', payDate: '익월15일', contactName: '양희지 매니저', contactEmail: 'yangzi35@dcckor.com', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
-    { id: 'cl_10', name: '주식회사 블루픽', bizNo: '205-88-03575', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '수수료제외', dataDate: '익월15일', payDate: '익월말일', contactName: '이수빈 과장', contactEmail: 'book01@imageframe.kr', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
-    { id: 'cl_11', name: '도서출판 청어람', bizNo: '130-90-37449', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '익월10일', payDate: '익월말일', contactName: '박문수 실장', contactEmail: 'nadapms@naver.com', contactPhone: '010-7711-8012', taxEmail: '', orderEmail: '', memo: '공급율 65% 정산' },
-    { id: 'cl_12', name: '(주)학산문화사', bizNo: '106-81-54690', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '익월7일', payDate: '익월말일', contactName: '', contactEmail: '', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
-    { id: 'cl_13', name: '투유드림', bizNo: '209-81-59897', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '', payDate: '', contactName: '', contactEmail: '', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
-    { id: 'cl_14', name: '리디 주식회사', bizNo: '120-87-27435', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25% (VAT포함)', feeBasis: '부가세수수료포함', dataDate: '익월5일', payDate: '계산서 발행 후 20일', contactName: '최가은 매니저', contactEmail: 'lead.gaeun.choi@ridi.com', contactPhone: '', taxEmail: '', orderEmail: '', memo: '국내 판매 한정' },
-    { id: 'cl_15', name: '와이랩', bizNo: '', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '', payDate: '', contactName: '', contactEmail: '', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
+    { id: 'cl_3', name: '(주)CJ ENM', bizNo: '105-87-84058', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '익월7일', payDate: '익월15일', contactName: '이문수 PD', contactEmail: 'sio@jaedam.com', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
+    { id: 'cl_4', name: '주식회사 Interscope', bizNo: '332-86-02331', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '28%', feeBasis: '부가세수수료포함', dataDate: '익월10일', payDate: '익월말일', contactName: '전민희 차장', contactEmail: 'jeon@do7ent.com', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
+    { id: 'cl_5', name: 'WME(주)', bizNo: '220-86-24783', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '익월7일', payDate: '익월말일', contactName: '황은해 팀장', contactEmail: 'hwang@cncrevolution.kr', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
+    { id: 'cl_6', name: 'Ticketmaster 주식회사', bizNo: '113-86-67000', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25% (웻샌드20%)', feeBasis: '부가세수수료제외', dataDate: '익월10일', payDate: '익월말일', contactName: '황혜조 매니저', contactEmail: 'mickey@tappytoon.com', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
+    { id: 'cl_7', name: 'ICM Partners(주)', bizNo: '333-81-00743', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '30%', feeBasis: '부가세수수료포함', dataDate: '익월5일', payDate: '익월말일', contactName: '이하늘 팀장', contactEmail: 'haneul@bifrostkr.com', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
+    { id: 'cl_8', name: '주식회사 Sony Music', bizNo: '384-81-01468', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '익월10일', payDate: '익월말일', contactName: '박세민', contactEmail: 'psmin@polarfoxbook.com', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
+    { id: 'cl_9', name: 'Paradigm 주식회사', bizNo: '119-87-06686', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '익월7일', payDate: '익월15일', contactName: '양희지 매니저', contactEmail: 'yangzi35@dcckor.com', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
+    { id: 'cl_10', name: '주식회사 Eventbrite', bizNo: '205-88-03575', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '수수료제외', dataDate: '익월15일', payDate: '익월말일', contactName: '이수빈 과장', contactEmail: 'book01@imageframe.kr', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
+    { id: 'cl_11', name: 'Warner Music', bizNo: '130-90-37449', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '익월10일', payDate: '익월말일', contactName: '박문수 실장', contactEmail: 'nadapms@naver.com', contactPhone: '010-7711-8012', taxEmail: '', orderEmail: '', memo: '공급율 65% 정산' },
+    { id: 'cl_12', name: '(주)SM Entertainment', bizNo: '106-81-54690', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '익월7일', payDate: '익월말일', contactName: '', contactEmail: '', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
+    { id: 'cl_13', name: 'CAA', bizNo: '209-81-59897', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '', payDate: '', contactName: '', contactEmail: '', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
+    { id: 'cl_14', name: 'AEG Presents 주식회사', bizNo: '120-87-27435', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25% (VAT포함)', feeBasis: '부가세수수료포함', dataDate: '익월5일', payDate: '계산서 발행 후 20일', contactName: '최가은 매니저', contactEmail: 'lead.gaeun.choi@ridi.com', contactPhone: '', taxEmail: '', orderEmail: '', memo: '국내 판매 한정' },
+    { id: 'cl_15', name: 'Universal Music', bizNo: '', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '', payDate: '', contactName: '', contactEmail: '', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
     { id: 'cl_16', name: '락킨코리아', bizNo: '', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '', payDate: '', contactName: '', contactEmail: '', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
-    { id: 'cl_17', name: '네이버웹툰 유한회사', bizNo: '669-86-01888', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25% (VAT포함)', feeBasis: '부가세수수료포함', dataDate: '익월5일', payDate: '익월말일', contactName: '최은원', contactEmail: 'eunwon.choi@webtoonscorp.com', contactPhone: '010-6206-7082', taxEmail: '', orderEmail: '', memo: '3개월 단위 자동연장, 매월 25일까지 발주서 이메일' },
+    { id: 'cl_17', name: 'HYBE 유한회사', bizNo: '669-86-01888', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25% (VAT포함)', feeBasis: '부가세수수료포함', dataDate: '익월5일', payDate: '익월말일', contactName: '최은원', contactEmail: 'eunwon.choi@webtoonscorp.com', contactPhone: '010-6206-7082', taxEmail: '', orderEmail: '', memo: '3개월 단위 자동연장, 매월 25일까지 발주서 이메일' },
     { id: 'cl_18', name: '주식회사 에이템포미디어', bizNo: '752-86-01268', bank: '', contractDate: '', contractPeriod: '', status: '계약완료', feeRate: '25%', feeBasis: '부가세수수료제외', dataDate: '', payDate: '', contactName: '', contactEmail: '', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
     { id: 'cl_19', name: '태양네트웍스', bizNo: '', bank: '', contractDate: '', contractPeriod: '', status: '협의중', feeRate: '27% (VAT포함)', feeBasis: '부가세수수료포함', dataDate: '익월5일', payDate: '익월말일', contactName: '', contactEmail: '', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
     { id: 'cl_20', name: '맥 에이전시', bizNo: '', bank: '', contractDate: '', contractPeriod: '', status: '협의중', feeRate: '', feeBasis: '', dataDate: '', payDate: '', contactName: '', contactEmail: '', contactPhone: '', taxEmail: '', orderEmail: '', memo: '' },
@@ -4688,7 +4688,7 @@ function openClientModal(index) {
 
 function saveClient() {
   const name = document.getElementById('client-name').value.trim();
-  if (!name) { showToast('제작사명을 입력해주세요.', 'error'); return; }
+  if (!name) { showToast('파트너명을 입력해주세요.', 'error'); return; }
 
   const client = {
     name: name,
@@ -4745,83 +4745,42 @@ function deleteClient() {
   showToast('거래처가 삭제되었습니다.', 'success');
 }
 
-// === CLOSING (마감정산) ===
-function loadClosing() {
   const today = new Date();
-  const dateStr = (today.getMonth()+1) + '/' + today.getDate() + ' 마감정산';
-  const title = document.getElementById('closing-date-title');
   if (title) title.textContent = dateStr;
-  const history = getClosingHistory();
   const todayKey = today.toISOString().split('T')[0];
   const todayEntry = history.find(h => h.date === todayKey);
   if (todayEntry) {
-    document.getElementById('closing-1f').value = todayEntry.f1;
-    document.getElementById('closing-2f').value = todayEntry.f2;
-    document.getElementById('closing-3f').value = todayEntry.f3;
-    document.getElementById('closing-4f').value = todayEntry.f4 || 0;
-    calcClosingTotal();
   }
-  renderClosingHistory();
 }
-function calcClosingTotal() {
-  const f1 = parseInt(document.getElementById('closing-1f')?.value) || 0;
-  const f2 = parseInt(document.getElementById('closing-2f')?.value) || 0;
-  const f3 = parseInt(document.getElementById('closing-3f')?.value) || 0;
-  const f4 = parseInt(document.getElementById('closing-4f')?.value) || 0;
-  const el = document.getElementById('closing-total');
   if (el) el.textContent = '₩' + (f1+f2+f3+f4).toLocaleString();
 }
-function getClosingHistory() {
-  const data = localStorage.getItem('bs_closing');
   if (data) return JSON.parse(data);
   const defaults = [
     {date:'2026-04-04',f1:361500,f2:29100,f3:342000,f4:0,total:732600,reporter:'이슬',memo:''},
-    {date:'2026-04-03',f1:415200,f2:52300,f3:287600,f4:0,total:755100,reporter:'이슬',memo:'2층 디피 변경'},
+    {date:'2026-04-03',f1:415200,f2:52300,f3:287600,f4:0,total:755100,reporter:'이슬',memo:'팀B 디피 변경'},
     {date:'2026-04-02',f1:289000,f2:31500,f3:195000,f4:0,total:515500,reporter:'김형희',memo:''},
     {date:'2026-04-01',f1:523400,f2:67800,f3:412300,f4:0,total:1003500,reporter:'이슬',memo:'월초 고객 많음'}
   ];
-  localStorage.setItem('bs_closing', JSON.stringify(defaults));
   return defaults;
 }
-function submitClosing() {
-  const f1 = parseInt(document.getElementById('closing-1f')?.value) || 0;
-  const f2 = parseInt(document.getElementById('closing-2f')?.value) || 0;
-  const f3 = parseInt(document.getElementById('closing-3f')?.value) || 0;
-  const f4 = parseInt(document.getElementById('closing-4f')?.value) || 0;
   const total = f1+f2+f3+f4;
-  const memo = document.getElementById('closing-memo')?.value || '';
   if (total === 0) { showToast('매출 금액을 입력해주세요','error'); return; }
   const today = new Date().toISOString().split('T')[0];
-  const history = getClosingHistory();
   const userName = currentUser?.user_metadata?.name || currentProfile?.name || '미정';
   const existingIdx = history.findIndex(h => h.date === today);
   const entry = {date:today,f1,f2,f3,f4,total,reporter:userName,memo,submittedAt:new Date().toISOString()};
-  if (existingIdx >= 0) { history[existingIdx] = entry; showToast('마감정산 수정 완료!','success'); }
-  else { history.unshift(entry); showToast('마감정산 제출 완료!','success'); }
-  localStorage.setItem('bs_closing', JSON.stringify(history));
   const msgStore = JSON.parse(localStorage.getItem('bs_messages') || '[]');
-  msgStore.unshift({id:'msg_closing_'+Date.now(),from:currentUser?.id||'system',fromName:userName,to:'all',toName:'전체',content:'[마감정산] '+today.replace(/-/g,'.')+'\n1F = ₩'+f1.toLocaleString()+'\n2F = ₩'+f2.toLocaleString()+'\n3F = ₩'+f3.toLocaleString()+(f4>0?'\n4F = ₩'+f4.toLocaleString():'')+'\n합계 = ₩'+total.toLocaleString()+(memo?'\n메모: '+memo:''),createdAt:new Date().toISOString()});
   localStorage.setItem('bs_messages', JSON.stringify(msgStore));
-  renderClosingHistory();
 }
-function renderClosingHistory() {
-  const tbody = document.getElementById('closing-history-table');
   if (!tbody) return;
-  const history = getClosingHistory();
-  if (history.length === 0) { tbody.innerHTML = '<tr><td colspan="8" class="empty-state">마감정산 내역이 없습니다.</td></tr>'; return; }
   tbody.innerHTML = history.slice(0,30).map(h => '<tr><td style="font-weight:600; white-space:nowrap;">'+h.date+'</td><td style="text-align:right;">₩'+(h.f1||0).toLocaleString()+'</td><td style="text-align:right;">₩'+(h.f2||0).toLocaleString()+'</td><td style="text-align:right;">₩'+(h.f3||0).toLocaleString()+'</td><td style="text-align:right;">₩'+(h.f4||0).toLocaleString()+'</td><td style="text-align:right; font-weight:700; color:var(--primary);">₩'+(h.total||0).toLocaleString()+'</td><td>'+(h.reporter||'-')+'</td><td style="font-size:12px; color:var(--gray-500); max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">'+(h.memo||'-')+'</td></tr>').join('');
 }
-function downloadClosingExcel() {
-  const history = getClosingHistory();
   if (history.length === 0) { showToast('데이터가 없습니다','error'); return; }
   const wb = XLSX.utils.book_new();
   const header = ['날짜','1F','2F','3F','4F','합계','보고자','메모'];
   const rows = history.map(h => [h.date,h.f1||0,h.f2||0,h.f3||0,h.f4||0,h.total||0,h.reporter||'',h.memo||'']);
   const ws = XLSX.utils.aoa_to_sheet([header,...rows]);
   ws['!cols'] = [{wch:12},{wch:12},{wch:12},{wch:12},{wch:12},{wch:14},{wch:8},{wch:20}];
-  XLSX.utils.book_append_sheet(wb, ws, '마감정산');
-  XLSX.writeFile(wb, '버치사운드_마감정산_'+new Date().toISOString().split('T')[0].replace(/-/g,'')+'.xlsx');
-  showToast('마감정산 엑셀 다운로드 완료','success');
 }
 
 // ===== IP Management =====

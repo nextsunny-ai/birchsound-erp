@@ -188,15 +188,15 @@ function runSettlement() {
   });
 
   const results = [];
-  let grandTotal = { totalSales: 0, netSales: 0, cardSales: 0, cashSales: 0, afterFee: 0, publisherShare: 0, gmShare: 0 };
+  let grandTotal = { totalSales: 0, netSales: 0, cardSales: 0, cashSales: 0, afterFee: 0, partnerShare: 0, bsShare: 0 };
 
   Object.values(byCategory).forEach(cat => {
     const rate = 0.25; // default rate
     const netAfterVat = cat.netAmount;
     const cardFee = cat.cardSales > 0 ? Math.round(netAfterVat * cardFeeRate) : 0;
     const afterFee = netAfterVat - cardFee;
-    const gmShare = Math.round(afterFee * rate);
-    const partnerShare = afterFee - gmShare;
+    const bsShare = Math.round(afterFee * rate);
+    const partnerShare = afterFee - bsShare;
 
     const result = {
       name: cat.name,
@@ -209,8 +209,8 @@ function runSettlement() {
       afterFee: afterFee,
       rate: rate,
       rateType: 'net',
-      publisherShare: partnerShare,
-      gmShare: gmShare,
+      partnerShare: partnerShare,
+      bsShare: bsShare,
       taxAmount: Math.round(partnerShare * 0.1),
       totalPayable: partnerShare + Math.round(partnerShare * 0.1),
       items: cat.items,
@@ -223,8 +223,8 @@ function runSettlement() {
     grandTotal.cardSales += cat.cardSales;
     grandTotal.cashSales += cat.cashSales;
     grandTotal.afterFee += afterFee;
-    grandTotal.publisherShare += partnerShare;
-    grandTotal.gmShare += gmShare;
+    grandTotal.partnerShare += partnerShare;
+    grandTotal.bsShare += bsShare;
   });
 
   results.sort((a, b) => b.totalSales - a.totalSales);
@@ -249,8 +249,8 @@ function renderSettlementResults(results, grandTotal) {
       <td>${formatMoney(r.cardSales)}</td>
       <td>${formatMoney(r.cashSales)}</td>
       <td>${formatMoney(r.afterFee)}</td>
-      <td style="color:var(--blue); font-weight:700;">${formatMoney(r.publisherShare)}</td>
-      <td style="color:var(--primary); font-weight:700;">${formatMoney(r.gmShare)}</td>
+      <td style="color:var(--blue); font-weight:700;">${formatMoney(r.partnerShare)}</td>
+      <td style="color:var(--primary); font-weight:700;">${formatMoney(r.bsShare)}</td>
       <td><span class="badge badge-approved">${Math.round(r.rate * 100)}%</span></td>
       <td><button class="btn btn-sm btn-secondary" onclick="downloadSettlement('${r.name}')">다운로드</button></td>
     </tr>
@@ -261,8 +261,8 @@ function renderSettlementResults(results, grandTotal) {
   document.getElementById('settle-foot-card').textContent = formatMoney(grandTotal.cardSales);
   document.getElementById('settle-foot-cash').textContent = formatMoney(grandTotal.cashSales);
   document.getElementById('settle-foot-after').textContent = formatMoney(grandTotal.afterFee);
-  document.getElementById('settle-foot-publisher').textContent = formatMoney(grandTotal.publisherShare);
-  document.getElementById('settle-foot-gm').textContent = formatMoney(grandTotal.gmShare);
+  document.getElementById('settle-foot-publisher').textContent = formatMoney(grandTotal.partnerShare);
+  document.getElementById('settle-foot-gm').textContent = formatMoney(grandTotal.bsShare);
 
   document.getElementById('settle-step3').style.display = 'block';
   document.getElementById('settle-step3').scrollIntoView({ behavior: 'smooth' });
@@ -291,10 +291,10 @@ function downloadSettlement(name) {
     ['총 매출', '', result.totalSales],
     ['순 매출 (부가세 제외)', '', result.netAmount],
     ['수수료 차감 후', '', result.afterFee],
-    ['파트너 몫', '', result.publisherShare],
-    ['버치사운드 몫', '', result.gmShare],
+    ['파트너 몫', '', result.partnerShare],
+    ['버치사운드 몫', '', result.bsShare],
     [],
-    ['세금계산서 공급가액', '', result.publisherShare],
+    ['세금계산서 공급가액', '', result.partnerShare],
     ['부가세', '', result.taxAmount],
     ['합계금액', '', result.totalPayable],
   ];
@@ -350,8 +350,8 @@ function saveSettlementHistory(month, results, grandTotal) {
     const history = JSON.parse(localStorage.getItem('bs_settlement_history') || '{}');
     history[month] = {
       totalSales: grandTotal.totalSales,
-      gmShare: grandTotal.gmShare,
-      publisherShare: grandTotal.publisherShare,
+      bsShare: grandTotal.bsShare,
+      partnerShare: grandTotal.partnerShare,
       count: results.length,
       date: new Date().toISOString()
     };
@@ -365,9 +365,71 @@ function saveSettlementHistory(month, results, grandTotal) {
 function calculateUrbanSettlement() {}
 function loadStoreSalesFromSettlement() {}
 function loadHRLaborCost() {}
-function handleGachaUpload() {}
 function loadPopupSettlement() {}
 function calculatePopupSettlement() {}
 function downloadPopupSettlement() {}
 function downloadUrbanSettlement() {}
 function saveUrbanHistory() {}
+
+// ===== 경영 리포트 =====
+function loadReport() {
+  const year = document.getElementById('report-year')?.value || '2026';
+  renderReportStats(year);
+  renderMonthlyChart(year);
+  renderPartnerSummary(year);
+}
+
+function renderReportStats(year) {
+  const history = JSON.parse(localStorage.getItem('bs_settlement_history') || '{}');
+  let totalSales = 0, bsShare = 0, partnerShare = 0;
+  Object.entries(history).forEach(([month, data]) => {
+    if (month.startsWith(year)) {
+      totalSales += data.totalSales || 0;
+      bsShare += data.bsShare || 0;
+      partnerShare += data.partnerShare || 0;
+    }
+  });
+  const el = id => document.getElementById(id);
+  if (el('report-year-sales')) el('report-year-sales').textContent = '₩' + totalSales.toLocaleString();
+  if (el('report-year-bs')) el('report-year-bs').textContent = '₩' + bsShare.toLocaleString();
+  if (el('report-year-publisher')) el('report-year-publisher').textContent = '₩' + partnerShare.toLocaleString();
+}
+
+function renderMonthlyChart(year) {
+  const history = JSON.parse(localStorage.getItem('bs_settlement_history') || '{}');
+  const container = document.getElementById('report-monthly-chart');
+  if (!container) return;
+  const months = [];
+  for (let m = 1; m <= 12; m++) {
+    const key = year + '-' + String(m).padStart(2, '0');
+    const data = history[key];
+    months.push({ month: m, label: m + '월', sales: data ? data.totalSales : 0 });
+  }
+  const maxSales = Math.max(...months.map(m => m.sales), 1);
+  container.innerHTML = '<div style="display:flex;align-items:flex-end;gap:6px;height:200px;">' +
+    months.map(m => {
+      const h = m.sales > 0 ? Math.max((m.sales / maxSales) * 100, 5) : 2;
+      const s = m.sales > 1000000 ? (m.sales/1000000).toFixed(1)+'M' : m.sales > 0 ? (m.sales/1000).toFixed(0)+'K' : '-';
+      return '<div style="flex:1;text-align:center;display:flex;flex-direction:column;justify-content:flex-end;height:100%;"><div style="background:'+(m.sales>0?'var(--primary)':'var(--gray-200)')+';border-radius:4px 4px 0 0;height:'+h+'%;min-height:4px;"></div><div style="font-size:11px;margin-top:4px;">'+m.label+'</div><div style="font-size:9px;color:var(--gray-500);">'+s+'</div></div>';
+    }).join('') + '</div>';
+}
+
+function renderPartnerSummary(year) {
+  const history = JSON.parse(localStorage.getItem('bs_settlement_history') || '{}');
+  const byPartner = {};
+  Object.entries(history).forEach(([month, data]) => {
+    if (!month.startsWith(year) || !data.publishers) return;
+    data.publishers.forEach(p => {
+      if (!byPartner[p.name]) byPartner[p.name] = { totalSales: 0, partnerShare: 0, bsShare: 0, count: 0 };
+      byPartner[p.name].totalSales += p.totalSales || 0;
+      byPartner[p.name].partnerShare += p.partnerShare || 0;
+      byPartner[p.name].bsShare += p.bsShare || 0;
+      byPartner[p.name].count++;
+    });
+  });
+  const tbody = document.getElementById('report-publisher-table');
+  if (!tbody) return;
+  const sorted = Object.entries(byPartner).sort((a,b) => b[1].totalSales - a[1].totalSales);
+  if (sorted.length === 0) { tbody.innerHTML = '<tr><td colspan="6" class="empty-state">정산 데이터가 없습니다.</td></tr>'; return; }
+  tbody.innerHTML = sorted.map(([name,v]) => '<tr><td style="font-weight:600;">'+name+'</td><td>₩'+v.totalSales.toLocaleString()+'</td><td>₩'+v.partnerShare.toLocaleString()+'</td><td style="color:var(--primary);font-weight:700;">₩'+v.bsShare.toLocaleString()+'</td><td>'+v.count+'회</td></tr>').join('');
+}

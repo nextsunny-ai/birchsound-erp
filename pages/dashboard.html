@@ -1152,28 +1152,28 @@
         <div class="page-header">
           <div>
             <h1>거래처 관리</h1>
-            <div class="header-sub">제작사/파트너 계약 및 연락처</div>
+            <div class="header-sub">파트너/파트너 계약 및 연락처</div>
           </div>
         </div>
         <div class="page-body">
           <!-- Tabs -->
           <div style="display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;">
-            <button class="btn btn-ghost btn-sm client-tab-btn" onclick="switchClientTab('list', this)" style="background:var(--primary); color:white;">제작사 목록</button>
+            <button class="btn btn-ghost btn-sm client-tab-btn" onclick="switchClientTab('list', this)" style="background:var(--primary); color:white;">파트너 목록</button>
             <button class="btn btn-ghost btn-sm client-tab-btn" onclick="switchClientTab('contract', this)">계약 현황</button>
           </div>
 
-          <!-- Tab 1: 제작사 목록 -->
+          <!-- Tab 1: 파트너 목록 -->
           <div id="clients-tab-list">
             <div class="card">
               <div class="card-header">
-                <h3>제작사 목록</h3>
+                <h3>파트너 목록</h3>
                 <button class="btn btn-primary btn-sm" onclick="openClientModal()">+ 거래처 추가</button>
               </div>
               <div class="table-container">
                 <table>
                   <thead>
                     <tr>
-                      <th>제작사명</th>
+                      <th>파트너명</th>
                       <th>계약상태</th>
                       <th>담당자</th>
                       <th>이메일</th>
@@ -1223,7 +1223,7 @@
                 <table>
                   <thead>
                     <tr>
-                      <th>제작사명</th>
+                      <th>파트너명</th>
                       <th>계약일자</th>
                       <th>계약기간</th>
                       <th>수수료</th>
@@ -2072,7 +2072,7 @@
         <div style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--gray-500);">
           <span>색상:</span>
           <span id="cal-color-preview" style="display:inline-block; width:16px; height:16px; border-radius:50%; background:#9333EA;"></span>
-          <span id="cal-color-label">팝업</span>
+          <span id="cal-color-label">공연</span>
         </div>
       </div>
       <div class="modal-footer">
@@ -2097,8 +2097,8 @@
         <input type="hidden" id="client-edit-index" value="">
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
           <div class="form-group">
-            <label>제작사명</label>
-            <input type="text" id="client-name" placeholder="제작사명">
+            <label>파트너명</label>
+            <input type="text" id="client-name" placeholder="파트너명">
           </div>
           <div class="form-group">
             <label>사업자번호</label>
