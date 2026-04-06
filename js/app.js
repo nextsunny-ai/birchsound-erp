@@ -926,11 +926,14 @@ async function loadMembers() {
       <td style="font-size:14px; color:var(--gray-500);">${m.email}</td>
       <td>
         <select onchange="changeRole('${m.id}', this.value)" style="padding:4px 8px; border:1px solid var(--gray-200); border-radius:4px; font-size:14px;" ${isMe ? 'disabled' : ''}>
-          <option value="guest" ${m.role === 'guest' ? 'selected' : ''}>프리랜서</option>
-          <option value="member" ${m.role === 'member' ? 'selected' : ''}>팀원</option>
-          <option value="manager" ${m.role === 'manager' ? 'selected' : ''}>매니저</option>
-          <option value="admin" ${m.role === 'admin' ? 'selected' : ''}>본부장</option>
           <option value="ceo" ${m.role === 'ceo' ? 'selected' : ''}>대표</option>
+          <option value="vice_president" ${m.role === 'vice_president' ? 'selected' : ''}>부사장</option>
+          <option value="director" ${m.role === 'director' ? 'selected' : ''}>이사</option>
+          <option value="creative_director" ${m.role === 'creative_director' ? 'selected' : ''}>디렉터</option>
+          <option value="admin" ${m.role === 'admin' ? 'selected' : ''}>본부장</option>
+          <option value="manager" ${m.role === 'manager' ? 'selected' : ''}>매니저</option>
+          <option value="member" ${m.role === 'member' ? 'selected' : ''}>팀원</option>
+          <option value="guest" ${m.role === 'guest' ? 'selected' : ''}>프리랜서</option>
         </select>
       </td>
       <td>${attStatus}</td>
