@@ -926,10 +926,10 @@ async function loadMembers() {
       <td style="font-size:14px; color:var(--gray-500);">${m.email}</td>
       <td>
         <select onchange="changeRole('${m.id}', this.value)" style="padding:4px 8px; border:1px solid var(--gray-200); border-radius:4px; font-size:14px;" ${isMe ? 'disabled' : ''}>
-          <option value="member" ${m.role === 'member' ? 'selected' : ''}>팀원</option>
-          <option value="manager" ${m.role === 'manager' ? 'selected' : ''}>팀장</option>
-          <option value="admin" ${m.role === 'admin' ? 'selected' : ''}>관리자</option>
-          <option value="ceo" ${m.role === 'ceo' ? 'selected' : ''}>대표</option>
+          <option value="member" ${m.role === 'member' ? 'selected' : ''}>Level 2 (기본)</option>
+          <option value="manager" ${m.role === 'manager' ? 'selected' : ''}>Level 3 (업무)</option>
+          <option value="admin" ${m.role === 'admin' ? 'selected' : ''}>Level 4 (관리)</option>
+          <option value="ceo" ${m.role === 'ceo' ? 'selected' : ''}>Level 5 (전체)</option>
         </select>
       </td>
       <td>${attStatus}</td>
@@ -3995,10 +3995,10 @@ async function loadPermissionTable() {
       <td><span style="color:${roleColors[p.role] || 'inherit'}; font-weight:600;">${roleLabels[p.role] || p.role}</span></td>
       <td>
         <select onchange="changeUserRole('${p.id}', this.value)" style="padding:6px 10px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:14px;" ${p.id === (currentUser && currentUser.id) ? 'disabled title="본인 권한은 변경할 수 없습니다"' : ''}>
-          <option value="ceo" ${p.role === 'ceo' ? 'selected' : ''}>대표</option>
-          <option value="admin" ${p.role === 'admin' ? 'selected' : ''}>관리자</option>
-          <option value="manager" ${p.role === 'manager' ? 'selected' : ''}>팀장</option>
-          <option value="member" ${p.role === 'member' ? 'selected' : ''}>팀원</option>
+          <option value="ceo" ${p.role === 'ceo' ? 'selected' : ''}>Level 5 (전체)</option>
+          <option value="admin" ${p.role === 'admin' ? 'selected' : ''}>Level 4 (관리)</option>
+          <option value="manager" ${p.role === 'manager' ? 'selected' : ''}>Level 3 (업무)</option>
+          <option value="member" ${p.role === 'member' ? 'selected' : ''}>Level 2 (기본)</option>
           <option value="guest" ${p.role === 'guest' ? 'selected' : ''}>게스트</option>
         </select>
       </td>
