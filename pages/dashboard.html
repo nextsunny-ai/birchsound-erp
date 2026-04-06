@@ -29,7 +29,7 @@
       </div>
 
       <div style="padding:4px 12px;">
-        <button onclick="toggleLang()" id="lang-toggle" style="width:100%; padding:6px; background:var(--gray-100); border:1px solid var(--gray-200); border-radius:6px; cursor:pointer; font-size:12px; font-weight:600; color:var(--gray-600); font-family:inherit;">
+        <button onclick="toggleLang()" id="lang-toggle" style="width:100%; padding:6px; background:var(--gray-100); border:1px solid var(--gray-200); border-radius:6px; cursor:pointer; font-size:14px; font-weight:600; color:var(--gray-600); font-family:inherit;">
           🌐 English
         </button>
       </div>
@@ -144,7 +144,7 @@
         </div>
       </div>
       <div style="padding:8px 12px 16px;">
-        <button onclick="logout()" style="width:100%; padding:10px; background:var(--gray-100); border:none; border-radius:var(--radius-sm); cursor:pointer; font-size:13px; font-weight:500; color:var(--gray-600); font-family:inherit; display:flex; align-items:center; justify-content:center; gap:6px;">
+        <button onclick="logout()" style="width:100%; padding:10px; background:var(--gray-100); border:none; border-radius:var(--radius-sm); cursor:pointer; font-size:14px; font-weight:500; color:var(--gray-600); font-family:inherit; display:flex; align-items:center; justify-content:center; gap:6px;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
           로그아웃
         </button>
@@ -169,7 +169,7 @@
             <div class="card-body" style="padding:16px 20px;">
               <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
                 <div>
-                  <div style="font-size:12px; color:var(--gray-500); font-weight:600; text-transform:uppercase; letter-spacing:1px;">TODAY</div>
+                  <div style="font-size:14px; color:var(--gray-500); font-weight:600; text-transform:uppercase; letter-spacing:1px;">TODAY</div>
                   <div id="dash-my-schedule" style="font-size:18px; font-weight:700; margin-top:4px;">오늘의 일정을 확인하세요</div>
                 </div>
                 <div id="dash-clock" style="font-size:24px; font-weight:800; font-variant-numeric:tabular-nums; color:var(--black);"></div>
@@ -182,25 +182,25 @@
             <div class="card" style="border:none; box-shadow:none; background:var(--primary-bg);">
               <div class="card-body" style="padding:12px; text-align:center;">
                 <div style="font-size:20px; font-weight:800; color:var(--primary);" id="dash-month-days">-</div>
-                <div style="font-size:11px; color:var(--gray-500);">진행중 프로젝트</div>
+                <div style="font-size:14px; color:var(--gray-500);">진행중 프로젝트</div>
               </div>
             </div>
             <div class="card" style="border:none; box-shadow:none; background:var(--blue-bg);">
               <div class="card-body" style="padding:12px; text-align:center;">
                 <div style="font-size:20px; font-weight:800; color:var(--blue);" id="dash-month-hours">-</div>
-                <div style="font-size:11px; color:var(--gray-500);">총 근무시간</div>
+                <div style="font-size:14px; color:var(--gray-500);">총 근무시간</div>
               </div>
             </div>
             <div class="card" style="border:none; box-shadow:none; background:var(--yellow-bg);">
               <div class="card-body" style="padding:12px; text-align:center;">
                 <div style="font-size:20px; font-weight:800; color:#B8860B;" id="dash-pending-approvals">-</div>
-                <div style="font-size:11px; color:var(--gray-500);">결재 대기</div>
+                <div style="font-size:14px; color:var(--gray-500);">결재 대기</div>
               </div>
             </div>
             <div class="card" style="border:none; box-shadow:none; background:var(--green-bg);">
               <div class="card-body" style="padding:12px; text-align:center;">
                 <div style="font-size:20px; font-weight:800; color:var(--green);" id="dash-notices-count">-</div>
-                <div style="font-size:11px; color:var(--gray-500);">새 공지</div>
+                <div style="font-size:14px; color:var(--gray-500);">새 공지</div>
               </div>
             </div>
           </div>
@@ -210,21 +210,21 @@
             <div class="card">
               <div class="card-header" style="padding:12px 16px;">
                 <h3 style="font-size:14px;">최근 공지</h3>
-                <a class="btn btn-ghost btn-sm" onclick="navigateTo('notice')" style="font-size:12px;">전체</a>
+                <a class="btn btn-ghost btn-sm" onclick="navigateTo('notice')" style="font-size:14px;">전체</a>
               </div>
               <div class="card-body" style="padding:0;">
                 <div id="dash-notices" class="notice-list" style="max-height:160px; overflow-y:auto;">
-                  <div class="empty-state" style="padding:20px;"><p style="font-size:13px;">공지 없음</p></div>
+                  <div class="empty-state" style="padding:20px;"><p style="font-size:14px;">공지 없음</p></div>
                 </div>
               </div>
             </div>
             <div class="card">
               <div class="card-header" style="padding:12px 16px;">
                 <h3 style="font-size:14px;">이번 주 일정</h3>
-                <a class="btn btn-ghost btn-sm" onclick="navigateTo('calendar')" style="font-size:12px;">전체</a>
+                <a class="btn btn-ghost btn-sm" onclick="navigateTo('calendar')" style="font-size:14px;">전체</a>
               </div>
               <div class="card-body" style="padding:8px 16px; max-height:160px; overflow-y:auto;">
-                <div id="dash-week-events" style="font-size:13px; color:var(--gray-600);">일정 없음</div>
+                <div id="dash-week-events" style="font-size:14px; color:var(--gray-600);">일정 없음</div>
               </div>
             </div>
           </div>
@@ -283,7 +283,7 @@
           <div class="card">
             <div class="card-header">
               <h3>근태 기록</h3>
-              <select id="attendance-month-filter" onchange="loadAttendanceHistory()" style="padding:6px 12px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:13px;">
+              <select id="attendance-month-filter" onchange="loadAttendanceHistory()" style="padding:6px 12px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:14px;">
               </select>
             </div>
             <div class="table-container">
@@ -389,7 +389,7 @@
               <div id="settle-dropzone" style="border:2px dashed var(--gray-300); border-radius:12px; padding:48px; text-align:center; cursor:pointer; transition:all 0.2s;">
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="1.5" style="margin-bottom:16px;"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                 <p style="font-size:16px; font-weight:600; color:var(--gray-700); margin-bottom:4px;"> 엑셀 파일을 드래그하거나 클릭하세요</p>
-                <p style="font-size:13px; color:var(--gray-400);">특정기간 상품별 데이터 (.xlsx)</p>
+                <p style="font-size:14px; color:var(--gray-400);">특정기간 상품별 데이터 (.xlsx)</p>
                 <input type="file" id="settle-file-input" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleSettleFile(this.files[0])">
               </div>
               <div id="settle-file-info" style="display:none; margin-top:16px; padding:12px 16px; background:var(--green-bg); border-radius:8px; font-size:14px; color:var(--green);">
@@ -621,7 +621,7 @@
           <div class="card">
             <div class="card-header">
               <h3>문서 목록</h3>
-              <span style="font-size:12px; color:var(--gray-400);" id="resource-count">0건</span>
+              <span style="font-size:14px; color:var(--gray-400);" id="resource-count">0건</span>
             </div>
             <div class="table-container">
               <table>
@@ -714,10 +714,10 @@
         </div>
         <div class="page-body">
           <!-- Legend -->
-          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:12px; font-size:12px;">
-            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:rgba(46,196,182,0.15); display:inline-block; text-align:center; font-size:10px; font-weight:700; color:var(--primary);">O</span> 출근</span>
-            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:#F5F5F5; display:inline-block; text-align:center; font-size:10px; color:#999;">휴</span> 휴무</span>
-            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:#FEF2F2; display:inline-block; text-align:center; font-size:10px; color:#DC2626;">연</span> 연차</span>
+          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:12px; font-size:14px;">
+            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:rgba(46,196,182,0.15); display:inline-block; text-align:center; font-size:13px; font-weight:700; color:var(--primary);">O</span> 출근</span>
+            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:#F5F5F5; display:inline-block; text-align:center; font-size:13px; color:#999;">휴</span> 휴무</span>
+            <span style="display:flex; align-items:center; gap:4px;"><span style="width:20px; height:16px; border-radius:3px; background:#FEF2F2; display:inline-block; text-align:center; font-size:13px; color:#DC2626;">연</span> 연차</span>
           </div>
 
           <!-- Schedule Grid -->
@@ -729,7 +729,7 @@
           <div class="card">
             <div class="card-header">
               <h3>주간 근무시간 현황</h3>
-              <span style="font-size:12px; color:var(--gray-400);">근로기준법 기반 자동 계산</span>
+              <span style="font-size:14px; color:var(--gray-400);">근로기준법 기반 자동 계산</span>
             </div>
             <div class="table-container">
               <table>
@@ -831,7 +831,7 @@
           <div class="card">
             <div class="card-header">
               <h3>연차 관리</h3>
-              <span style="font-size:12px; color:var(--gray-400);">출퇴근 데이터 기반 요약</span>
+              <span style="font-size:14px; color:var(--gray-400);">출퇴근 데이터 기반 요약</span>
             </div>
             <div class="table-container">
               <table>
@@ -856,7 +856,7 @@
             <div class="card-header">
               <h3>급여명세서</h3>
               <div style="display:flex; gap:8px;">
-                <select id="payslip-month" style="padding:6px 12px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:13px;">
+                <select id="payslip-month" style="padding:6px 12px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:14px;">
                   <!-- filled by JS -->
                 </select>
                 <button class="btn btn-primary btn-sm" onclick="generateAllPayslips()">전체 급여명세서 다운로드</button>
@@ -1085,12 +1085,12 @@
 
           <!-- Category Legend -->
           <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:20px; padding:12px 16px; background:var(--gray-50); border-radius:10px;">
-            <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#9333EA;"></span> 공연</span>
-            <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#2563EB;"></span> 리허설</span>
-            <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#16A34A;"></span> 이벤트/프로모션</span>
-            <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#EAB308;"></span> 회의</span>
-            <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#DC2626;"></span> 마감/중요</span>
-            <span style="display:flex; align-items:center; gap:5px; font-size:13px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#6B7280;"></span> 기타</span>
+            <span style="display:flex; align-items:center; gap:5px; font-size:14px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#9333EA;"></span> 공연</span>
+            <span style="display:flex; align-items:center; gap:5px; font-size:14px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#2563EB;"></span> 리허설</span>
+            <span style="display:flex; align-items:center; gap:5px; font-size:14px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#16A34A;"></span> 이벤트/프로모션</span>
+            <span style="display:flex; align-items:center; gap:5px; font-size:14px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#EAB308;"></span> 회의</span>
+            <span style="display:flex; align-items:center; gap:5px; font-size:14px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#DC2626;"></span> 마감/중요</span>
+            <span style="display:flex; align-items:center; gap:5px; font-size:14px; font-weight:600;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#6B7280;"></span> 기타</span>
           </div>
 
           <!-- Year View -->
@@ -1130,7 +1130,7 @@
           <div class="card">
             <div class="card-header">
               <h3 id="cal-event-list-title">이번 달 일정 리스트</h3>
-              <span style="font-size:12px; color:var(--gray-400);" id="cal-event-count">0건</span>
+              <span style="font-size:14px; color:var(--gray-400);" id="cal-event-count">0건</span>
             </div>
             <div class="table-container">
               <table>
@@ -1266,13 +1266,13 @@
 
           <!-- Period Selector -->
           <div style="display:flex; gap:8px; align-items:center; margin-bottom:20px;">
-            <select id="report-period" style="padding:8px 12px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:13px;">
+            <select id="report-period" style="padding:8px 12px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:14px;">
               <option value="monthly">월별</option>
               <option value="quarterly">분기별</option>
               <option value="half">상반기/하반기</option>
               <option value="yearly">연간</option>
             </select>
-            <select id="report-year" style="padding:8px 12px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:13px;">
+            <select id="report-year" style="padding:8px 12px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:14px;">
               <option value="2026">2026년</option>
               <option value="2025">2025년</option>
             </select>
@@ -1283,25 +1283,25 @@
           <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px;">
             <div class="card" style="border:none; box-shadow:none; background:var(--primary-bg);">
               <div class="card-body" style="padding:14px; text-align:center;">
-                <div style="font-size:11px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-sales">총매출</div>
+                <div style="font-size:14px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-sales">총매출</div>
                 <div style="font-size:22px; font-weight:800; color:var(--primary);" id="report-year-sales">₩0</div>
               </div>
             </div>
             <div class="card" style="border:none; box-shadow:none; background:var(--green-bg);">
               <div class="card-body" style="padding:14px; text-align:center;">
-                <div style="font-size:11px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-gm">자체 수익</div>
+                <div style="font-size:14px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-gm">자체 수익</div>
                 <div style="font-size:22px; font-weight:800; color:var(--green);" id="report-year-gm">₩0</div>
               </div>
             </div>
             <div class="card" style="border:none; box-shadow:none; background:var(--blue-bg);">
               <div class="card-body" style="padding:14px; text-align:center;">
-                <div style="font-size:11px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-pub">파트너 정산</div>
+                <div style="font-size:14px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-pub">파트너 정산</div>
                 <div style="font-size:22px; font-weight:800; color:var(--blue);" id="report-year-publisher">₩0</div>
               </div>
             </div>
             <div class="card" style="border:none; box-shadow:none; background:var(--yellow-bg);">
               <div class="card-body" style="padding:14px; text-align:center;">
-                <div style="font-size:11px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-ad">기타 정산</div>
+                <div style="font-size:14px; color:var(--gray-500); font-weight:600; margin-bottom:4px;" id="report-label-ad">기타 정산</div>
                 <div style="font-size:22px; font-weight:800; color:#B8860B;" id="report-year-ad">₩0</div>
               </div>
             </div>
@@ -1336,19 +1336,19 @@
               <!-- 요약 카드 -->
               <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px;">
                 <div style="background:var(--primary-bg); padding:12px; border-radius:8px; text-align:center;">
-                  <div style="font-size:11px; color:var(--gray-500);" id="report-cost-label-labor">인건비</div>
+                  <div style="font-size:14px; color:var(--gray-500);" id="report-cost-label-labor">인건비</div>
                   <div style="font-size:18px; font-weight:800; color:var(--primary);" id="report-total-labor">-</div>
                 </div>
                 <div style="background:var(--yellow-bg); padding:12px; border-radius:8px; text-align:center;">
-                  <div style="font-size:11px; color:var(--gray-500);" id="report-cost-label-supplies">소모품비</div>
+                  <div style="font-size:14px; color:var(--gray-500);" id="report-cost-label-supplies">소모품비</div>
                   <div style="font-size:18px; font-weight:800; color:#B8860B;" id="report-total-supplies">-</div>
                 </div>
                 <div style="background:var(--blue-bg); padding:12px; border-radius:8px; text-align:center;">
-                  <div style="font-size:11px; color:var(--gray-500);" id="report-cost-label-ad">기타 비용</div>
+                  <div style="font-size:14px; color:var(--gray-500);" id="report-cost-label-ad">기타 비용</div>
                   <div style="font-size:18px; font-weight:800; color:var(--blue);" id="report-total-ad-pay">-</div>
                 </div>
                 <div style="background:var(--green-bg); padding:12px; border-radius:8px; text-align:center;">
-                  <div style="font-size:11px; color:var(--gray-500);" id="report-cost-label-gm">순수익</div>
+                  <div style="font-size:14px; color:var(--gray-500);" id="report-cost-label-gm">순수익</div>
                   <div style="font-size:18px; font-weight:800; color:var(--green);" id="report-total-gm-net">-</div>
                 </div>
               </div>
@@ -1410,10 +1410,10 @@
         <div class="header-actions"><button class="btn btn-primary btn-sm" onclick="openContractModal()">+ 계약 등록</button></div></div>
         <div class="page-body">
           <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px;">
-            <div style="background:var(--primary-bg); padding:12px; border-radius:8px; text-align:center;"><div style="font-size:20px; font-weight:800; color:var(--primary);" id="contract-total">0</div><div style="font-size:11px; color:var(--gray-500);">총 계약</div></div>
-            <div style="background:var(--green-bg); padding:12px; border-radius:8px; text-align:center;"><div style="font-size:20px; font-weight:800; color:var(--green);" id="contract-active">0</div><div style="font-size:11px; color:var(--gray-500);">체결</div></div>
-            <div style="background:var(--yellow-bg); padding:12px; border-radius:8px; text-align:center;"><div style="font-size:20px; font-weight:800; color:#B8860B;" id="contract-expiring">0</div><div style="font-size:11px; color:var(--gray-500);">만료 예정</div></div>
-            <div style="background:var(--gray-100); padding:12px; border-radius:8px; text-align:center;"><div style="font-size:20px; font-weight:800; color:var(--gray-600);" id="contract-nego">0</div><div style="font-size:11px; color:var(--gray-500);">협상중</div></div>
+            <div style="background:var(--primary-bg); padding:12px; border-radius:8px; text-align:center;"><div style="font-size:20px; font-weight:800; color:var(--primary);" id="contract-total">0</div><div style="font-size:14px; color:var(--gray-500);">총 계약</div></div>
+            <div style="background:var(--green-bg); padding:12px; border-radius:8px; text-align:center;"><div style="font-size:20px; font-weight:800; color:var(--green);" id="contract-active">0</div><div style="font-size:14px; color:var(--gray-500);">체결</div></div>
+            <div style="background:var(--yellow-bg); padding:12px; border-radius:8px; text-align:center;"><div style="font-size:20px; font-weight:800; color:#B8860B;" id="contract-expiring">0</div><div style="font-size:14px; color:var(--gray-500);">만료 예정</div></div>
+            <div style="background:var(--gray-100); padding:12px; border-radius:8px; text-align:center;"><div style="font-size:20px; font-weight:800; color:var(--gray-600);" id="contract-nego">0</div><div style="font-size:14px; color:var(--gray-500);">협상중</div></div>
           </div>
           <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
             <button class="btn btn-sm btn-primary" onclick="switchContractTab('all')" id="ct-tab-all">전체</button>
@@ -1458,31 +1458,31 @@
           <div class="card" style="margin-bottom:16px;">
             <div class="card-header"><h3>기능 설정</h3></div>
             <div class="card-body">
-              <p style="font-size:13px; color:var(--gray-500); margin-bottom:16px;">사용할 기능을 선택하세요. 비활성화하면 모든 직원에게 해당 메뉴가 숨겨집니다.</p>
+              <p style="font-size:14px; color:var(--gray-500); margin-bottom:16px;">사용할 기능을 선택하세요. 비활성화하면 모든 직원에게 해당 메뉴가 숨겨집니다.</p>
               <div style="display:flex; flex-direction:column; gap:12px;">
                 <label style="display:flex; align-items:center; gap:12px; padding:12px; background:var(--gray-50); border-radius:8px; cursor:pointer;">
                   <input type="checkbox" id="setting-attendance" checked onchange="saveSettings()" style="width:18px; height:18px;">
-                  <div><div style="font-weight:600;">출퇴근</div><div style="font-size:12px; color:var(--gray-500);">출근/퇴근 기록</div></div>
+                  <div><div style="font-weight:600;">출퇴근</div><div style="font-size:14px; color:var(--gray-500);">출근/퇴근 기록</div></div>
                 </label>
                 <label style="display:flex; align-items:center; gap:12px; padding:12px; background:var(--gray-50); border-radius:8px; cursor:pointer;">
                   <input type="checkbox" id="setting-approval" checked onchange="saveSettings()" style="width:18px; height:18px;">
-                  <div><div style="font-weight:600;">전자결재</div><div style="font-size:12px; color:var(--gray-500);">연차/휴가/지출 등 결재 요청</div></div>
+                  <div><div style="font-weight:600;">전자결재</div><div style="font-size:14px; color:var(--gray-500);">연차/휴가/지출 등 결재 요청</div></div>
                 </label>
                 <label style="display:flex; align-items:center; gap:12px; padding:12px; background:var(--gray-50); border-radius:8px; cursor:pointer;">
                   <input type="checkbox" id="setting-messages" checked onchange="saveSettings()" style="width:18px; height:18px;">
-                  <div><div style="font-weight:600;">메시지</div><div style="font-size:12px; color:var(--gray-500);">직원 간 메시지</div></div>
+                  <div><div style="font-weight:600;">메시지</div><div style="font-size:14px; color:var(--gray-500);">직원 간 메시지</div></div>
                 </label>
                 <label style="display:flex; align-items:center; gap:12px; padding:12px; background:var(--gray-50); border-radius:8px; cursor:pointer;">
                   <input type="checkbox" id="setting-ip" checked onchange="saveSettings()" style="width:18px; height:18px;">
-                  <div><div style="font-weight:600;">캐스팅</div><div style="font-size:12px; color:var(--gray-500);">아티스트/공연/콘텐츠 관리</div></div>
+                  <div><div style="font-weight:600;">캐스팅</div><div style="font-size:14px; color:var(--gray-500);">아티스트/공연/콘텐츠 관리</div></div>
                 </label>
                 <label style="display:flex; align-items:center; gap:12px; padding:12px; background:var(--gray-50); border-radius:8px; cursor:pointer;">
                   <input type="checkbox" id="setting-contract" checked onchange="saveSettings()" style="width:18px; height:18px;">
-                  <div><div style="font-weight:600;">계약 관리</div><div style="font-size:12px; color:var(--gray-500);">계약 현황 및 만료 알림</div></div>
+                  <div><div style="font-weight:600;">계약 관리</div><div style="font-size:14px; color:var(--gray-500);">계약 현황 및 만료 알림</div></div>
                 </label>
                 <label style="display:flex; align-items:center; gap:12px; padding:12px; background:var(--gray-50); border-radius:8px; cursor:pointer;">
                   <input type="checkbox" id="setting-settlement" checked onchange="saveSettings()" style="width:18px; height:18px;">
-                  <div><div style="font-weight:600;">정산</div><div style="font-size:12px; color:var(--gray-500);">수익원별 정산 (현재 비활성)</div></div>
+                  <div><div style="font-weight:600;">정산</div><div style="font-size:14px; color:var(--gray-500);">수익원별 정산 (현재 비활성)</div></div>
                 </label>
               </div>
             </div>
@@ -1491,14 +1491,14 @@
           <div class="card" style="margin-bottom:16px;">
             <div class="card-header"><h3>직원 권한 관리</h3></div>
             <div class="card-body">
-              <p style="font-size:13px; color:var(--gray-500); margin-bottom:16px;">직원의 역할을 변경하면 접근 가능한 메뉴가 달라집니다.</p>
+              <p style="font-size:14px; color:var(--gray-500); margin-bottom:16px;">직원의 역할을 변경하면 접근 가능한 메뉴가 달라집니다.</p>
               <div class="table-container">
                 <table>
                   <thead><tr><th>이름</th><th>이메일</th><th>부서</th><th>현재 권한</th><th>변경</th></tr></thead>
                   <tbody id="permission-table"></tbody>
                 </table>
               </div>
-              <div style="margin-top:16px; padding:16px; background:var(--gray-50); border-radius:8px; font-size:13px;">
+              <div style="margin-top:16px; padding:16px; background:var(--gray-50); border-radius:8px; font-size:14px;">
                 <div style="font-weight:700; margin-bottom:8px;">권한 등급 설명</div>
                 <div style="display:grid; grid-template-columns:100px 1fr; gap:4px 12px;">
                   <div style="font-weight:600; color:var(--primary);">대표</div><div>모든 기능 접근</div>
@@ -1514,7 +1514,7 @@
           <div class="card" style="margin-bottom:16px;">
             <div class="card-header"><h3>결재자 설정</h3></div>
             <div class="card-body">
-              <p style="font-size:13px; color:var(--gray-500); margin-bottom:16px;">부서별 결재자를 지정하세요. 해당 부서 직원이 결재 요청 시 자동으로 결재자 목록에 표시됩니다.</p>
+              <p style="font-size:14px; color:var(--gray-500); margin-bottom:16px;">부서별 결재자를 지정하세요. 해당 부서 직원이 결재 요청 시 자동으로 결재자 목록에 표시됩니다.</p>
               <div id="approver-settings">
                 <div class="table-container">
                   <table>
@@ -1535,11 +1535,11 @@
             <div class="card-body">
               <div style="display:flex; flex-direction:column; gap:12px;">
                 <div style="padding:12px; background:var(--gray-50); border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
-                  <div><div style="font-weight:600;">비밀번호 변경</div><div style="font-size:12px; color:var(--gray-500);">현재 로그인 계정의 비밀번호 변경</div></div>
+                  <div><div style="font-weight:600;">비밀번호 변경</div><div style="font-size:14px; color:var(--gray-500);">현재 로그인 계정의 비밀번호 변경</div></div>
                   <button class="btn btn-secondary btn-sm" onclick="openPasswordModal()">변경</button>
                 </div>
                 <div style="padding:12px; background:var(--gray-50); border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
-                  <div><div style="font-weight:600; color:var(--red);">계정 탈퇴</div><div style="font-size:12px; color:var(--gray-500);">모든 데이터가 삭제됩니다</div></div>
+                  <div><div style="font-weight:600; color:var(--red);">계정 탈퇴</div><div style="font-size:14px; color:var(--gray-500);">모든 데이터가 삭제됩니다</div></div>
                   <button class="btn btn-sm" style="background:#FEE2E2; color:var(--red); border:none; font-weight:600; padding:8px 16px; border-radius:8px; cursor:pointer;" onclick="deleteAccount()">탈퇴</button>
                 </div>
               </div>
@@ -1548,7 +1548,7 @@
 
           <div class="card">
             <div class="card-header"><h3>시스템 정보</h3></div>
-            <div class="card-body" style="font-size:13px; color:var(--gray-500);">
+            <div class="card-body" style="font-size:14px; color:var(--gray-500);">
               <div style="display:grid; grid-template-columns:120px 1fr; gap:8px;">
                 <div style="font-weight:600;">버전</div><div>V2.0</div>
                 <div style="font-weight:600;">플랫폼</div><div>Supabase + GitHub Pages</div>
@@ -1590,10 +1590,10 @@
         <div class="header-actions"><button class="btn btn-primary btn-sm" onclick="openTicketModal()">+ 판매 데이터 등록</button></div></div>
         <div class="page-body">
           <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px;">
-            <div class="card" style="border:none; background:var(--primary-bg);"><div class="card-body" style="padding:12px; text-align:center;"><div style="font-size:20px; font-weight:800; color:var(--primary);" id="ticket-total-sold">0</div><div style="font-size:11px; color:var(--gray-500);">총 판매</div></div></div>
-            <div class="card" style="border:none; background:var(--green-bg);"><div class="card-body" style="padding:12px; text-align:center;"><div style="font-size:20px; font-weight:800; color:var(--green);" id="ticket-total-revenue">&#8361;0</div><div style="font-size:11px; color:var(--gray-500);">총 매출</div></div></div>
-            <div class="card" style="border:none; background:var(--blue-bg);"><div class="card-body" style="padding:12px; text-align:center;"><div style="font-size:20px; font-weight:800; color:var(--blue);" id="ticket-avg-price">&#8361;0</div><div style="font-size:11px; color:var(--gray-500);">평균 티켓가</div></div></div>
-            <div class="card" style="border:none; background:var(--yellow-bg);"><div class="card-body" style="padding:12px; text-align:center;"><div style="font-size:20px; font-weight:800; color:#B8860B;" id="ticket-sell-rate">0%</div><div style="font-size:11px; color:var(--gray-500);">판매율</div></div></div>
+            <div class="card" style="border:none; background:var(--primary-bg);"><div class="card-body" style="padding:12px; text-align:center;"><div style="font-size:20px; font-weight:800; color:var(--primary);" id="ticket-total-sold">0</div><div style="font-size:14px; color:var(--gray-500);">총 판매</div></div></div>
+            <div class="card" style="border:none; background:var(--green-bg);"><div class="card-body" style="padding:12px; text-align:center;"><div style="font-size:20px; font-weight:800; color:var(--green);" id="ticket-total-revenue">&#8361;0</div><div style="font-size:14px; color:var(--gray-500);">총 매출</div></div></div>
+            <div class="card" style="border:none; background:var(--blue-bg);"><div class="card-body" style="padding:12px; text-align:center;"><div style="font-size:20px; font-weight:800; color:var(--blue);" id="ticket-avg-price">&#8361;0</div><div style="font-size:14px; color:var(--gray-500);">평균 티켓가</div></div></div>
+            <div class="card" style="border:none; background:var(--yellow-bg);"><div class="card-body" style="padding:12px; text-align:center;"><div style="font-size:20px; font-weight:800; color:#B8860B;" id="ticket-sell-rate">0%</div><div style="font-size:14px; color:var(--gray-500);">판매율</div></div></div>
           </div>
           <div class="card"><div class="table-container">
             <table><thead><tr><th>공연명</th><th>플랫폼</th><th>좌석수</th><th>판매수</th><th>판매율</th><th>매출</th><th>날짜</th></tr></thead>
@@ -1647,7 +1647,7 @@
           <!-- Country filter -->
           <div class="card" style="margin-bottom:16px;">
             <div class="card-body" style="padding:12px 16px;">
-              <div style="font-size:12px; font-weight:700; color:var(--gray-500); margin-bottom:8px;">국가 선택</div>
+              <div style="font-size:14px; font-weight:700; color:var(--gray-500); margin-bottom:8px;">국가 선택</div>
               <div id="global-cal-countries" style="display:flex; flex-wrap:wrap; gap:6px;">
               </div>
             </div>
@@ -1816,7 +1816,7 @@
           <div class="form-group">
             <label>금액 (원)</label>
             <input type="text" id="approval-amount" placeholder="0" oninput="formatMoney(this)" style="font-size:18px; font-weight:700; text-align:right;">
-            <div id="approval-amount-korean" style="font-size:12px; color:var(--primary); margin-top:4px; text-align:right;"></div>
+            <div id="approval-amount-korean" style="font-size:14px; color:var(--primary); margin-top:4px; text-align:right;"></div>
           </div>
         </div>
         <div class="form-group">
@@ -1917,7 +1917,7 @@
         <button class="modal-close" onclick="closeModal('notice-view-modal')">&times;</button>
       </div>
       <div class="modal-body">
-        <div id="view-notice-meta" style="font-size:12px; color:var(--gray-400); margin-bottom:16px;"></div>
+        <div id="view-notice-meta" style="font-size:14px; color:var(--gray-400); margin-bottom:16px;"></div>
         <div id="view-notice-content" style="white-space:pre-wrap; line-height:1.8;"></div>
       </div>
     </div>
@@ -1973,13 +1973,13 @@
         <input type="hidden" id="project-edit-id">
 
         <!-- 기본 정보 -->
-        <div style="font-size:12px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">기본 정보</div>
+        <div style="font-size:14px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">기본 정보</div>
         <div class="form-group">
           <label>상위 프로젝트 (선택)</label>
           <select id="project-parent" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
             <option value="">상위 프로젝트로 생성</option>
           </select>
-          <div style="font-size:11px; color:var(--gray-400); margin-top:4px;">투어/시리즈의 하위 프로젝트로 연결</div>
+          <div style="font-size:14px; color:var(--gray-400); margin-top:4px;">투어/시리즈의 하위 프로젝트로 연결</div>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
           <div class="form-group">
@@ -2035,7 +2035,7 @@
         </div>
 
         <!-- 인원 계획 -->
-        <div style="font-size:12px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin:20px 0 8px;">인원 계획</div>
+        <div style="font-size:14px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin:20px 0 8px;">인원 계획</div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
           <div class="form-group">
             <label>필요 인력 수</label>
@@ -2048,7 +2048,7 @@
         </div>
 
         <!-- 비용 계획 -->
-        <div style="font-size:12px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin:20px 0 8px;">비용 계획</div>
+        <div style="font-size:14px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin:20px 0 8px;">비용 계획</div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
           <div class="form-group">
             <label>공연장/대관비</label>
@@ -2073,14 +2073,14 @@
         </div>
 
         <!-- 프로젝트 메모 -->
-        <div style="font-size:12px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin:20px 0 8px;">프로젝트 메모</div>
+        <div style="font-size:14px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin:20px 0 8px;">프로젝트 메모</div>
         <div class="form-group">
           <label>기획 내용 / 특이사항</label>
           <textarea id="project-product-memo" placeholder="예: 공연장 조건, 스폰서 요구사항, 라이더 등" style="height:60px;"></textarea>
         </div>
 
         <!-- 목표 -->
-        <div style="font-size:12px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin:20px 0 8px;">목표</div>
+        <div style="font-size:14px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:1px; margin:20px 0 8px;">목표</div>
         <div class="form-group">
           <label>목표 매출 (원)</label>
           <input type="number" id="project-target-revenue" placeholder="0" min="0">
@@ -2345,7 +2345,7 @@
           <label>내용/메모</label>
           <textarea id="cal-memo" placeholder="메모 (선택)" style="height:60px;"></textarea>
         </div>
-        <div style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--gray-500);">
+        <div style="display:flex; align-items:center; gap:8px; font-size:14px; color:var(--gray-500);">
           <span>색상:</span>
           <span id="cal-color-preview" style="display:inline-block; width:16px; height:16px; border-radius:50%; background:#9333EA;"></span>
           <span id="cal-color-label">공연</span>
@@ -2761,8 +2761,8 @@
           const borderStyle = isToday ? 'border:2px solid var(--primary);' : 'border:1px solid var(--gray-200);';
           const bgStyle = isToday ? 'background:var(--primary-bg);' : '';
           html += `<div style="padding:6px 2px; border-radius:6px; ${borderStyle} ${bgStyle}">
-            <div style="font-size:11px; color:${isToday ? 'var(--primary)' : 'var(--gray-500)'}; font-weight:${isToday ? '700' : '500'};">${dayNames[i]}</div>
-            <div style="font-size:12px; font-weight:700; color:${teamColor}; margin-top:2px;">${teamText}</div>
+            <div style="font-size:14px; color:${isToday ? 'var(--primary)' : 'var(--gray-500)'}; font-weight:${isToday ? '700' : '500'};">${dayNames[i]}</div>
+            <div style="font-size:14px; font-weight:700; color:${teamColor}; margin-top:2px;">${teamText}</div>
           </div>`;
         }
         weekEl.innerHTML = html;
@@ -2810,7 +2810,7 @@
       const noticeList = document.getElementById('dash-notices');
       if (noticeList) {
         if (!notices || notices.length === 0) {
-          noticeList.innerHTML = '<div class="empty-state" style="padding:20px;"><p style="font-size:13px;">공지 없음</p></div>';
+          noticeList.innerHTML = '<div class="empty-state" style="padding:20px;"><p style="font-size:14px;">공지 없음</p></div>';
         } else {
           noticeList.innerHTML = notices.map(n => {
             const tagClass = n.tag === 'important' ? 'important' : n.tag === 'event' ? 'event' : 'general';
@@ -2847,7 +2847,7 @@
             const timeStr = ev.time ? ' ' + ev.time : '';
             return `<div style="padding:4px 0; border-bottom:1px solid var(--gray-100);">
               ${dot}<span style="font-weight:600;">${ev.title}</span>
-              <span style="color:var(--gray-400); font-size:12px; margin-left:6px;">${catLabel}${timeStr}</span>
+              <span style="color:var(--gray-400); font-size:14px; margin-left:6px;">${catLabel}${timeStr}</span>
             </div>`;
           }).join('');
         }

@@ -292,7 +292,7 @@ body {
 }
 
 .sidebar-logo span {
-  font-size: 11px;
+  font-size: 14px;
   color: rgba(255,255,255,0.5);
   display: block;
   font-weight: 400;
@@ -309,7 +309,7 @@ body {
 }
 
 .nav-section-title {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   color: rgba(255,255,255,0.35);
   text-transform: uppercase;
@@ -369,7 +369,7 @@ body {
   margin-left: auto;
   background: var(--primary);
   color: var(--white);
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   padding: 2px 7px;
   border-radius: 10px;
@@ -415,7 +415,7 @@ body {
 }
 
 .sidebar-user .user-role {
-  font-size: 11px;
+  font-size: 14px;
   color: rgba(255,255,255,0.45);
 }
 
@@ -554,14 +554,14 @@ body {
 .stat-card .stat-icon.yellow { background: var(--yellow-bg); color: var(--yellow); }
 
 .stat-card .stat-value {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 800;
   color: var(--black);
   letter-spacing: -1px;
 }
 
 .stat-card .stat-label {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--gray-500);
   margin-top: 4px;
 }
@@ -689,7 +689,7 @@ table {
 table thead th {
   text-align: left;
   padding: 12px 16px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--gray-500);
   text-transform: uppercase;
@@ -720,7 +720,7 @@ table tbody tr:last-child td {
   display: inline-block;
   padding: 4px 10px;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -754,7 +754,7 @@ table tbody tr:last-child td {
   display: inline-block;
   padding: 2px 8px;
   border-radius: 4px;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   margin-right: 8px;
 }
@@ -771,7 +771,7 @@ table tbody tr:last-child td {
 }
 
 .notice-item .notice-meta {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--gray-400);
 }
 
@@ -1036,7 +1036,7 @@ table tbody tr:last-child td {
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .stat-card { padding: 12px; }
   .stat-card .stat-value { font-size: 20px; }
-  .stat-card .stat-label { font-size: 11px; }
+  .stat-card .stat-label { font-size: 14px; }
   .stat-card .stat-icon { width: 32px; height: 32px; margin-bottom: 8px; }
 
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
@@ -1044,7 +1044,7 @@ table tbody tr:last-child td {
 
   .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   table { min-width: 500px; }
-  table thead th, table tbody td { padding: 8px 10px; font-size: 12px; white-space: nowrap; }
+  table thead th, table tbody td { padding: 8px 10px; font-size: 14px; white-space: nowrap; }
 
   .attendance-clock .time-display { font-size: 32px; }
   .attendance-buttons { flex-direction: column; gap: 8px; }
@@ -1075,7 +1075,7 @@ table tbody tr:last-child td {
 
   /* Dashboard mobile specific */
   #dash-floor-status { grid-template-columns: repeat(2, 1fr) !important; }
-  #dash-week-schedule { grid-template-columns: repeat(7, 1fr) !important; font-size: 11px; }
+  #dash-week-schedule { grid-template-columns: repeat(7, 1fr) !important; font-size: 14px; }
 }
 
 @media (max-width: 400px) {
@@ -1136,7 +1136,7 @@ table tbody tr:last-child td {
 }
 
 .approval-type {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--primary);
   margin-bottom: 2px;
@@ -1149,7 +1149,7 @@ table tbody tr:last-child td {
 }
 
 .approval-meta {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--gray-400);
   margin-top: 2px;
 }
@@ -1218,9 +1218,9 @@ table tbody tr:last-child td {
   .card-body { padding: 8px 12px; }
 
   /* Table print friendly */
-  table { font-size: 11px; width: 100%; }
+  table { font-size: 14px; width: 100%; }
   table thead th { background: #f0f0f0 !important; padding: 6px 8px; font-size: 10px; }
-  table tbody td { padding: 4px 8px; font-size: 11px; border-bottom: 1px solid #eee; }
+  table tbody td { padding: 4px 8px; font-size: 14px; border-bottom: 1px solid #eee; }
   .table-container { overflow: visible; max-height: none !important; }
 
   /* Global calendar specific */
@@ -1235,7 +1235,7 @@ table tbody tr:last-child td {
   .stat-card .stat-value { font-size: 18px; }
 
   /* Page title for print */
-  .page-header h1::after { content: ' — BIRCH SOUND'; font-size: 12px; color: #999; font-weight: 400; }
+  .page-header h1::after { content: ' — BIRCH SOUND'; font-size: 14px; color: #999; font-weight: 400; }
 
   /* Force background colors in print */
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }

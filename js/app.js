@@ -475,22 +475,22 @@ async function loadApprovals(filter = 'all') {
 
     let extraInfo = '';
     if ((item.type === 'expense' || item.type === 'purchase') && item.amount) {
-      extraInfo += `<span style="font-size:12px; color:var(--gray-500); margin-left:8px;">${Number(item.amount).toLocaleString()}원</span>`;
+      extraInfo += `<span style="font-size:14px; color:var(--gray-500); margin-left:8px;">${Number(item.amount).toLocaleString()}원</span>`;
     }
     if ((item.type === 'leave' || item.type === 'vacation') && item.start_date) {
-      extraInfo += `<span style="font-size:12px; color:var(--gray-500); margin-left:8px;">${item.start_date} ~ ${item.end_date || ''}</span>`;
+      extraInfo += `<span style="font-size:14px; color:var(--gray-500); margin-left:8px;">${item.start_date} ~ ${item.end_date || ''}</span>`;
     }
 
     return `<div class="approval-item" style="cursor:pointer; padding:12px 16px; border-bottom:1px solid var(--gray-100, #f3f4f6); display:flex; align-items:center; justify-content:space-between;" onclick="openApprovalDetail('${item.id}')">
       <div class="approval-info" style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
-        <span style="display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; color:white; background:${typeInfo.color}; white-space:nowrap;">${typeInfo.label}</span>
+        <span style="display:inline-block; padding:2px 8px; border-radius:4px; font-size:14px; font-weight:600; color:white; background:${typeInfo.color}; white-space:nowrap;">${typeInfo.label}</span>
         <div style="min-width:0; flex:1;">
           <div class="approval-title" style="font-weight:600; font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${item.title}${extraInfo}</div>
-          <div class="approval-meta" style="font-size:12px; color:var(--gray-500, #6b7280);">${requesterName} · ${date}</div>
+          <div class="approval-meta" style="font-size:14px; color:var(--gray-500, #6b7280);">${requesterName} · ${date}</div>
         </div>
       </div>
       <div>
-        <span style="display:inline-block; padding:2px 10px; border-radius:4px; font-size:12px; font-weight:600; color:${statusColor}; background:${statusBg};">${statusLabel}</span>
+        <span style="display:inline-block; padding:2px 10px; border-radius:4px; font-size:14px; font-weight:600; color:${statusColor}; background:${statusBg};">${statusLabel}</span>
       </div>
     </div>`;
   }).join('');
@@ -609,26 +609,26 @@ async function openApprovalDetail(id) {
 
   let detailHtml = `
     <div style="margin-bottom:16px; display:flex; align-items:center; gap:10px;">
-      <span style="display:inline-block; padding:3px 10px; border-radius:4px; font-size:12px; font-weight:600; color:white; background:${typeInfo.color};">${typeInfo.label}</span>
-      <span style="display:inline-block; padding:3px 10px; border-radius:4px; font-size:12px; font-weight:600; color:${statusColor}; background:${statusBg};">${statusLabel}</span>
+      <span style="display:inline-block; padding:3px 10px; border-radius:4px; font-size:14px; font-weight:600; color:white; background:${typeInfo.color};">${typeInfo.label}</span>
+      <span style="display:inline-block; padding:3px 10px; border-radius:4px; font-size:14px; font-weight:600; color:${statusColor}; background:${statusBg};">${statusLabel}</span>
     </div>
     <div style="margin-bottom:12px;">
-      <div style="font-size:11px; color:var(--gray-500); margin-bottom:2px;">제목</div>
+      <div style="font-size:14px; color:var(--gray-500); margin-bottom:2px;">제목</div>
       <div style="font-weight:600; font-size:16px;">${item.title}</div>
     </div>
     <div style="margin-bottom:12px;">
-      <div style="font-size:11px; color:var(--gray-500); margin-bottom:2px;">요청자</div>
+      <div style="font-size:14px; color:var(--gray-500); margin-bottom:2px;">요청자</div>
       <div>${requesterName}</div>
     </div>
     <div style="margin-bottom:12px;">
-      <div style="font-size:11px; color:var(--gray-500); margin-bottom:2px;">요청일</div>
+      <div style="font-size:14px; color:var(--gray-500); margin-bottom:2px;">요청일</div>
       <div>${date}</div>
     </div>`;
 
   if ((item.type === 'leave' || item.type === 'vacation') && item.start_date) {
     detailHtml += `
     <div style="margin-bottom:12px;">
-      <div style="font-size:11px; color:var(--gray-500); margin-bottom:2px;">기간</div>
+      <div style="font-size:14px; color:var(--gray-500); margin-bottom:2px;">기간</div>
       <div>${item.start_date} ~ ${item.end_date || ''}</div>
     </div>`;
   }
@@ -636,7 +636,7 @@ async function openApprovalDetail(id) {
   if ((item.type === 'expense' || item.type === 'purchase') && item.amount) {
     detailHtml += `
     <div style="margin-bottom:12px;">
-      <div style="font-size:11px; color:var(--gray-500); margin-bottom:2px;">금액</div>
+      <div style="font-size:14px; color:var(--gray-500); margin-bottom:2px;">금액</div>
       <div style="font-weight:600;">${Number(item.amount).toLocaleString()}원</div>
     </div>`;
   }
@@ -644,24 +644,24 @@ async function openApprovalDetail(id) {
   if (item.content) {
     detailHtml += `
     <div style="margin-bottom:12px;">
-      <div style="font-size:11px; color:var(--gray-500); margin-bottom:2px;">상세 내용</div>
-      <div style="white-space:pre-wrap; background:var(--gray-50, #f9fafb); padding:10px; border-radius:6px; font-size:13px;">${item.content}</div>
+      <div style="font-size:14px; color:var(--gray-500); margin-bottom:2px;">상세 내용</div>
+      <div style="white-space:pre-wrap; background:var(--gray-50, #f9fafb); padding:10px; border-radius:6px; font-size:14px;">${item.content}</div>
     </div>`;
   }
 
   if (item.attachment_memo) {
     detailHtml += `
     <div style="margin-bottom:12px;">
-      <div style="font-size:11px; color:var(--gray-500); margin-bottom:2px;">첨부 메모</div>
-      <div style="white-space:pre-wrap; background:var(--gray-50, #f9fafb); padding:10px; border-radius:6px; font-size:13px;">${item.attachment_memo}</div>
+      <div style="font-size:14px; color:var(--gray-500); margin-bottom:2px;">첨부 메모</div>
+      <div style="white-space:pre-wrap; background:var(--gray-50, #f9fafb); padding:10px; border-radius:6px; font-size:14px;">${item.attachment_memo}</div>
     </div>`;
   }
 
   if (item.status === 'rejected' && item.reject_reason) {
     detailHtml += `
     <div style="margin-bottom:12px;">
-      <div style="font-size:11px; color:#DC2626; margin-bottom:2px;">반려 사유</div>
-      <div style="white-space:pre-wrap; background:#FEE2E2; padding:10px; border-radius:6px; font-size:13px; color:#991B1B;">${item.reject_reason}</div>
+      <div style="font-size:14px; color:#DC2626; margin-bottom:2px;">반려 사유</div>
+      <div style="white-space:pre-wrap; background:#FEE2E2; padding:10px; border-radius:6px; font-size:14px; color:#991B1B;">${item.reject_reason}</div>
     </div>`;
   }
 
@@ -920,11 +920,11 @@ async function loadMembers() {
     const isMe = m.id === user.id;
 
     return `<tr>
-      <td><strong>${m.name}</strong>${isMe ? ' <span style="font-size:11px; color:var(--red);">(나)</span>' : ''}</td>
+      <td><strong>${m.name}</strong>${isMe ? ' <span style="font-size:14px; color:var(--red);">(나)</span>' : ''}</td>
       <td>${m.department || '-'}</td>
-      <td style="font-size:13px; color:var(--gray-500);">${m.email}</td>
+      <td style="font-size:14px; color:var(--gray-500);">${m.email}</td>
       <td>
-        <select onchange="changeRole('${m.id}', this.value)" style="padding:4px 8px; border:1px solid var(--gray-200); border-radius:4px; font-size:12px;" ${isMe ? 'disabled' : ''}>
+        <select onchange="changeRole('${m.id}', this.value)" style="padding:4px 8px; border:1px solid var(--gray-200); border-radius:4px; font-size:14px;" ${isMe ? 'disabled' : ''}>
           <option value="member" ${m.role === 'member' ? 'selected' : ''}>팀원</option>
           <option value="manager" ${m.role === 'manager' ? 'selected' : ''}>팀장</option>
           <option value="admin" ${m.role === 'admin' ? 'selected' : ''}>관리자</option>
@@ -933,7 +933,7 @@ async function loadMembers() {
       </td>
       <td>${attStatus}</td>
       <td>
-        <select onchange="changeDepartment('${m.id}', this.value)" style="padding:4px 8px; border:1px solid var(--gray-200); border-radius:4px; font-size:12px;">
+        <select onchange="changeDepartment('${m.id}', this.value)" style="padding:4px 8px; border:1px solid var(--gray-200); border-radius:4px; font-size:14px;">
           <option value="" ${!m.department ? 'selected' : ''}>미지정</option>
           <option value="경영" ${m.department === '경영' ? 'selected' : ''}>경영</option>
           <option value="기획" ${m.department === '기획' ? 'selected' : ''}>기획</option>
@@ -1416,7 +1416,7 @@ function renderScheduleGrid() {
   // The store only saves working entries, so we need to restore 휴무/연차 from getScheduleStore defaults
   _restoreOffDays(year, month, daysInMonth);
 
-  let html = '<table style="font-size:12px; min-width:auto; border-collapse:collapse;">';
+  let html = '<table style="font-size:14px; min-width:auto; border-collapse:collapse;">';
 
   // Header row: dates + day names
   html += '<thead><tr><th style="position:sticky; left:0; background:white; z-index:2; min-width:70px; padding:4px 8px; border:1px solid var(--gray-200);">이름</th>';
@@ -1435,7 +1435,7 @@ function renderScheduleGrid() {
     if (isSun) style += 'color:red;';
     if (isSat) style += 'color:blue;';
 
-    html += '<th style="' + style + '">' + d + '<br><span style="font-size:10px; font-weight:400;">' + dayNames[dow] + '</span></th>';
+    html += '<th style="' + style + '">' + d + '<br><span style="font-size:13px; font-weight:400;">' + dayNames[dow] + '</span></th>';
   }
   html += '<th style="text-align:center; min-width:45px; padding:4px; border:1px solid var(--gray-200);">합계</th></tr></thead>';
 
@@ -1448,7 +1448,7 @@ function renderScheduleGrid() {
     if (canEdit) {
       html += '<td style="position:sticky; left:0; background:white; z-index:1; font-weight:600; white-space:nowrap; padding:4px 4px 4px 8px; border:1px solid var(--gray-200);">' +
         '<span style="cursor:pointer;" onclick="renameScheduleStaff(\'' + name.replace(/'/g, "\\'") + '\')" title="이름 변경">' + name + '</span>' +
-        ' <span style="cursor:pointer; color:var(--red); font-size:11px; opacity:0.5;" onclick="deleteScheduleStaff(\'' + name.replace(/'/g, "\\'") + '\')" title="삭제">✕</span>' +
+        ' <span style="cursor:pointer; color:var(--red); font-size:14px; opacity:0.5;" onclick="deleteScheduleStaff(\'' + name.replace(/'/g, "\\'") + '\')" title="삭제">✕</span>' +
         '</td>';
     } else {
       html += '<td style="position:sticky; left:0; background:white; z-index:1; font-weight:600; white-space:nowrap; padding:4px 8px; border:1px solid var(--gray-200);">' + name + '</td>';
@@ -1818,11 +1818,11 @@ function calculateScheduleHours() {
     // Status badge
     let statusHtml = '';
     if (weekHours > WEEKLY_LIMIT) {
-      statusHtml = '<span style="display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; background:#fecaca; color:#dc2626;">&#9888;&#65039; 52시간 초과</span>';
+      statusHtml = '<span style="display:inline-block; padding:2px 8px; border-radius:4px; font-size:14px; font-weight:700; background:#fecaca; color:#dc2626;">&#9888;&#65039; 52시간 초과</span>';
     } else if (weekHours > OVERTIME_THRESHOLD) {
-      statusHtml = '<span style="display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; background:#fef3c7; color:#b45309;">연장근무 발생</span>';
+      statusHtml = '<span style="display:inline-block; padding:2px 8px; border-radius:4px; font-size:14px; font-weight:700; background:#fef3c7; color:#b45309;">연장근무 발생</span>';
     } else {
-      statusHtml = '<span style="display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; background:#d1fae5; color:#047857;">정상</span>';
+      statusHtml = '<span style="display:inline-block; padding:2px 8px; border-radius:4px; font-size:14px; font-weight:700; background:#d1fae5; color:#047857;">정상</span>';
     }
 
     // Week hours color
@@ -1926,15 +1926,15 @@ function renderResources() {
     const realIdx = store.indexOf(r);
     const color = categoryColors[r.category] || 'var(--gray-500)';
     const linkHtml = r.url
-      ? `<a href="${r.url}" target="_blank" style="color:var(--primary); text-decoration:none; font-size:13px;">열기</a>`
-      : '<span style="font-size:12px; color:var(--gray-400);">미등록</span>';
+      ? `<a href="${r.url}" target="_blank" style="color:var(--primary); text-decoration:none; font-size:14px;">열기</a>`
+      : '<span style="font-size:14px; color:var(--gray-400);">미등록</span>';
 
     return `<tr>
-      <td><strong>${r.title}</strong>${r.memo ? '<br><span style="font-size:11px; color:var(--gray-400);">' + r.memo + '</span>' : ''}</td>
-      <td><span style="display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; background:${color}15; color:${color};">${r.category}</span></td>
-      <td style="font-size:13px; color:var(--gray-500);">${r.date || '-'}</td>
+      <td><strong>${r.title}</strong>${r.memo ? '<br><span style="font-size:14px; color:var(--gray-400);">' + r.memo + '</span>' : ''}</td>
+      <td><span style="display:inline-block; padding:2px 8px; border-radius:4px; font-size:14px; font-weight:600; background:${color}15; color:${color};">${r.category}</span></td>
+      <td style="font-size:14px; color:var(--gray-500);">${r.date || '-'}</td>
       <td>${linkHtml}</td>
-      <td><button class="btn btn-ghost btn-sm" onclick="deleteResource(${realIdx})" style="color:var(--red); font-size:12px;">삭제</button></td>
+      <td><button class="btn btn-ghost btn-sm" onclick="deleteResource(${realIdx})" style="color:var(--red); font-size:14px;">삭제</button></td>
     </tr>`;
   }).join('');
 }
@@ -2140,14 +2140,14 @@ function renderProjectList(projects) {
         '<div style="display:flex; justify-content:space-between; align-items:center;">' +
           '<div>' +
             '<div style="display:flex; align-items:center; gap:8px;">' +
-              '<span style="background:' + color + '20; color:' + color + '; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700;">' + type + '</span>' +
+              '<span style="background:' + color + '20; color:' + color + '; padding:2px 8px; border-radius:4px; font-size:14px; font-weight:700;">' + type + '</span>' +
               '<span class="badge ' + (parent.status === 'active' ? 'badge-approved' : parent.status === 'planning' || parent.status === 'preparing' ? 'badge-pending' : 'badge-rejected') + '">' + (statusLabels[parent.status] || parent.status) + '</span>' +
             '</div>' +
             '<div style="font-size:18px; font-weight:800; margin-top:6px;">' + parent.name + '</div>' +
-            '<div style="font-size:13px; color:var(--gray-500); margin-top:2px;">' + (parent.location || '') + ' | ' + (parent.startDate || '') + ' ~ ' + (parent.endDate || '') + '</div>' +
+            '<div style="font-size:14px; color:var(--gray-500); margin-top:2px;">' + (parent.location || '') + ' | ' + (parent.startDate || '') + ' ~ ' + (parent.endDate || '') + '</div>' +
           '</div>' +
           '<div style="text-align:right;">' +
-            '<div style="font-size:12px; color:var(--gray-500);">하위 프로젝트 ' + myChildren.length + '개</div>' +
+            '<div style="font-size:14px; color:var(--gray-500);">하위 프로젝트 ' + myChildren.length + '개</div>' +
             '<div style="font-size:16px; font-weight:700; color:' + color + ';">\u20A9' + totalBudget.toLocaleString() + '</div>' +
             '<div style="font-size:20px; color:var(--gray-400);" id="proj-arrow-' + parent.id + '">\u25BC</div>' +
           '</div>' +
@@ -2163,11 +2163,11 @@ function renderProjectList(projects) {
           '<div style="display:flex; align-items:center; gap:6px;">' +
             '<span style="color:var(--gray-400);">\u2514</span>' +
             '<span style="font-weight:600;">' + child.name + '</span>' +
-            '<span class="badge ' + (child.status === 'active' ? 'badge-approved' : child.status === 'planning' || child.status === 'preparing' ? 'badge-pending' : 'badge-rejected') + '" style="font-size:10px;">' + (statusLabels[child.status] || child.status) + '</span>' +
+            '<span class="badge ' + (child.status === 'active' ? 'badge-approved' : child.status === 'planning' || child.status === 'preparing' ? 'badge-pending' : 'badge-rejected') + '" style="font-size:13px;">' + (statusLabels[child.status] || child.status) + '</span>' +
           '</div>' +
-          '<div style="font-size:12px; color:var(--gray-500); margin-left:20px;">' + (child.location || '') + ' | ' + (child.startDate || '') + ' ~ ' + (child.endDate || '') + '</div>' +
+          '<div style="font-size:14px; color:var(--gray-500); margin-left:20px;">' + (child.location || '') + ' | ' + (child.startDate || '') + ' ~ ' + (child.endDate || '') + '</div>' +
         '</div>' +
-        '<div style="font-size:13px; font-weight:600;">\u20A9' + ((parseInt(child.budgetInterior)||0)+(parseInt(child.budgetProduction)||0)+(parseInt(child.budgetGiveaway)||0)+(parseInt(child.budgetOther)||0)).toLocaleString() + '</div>' +
+        '<div style="font-size:14px; font-weight:600;">\u20A9' + ((parseInt(child.budgetInterior)||0)+(parseInt(child.budgetProduction)||0)+(parseInt(child.budgetGiveaway)||0)+(parseInt(child.budgetOther)||0)).toLocaleString() + '</div>' +
       '</div>';
     });
 
@@ -2197,11 +2197,11 @@ function renderProjectList(projects) {
         '<div style="display:flex; justify-content:space-between; align-items:center;">' +
           '<div>' +
             '<div style="display:flex; align-items:center; gap:8px;">' +
-              '<span style="background:' + color + '20; color:' + color + '; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700;">' + type + '</span>' +
+              '<span style="background:' + color + '20; color:' + color + '; padding:2px 8px; border-radius:4px; font-size:14px; font-weight:700;">' + type + '</span>' +
               '<span class="badge ' + (proj.status === 'active' ? 'badge-approved' : proj.status === 'planning' || proj.status === 'preparing' ? 'badge-pending' : 'badge-rejected') + '">' + (statusLabels[proj.status] || proj.status) + '</span>' +
             '</div>' +
             '<div style="font-size:16px; font-weight:700; margin-top:4px;">' + proj.name + '</div>' +
-            '<div style="font-size:12px; color:var(--gray-500);">' + (proj.location || '') + ' | ' + (proj.startDate || '') + ' ~ ' + (proj.endDate || '') + '</div>' +
+            '<div style="font-size:14px; color:var(--gray-500);">' + (proj.location || '') + ' | ' + (proj.startDate || '') + ' ~ ' + (proj.endDate || '') + '</div>' +
           '</div>' +
           '<div style="font-size:14px; font-weight:700;">\u20A9' + budget.toLocaleString() + '</div>' +
         '</div>' +
@@ -2216,7 +2216,7 @@ function renderProjectList(projects) {
     html += '<div class="card" style="margin-bottom:12px; cursor:pointer;" onclick="toggleProjectDetail(\'' + proj.id + '\')">' +
       '<div class="card-body" style="padding:14px 20px;">' +
         '<div style="font-size:16px; font-weight:700;">' + proj.name + '</div>' +
-        '<div style="font-size:12px; color:var(--gray-500);">' + (proj.location || '') + '</div>' +
+        '<div style="font-size:14px; color:var(--gray-500);">' + (proj.location || '') + '</div>' +
       '</div>' +
       '<div id="project-detail-' + proj.id + '" style="display:none; border-top:1px solid var(--gray-100); padding:16px 20px;">' + renderProjectDetailTabs(proj) + '</div>' +
     '</div>';
@@ -2239,12 +2239,12 @@ function renderProjectDetailTabs(proj) {
   // Overview tab
   html += '<div id="proj-tab-' + proj.id + '-overview">' +
     '<div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:14px;">' +
-      '<div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">프로젝트명</div><div style="font-weight:700; margin-top:4px;">' + proj.name + '</div></div>' +
-      '<div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">IP/작품명</div><div style="font-weight:700; margin-top:4px;">' + (proj.ip || '-') + '</div></div>' +
-      '<div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">기간</div><div style="font-weight:700; margin-top:4px;">' + (proj.startDate || '-') + ' ~ ' + (proj.endDate || '-') + '</div></div>' +
-      '<div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">국가/도시</div><div style="font-weight:700; margin-top:4px;">' + (proj.location || '-') + '</div></div>' +
-      '<div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">투입 인력</div><div style="font-weight:700; margin-top:4px;">' + workerCount + '명</div></div>' +
-      '<div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">예상 인건비</div><div style="font-weight:700; margin-top:4px;">' + laborCost.toLocaleString() + '원</div></div>' +
+      '<div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;"><div style="font-size:14px; color:var(--gray-500); font-weight:600;">프로젝트명</div><div style="font-weight:700; margin-top:4px;">' + proj.name + '</div></div>' +
+      '<div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;"><div style="font-size:14px; color:var(--gray-500); font-weight:600;">IP/작품명</div><div style="font-weight:700; margin-top:4px;">' + (proj.ip || '-') + '</div></div>' +
+      '<div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;"><div style="font-size:14px; color:var(--gray-500); font-weight:600;">기간</div><div style="font-weight:700; margin-top:4px;">' + (proj.startDate || '-') + ' ~ ' + (proj.endDate || '-') + '</div></div>' +
+      '<div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;"><div style="font-size:14px; color:var(--gray-500); font-weight:600;">국가/도시</div><div style="font-weight:700; margin-top:4px;">' + (proj.location || '-') + '</div></div>' +
+      '<div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;"><div style="font-size:14px; color:var(--gray-500); font-weight:600;">투입 인력</div><div style="font-weight:700; margin-top:4px;">' + workerCount + '명</div></div>' +
+      '<div style="background:var(--gray-50); padding:12px 16px; border-radius:8px;"><div style="font-size:14px; color:var(--gray-500); font-weight:600;">예상 인건비</div><div style="font-weight:700; margin-top:4px;">' + laborCost.toLocaleString() + '원</div></div>' +
     '</div>' +
     '<div style="margin-top:16px; display:flex; gap:8px;">' +
       '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); openProjectModal(\'' + proj.id + '\')" style="color:var(--primary);">수정</button>' +
@@ -2265,7 +2265,7 @@ function renderProjectDetailTabs(proj) {
       var typeBg = typeBgMap[w.type] || 'rgba(156,163,175,0.1)';
       var wStatusMap = { '섭외중': '#f59e0b', '확정': '#3b82f6', '진행중': '#10b981', '완료': '#9ca3af' };
       var statusColor = wStatusMap[w.status] || '#9ca3af';
-      html += '<tr><td><span style="display:inline-block; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700; background:' + typeBg + '; color:' + typeColor + ';">' + (w.type || '-') + '</span></td><td><strong>' + w.name + '</strong></td><td style="font-size:13px;">' + (w.role || '-') + '</td><td style="font-weight:700;">' + (w.contractAmount || 0).toLocaleString() + '원</td><td><span style="color:' + statusColor + '; font-weight:600; font-size:13px;">' + (w.status || '-') + '</span></td><td style="font-size:12px; color:var(--gray-500);">' + (w.memo || '-') + '</td><td><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); deleteProjectWorker(\'' + proj.id + '\', ' + wi + ')" style="color:var(--red); font-size:12px;">삭제</button></td></tr>';
+      html += '<tr><td><span style="display:inline-block; padding:2px 10px; border-radius:20px; font-size:14px; font-weight:700; background:' + typeBg + '; color:' + typeColor + ';">' + (w.type || '-') + '</span></td><td><strong>' + w.name + '</strong></td><td style="font-size:14px;">' + (w.role || '-') + '</td><td style="font-weight:700;">' + (w.contractAmount || 0).toLocaleString() + '원</td><td><span style="color:' + statusColor + '; font-weight:600; font-size:14px;">' + (w.status || '-') + '</span></td><td style="font-size:14px; color:var(--gray-500);">' + (w.memo || '-') + '</td><td><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); deleteProjectWorker(\'' + proj.id + '\', ' + wi + ')" style="color:var(--red); font-size:14px;">삭제</button></td></tr>';
     });
     html += '</tbody></table></div>';
   }
@@ -2273,11 +2273,11 @@ function renderProjectDetailTabs(proj) {
   // Revenue tab
   html += '<div id="proj-tab-' + proj.id + '-revenue" style="display:none;">' +
     '<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">' +
-      '<div style="background:var(--gray-50); padding:16px; border-radius:8px; text-align:center;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">예상 매출</div><div style="font-size:22px; font-weight:800; margin-top:8px;">' + (proj.expectedRevenue || 0).toLocaleString() + '원</div></div>' +
-      '<div style="background:rgba(13,148,136,0.06); padding:16px; border-radius:8px; text-align:center;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">실제 매출</div><div style="font-size:22px; font-weight:800; margin-top:8px; color:var(--primary);">' + (proj.actualRevenue || 0).toLocaleString() + '원</div></div>' +
-      '<div style="background:rgba(239,68,68,0.06); padding:16px; border-radius:8px; text-align:center;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">예상 인건비</div><div style="font-size:22px; font-weight:800; margin-top:8px; color:var(--red);">' + laborCost.toLocaleString() + '원</div></div>' +
+      '<div style="background:var(--gray-50); padding:16px; border-radius:8px; text-align:center;"><div style="font-size:14px; color:var(--gray-500); font-weight:600;">예상 매출</div><div style="font-size:22px; font-weight:800; margin-top:8px;">' + (proj.expectedRevenue || 0).toLocaleString() + '원</div></div>' +
+      '<div style="background:rgba(13,148,136,0.06); padding:16px; border-radius:8px; text-align:center;"><div style="font-size:14px; color:var(--gray-500); font-weight:600;">실제 매출</div><div style="font-size:22px; font-weight:800; margin-top:8px; color:var(--primary);">' + (proj.actualRevenue || 0).toLocaleString() + '원</div></div>' +
+      '<div style="background:rgba(239,68,68,0.06); padding:16px; border-radius:8px; text-align:center;"><div style="font-size:14px; color:var(--gray-500); font-weight:600;">예상 인건비</div><div style="font-size:22px; font-weight:800; margin-top:8px; color:var(--red);">' + laborCost.toLocaleString() + '원</div></div>' +
     '</div>' +
-    '<div style="margin-top:16px; background:var(--gray-50); padding:16px; border-radius:8px; text-align:center;"><div style="font-size:11px; color:var(--gray-500); font-weight:600;">예상 순이익 (실제매출 - 인건비)</div><div style="font-size:26px; font-weight:800; margin-top:8px; color:' + (((proj.actualRevenue || 0) - laborCost) >= 0 ? 'var(--primary)' : 'var(--red)') + ';">' + ((proj.actualRevenue || 0) - laborCost).toLocaleString() + '원</div></div>' +
+    '<div style="margin-top:16px; background:var(--gray-50); padding:16px; border-radius:8px; text-align:center;"><div style="font-size:14px; color:var(--gray-500); font-weight:600;">예상 순이익 (실제매출 - 인건비)</div><div style="font-size:26px; font-weight:800; margin-top:8px; color:' + (((proj.actualRevenue || 0) - laborCost) >= 0 ? 'var(--primary)' : 'var(--red)') + ';">' + ((proj.actualRevenue || 0) - laborCost).toLocaleString() + '원</div></div>' +
   '</div>';
   // Costs tab
   html += '<div id="proj-tab-' + proj.id + '-costs" style="display:none;"><div><table><thead><tr><th>항목</th><th>내용</th><th>금액</th><th>삭제</th></tr></thead><tbody id="project-costs-' + proj.id + '"></tbody><tfoot><tr style="font-weight:700;"><td colspan="2">비용 합계</td><td id="project-cost-total-' + proj.id + '">\u20A90</td><td></td></tr><tr style="font-weight:700; color:var(--primary);"><td colspan="2">순익 (매출 - 비용 - 인건비)</td><td id="project-profit-' + proj.id + '">\u20A90</td><td></td></tr></tfoot></table>' +
@@ -2655,19 +2655,19 @@ function loadAccounts() {
     const maskedPw = acc.password ? '\u2022'.repeat(Math.min(acc.password.length, 10)) : '-';
     return `<tr>
       <td><strong>${acc.name}</strong></td>
-      <td style="font-size:13px; color:var(--gray-500);">${acc.purpose || '-'}</td>
-      <td style="font-size:13px;">${acc.username || '-'}</td>
-      <td style="font-size:13px;">
+      <td style="font-size:14px; color:var(--gray-500);">${acc.purpose || '-'}</td>
+      <td style="font-size:14px;">${acc.username || '-'}</td>
+      <td style="font-size:14px;">
         <span id="pw-display-${idx}">${maskedPw}</span>
         <span id="pw-real-${idx}" style="display:none;">${acc.password || '-'}</span>
         ${acc.password ? `<button onclick="togglePassword(${idx})" style="background:none; border:none; cursor:pointer; padding:2px 6px; font-size:14px; color:var(--gray-400);" title="비밀번호 보기/숨기기" id="pw-toggle-${idx}">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
         </button>` : ''}
       </td>
-      <td style="font-size:13px; color:var(--gray-500);">${acc.manager || '-'}</td>
+      <td style="font-size:14px; color:var(--gray-500);">${acc.manager || '-'}</td>
       <td>
-        <button class="btn btn-ghost btn-sm" onclick="openAccountModal(${idx})" style="font-size:12px;">수정</button>
-        <button class="btn btn-ghost btn-sm" onclick="deleteAccount(${idx})" style="color:var(--red); font-size:12px;">삭제</button>
+        <button class="btn btn-ghost btn-sm" onclick="openAccountModal(${idx})" style="font-size:14px;">수정</button>
+        <button class="btn btn-ghost btn-sm" onclick="deleteAccount(${idx})" style="color:var(--red); font-size:14px;">삭제</button>
       </td>
     </tr>`;
   }).join('');
@@ -2762,14 +2762,14 @@ function loadContacts() {
   tbody.innerHTML = contacts.map((c, idx) => {
     return `<tr>
       <td><strong>${c.name}</strong></td>
-      <td style="font-size:13px;">${c.nameEn || '-'}</td>
-      <td style="font-size:13px;">${c.position || '-'}</td>
-      <td style="font-size:13px;">${c.team || '-'}</td>
-      <td style="font-size:13px; color:var(--gray-500);">${c.email || '-'}</td>
-      <td style="font-size:13px;">${c.phone || '-'}</td>
+      <td style="font-size:14px;">${c.nameEn || '-'}</td>
+      <td style="font-size:14px;">${c.position || '-'}</td>
+      <td style="font-size:14px;">${c.team || '-'}</td>
+      <td style="font-size:14px; color:var(--gray-500);">${c.email || '-'}</td>
+      <td style="font-size:14px;">${c.phone || '-'}</td>
       <td>
-        <button class="btn btn-ghost btn-sm" onclick="openContactModal(${idx})" style="font-size:12px;">수정</button>
-        <button class="btn btn-ghost btn-sm" onclick="deleteContact(${idx})" style="color:var(--red); font-size:12px;">삭제</button>
+        <button class="btn btn-ghost btn-sm" onclick="openContactModal(${idx})" style="font-size:14px;">수정</button>
+        <button class="btn btn-ghost btn-sm" onclick="deleteContact(${idx})" style="color:var(--red); font-size:14px;">삭제</button>
       </td>
     </tr>`;
   }).join('');
@@ -2853,11 +2853,11 @@ function loadParttimeContacts() {
   tbody.innerHTML = contacts.map((c, idx) => {
     return `<tr>
       <td><strong>${c.name}</strong></td>
-      <td style="font-size:13px;">${c.phone || '-'}</td>
-      <td style="font-size:13px; color:var(--gray-500);">${c.note || '-'}</td>
+      <td style="font-size:14px;">${c.phone || '-'}</td>
+      <td style="font-size:14px; color:var(--gray-500);">${c.note || '-'}</td>
       <td>
-        <button class="btn btn-ghost btn-sm" onclick="openParttimeModal(${idx})" style="font-size:12px;">수정</button>
-        <button class="btn btn-ghost btn-sm" onclick="deleteParttimeContact(${idx})" style="color:var(--red); font-size:12px;">삭제</button>
+        <button class="btn btn-ghost btn-sm" onclick="openParttimeModal(${idx})" style="font-size:14px;">수정</button>
+        <button class="btn btn-ghost btn-sm" onclick="deleteParttimeContact(${idx})" style="color:var(--red); font-size:14px;">삭제</button>
       </td>
     </tr>`;
   }).join('');
@@ -3085,17 +3085,17 @@ function renderCalendarGrid(year, month) {
       events.slice(0, 3).forEach(ev => {
         const color = ev.color || calCategoryColors[ev.category] || '#6B7280';
         const truncTitle = ev.title.length > 6 ? ev.title.substring(0, 6) + '..' : ev.title;
-        badgesHtml += `<div onclick="event.stopPropagation(); openCalendarModal(null, '${ev.id}')" style="display:block; padding:1px 6px; border-radius:4px; font-size:10px; font-weight:600; background:${color}20; color:${color}; margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; cursor:pointer;" title="${ev.title} | ${calCategoryLabels[ev.category] || ''} | ${ev.location || ''}">${truncTitle}</div>`;
+        badgesHtml += `<div onclick="event.stopPropagation(); openCalendarModal(null, '${ev.id}')" style="display:block; padding:1px 6px; border-radius:4px; font-size:13px; font-weight:600; background:${color}20; color:${color}; margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; cursor:pointer;" title="${ev.title} | ${calCategoryLabels[ev.category] || ''} | ${ev.location || ''}">${truncTitle}</div>`;
       });
 
       if (events.length > 3) {
-        badgesHtml += `<div style="font-size:10px; color:var(--gray-400); margin-top:2px; text-align:center;">+${events.length - 3}건</div>`;
+        badgesHtml += `<div style="font-size:13px; color:var(--gray-400); margin-top:2px; text-align:center;">+${events.length - 3}건</div>`;
       }
 
       const dateColor = isSunday ? 'var(--red)' : (isSaturday ? 'var(--blue)' : 'var(--gray-700)');
 
       html += `<td style="${cellStyle}" onclick="openCalendarModal('${dateStr}')">
-        <div style="font-size:13px; font-weight:700; color:${dateColor}; margin-bottom:2px;">${dayCount}</div>
+        <div style="font-size:14px; font-weight:700; color:${dateColor}; margin-bottom:2px;">${dayCount}</div>
         <div style="line-height:1.3;">${badgesHtml}</div>
       </td>`;
       dayCount++;
@@ -3138,14 +3138,14 @@ function renderEventList(year, month) {
       : ev.startDate;
 
     return `<tr>
-      <td style="font-size:13px; white-space:nowrap;">${dateDisplay}</td>
-      <td><span style="display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; background:${color}20; color:${color};">${catLabel}</span></td>
+      <td style="font-size:14px; white-space:nowrap;">${dateDisplay}</td>
+      <td><span style="display:inline-block; padding:2px 8px; border-radius:4px; font-size:14px; font-weight:600; background:${color}20; color:${color};">${catLabel}</span></td>
       <td><strong>${ev.title}</strong></td>
-      <td style="font-size:13px; color:var(--gray-500);">${ev.location || '-'}</td>
-      <td style="font-size:13px; color:var(--gray-500);">${ev.time || '-'}</td>
-      <td style="font-size:13px;">${ev.manager || '-'}</td>
+      <td style="font-size:14px; color:var(--gray-500);">${ev.location || '-'}</td>
+      <td style="font-size:14px; color:var(--gray-500);">${ev.time || '-'}</td>
+      <td style="font-size:14px;">${ev.manager || '-'}</td>
       <td>
-        <button class="btn btn-ghost btn-sm" onclick="openCalendarModal(null, '${ev.id}')" style="font-size:12px;">수정</button>
+        <button class="btn btn-ghost btn-sm" onclick="openCalendarModal(null, '${ev.id}')" style="font-size:14px;">수정</button>
       </td>
     </tr>`;
   }).join('');
@@ -3370,7 +3370,7 @@ function renderYearView(year) {
     html += `<div style="font-weight:700; text-align:center; margin-bottom:8px; cursor:pointer; color:var(--primary);" onclick="calYear=${year}; calMonth=${m}; switchCalView('month');">${m + 1}월</div>`;
 
     // Day name headers
-    html += '<div style="display:grid; grid-template-columns:repeat(7,1fr); gap:1px; font-size:9px; text-align:center; margin-bottom:2px;">';
+    html += '<div style="display:grid; grid-template-columns:repeat(7,1fr); gap:1px; font-size:12px; text-align:center; margin-bottom:2px;">';
     dayNames.forEach((dn, di) => {
       const color = di === 0 ? 'var(--red)' : (di === 6 ? 'var(--blue)' : 'var(--gray-400)');
       html += `<div style="color:${color}; font-weight:600;">${dn}</div>`;
@@ -3378,7 +3378,7 @@ function renderYearView(year) {
     html += '</div>';
 
     // Day grid
-    html += '<div style="display:grid; grid-template-columns:repeat(7,1fr); gap:1px; font-size:10px; text-align:center;">';
+    html += '<div style="display:grid; grid-template-columns:repeat(7,1fr); gap:1px; font-size:13px; text-align:center;">';
 
     // Empty cells before first day
     for (let i = 0; i < firstDay; i++) {
@@ -3452,14 +3452,14 @@ function renderWeekView(date) {
 
     html += `<div style="min-height:300px; ${borderStyle} border-radius:10px; overflow:hidden;">`;
     html += `<div style="text-align:center; padding:10px 8px; font-weight:700; background:${headerBg}; color:${headerColor};">`;
-    html += `${d.getMonth() + 1}/${d.getDate()}<br><span style="font-size:11px; font-weight:500;">${dayNames[i]}</span>`;
+    html += `${d.getMonth() + 1}/${d.getDate()}<br><span style="font-size:14px; font-weight:500;">${dayNames[i]}</span>`;
     html += '</div>';
 
     html += '<div style="padding:6px;">';
 
     // Wednesday store closed banner
     if (isWednesday) {
-      html += '<div style="padding:6px 8px; margin-bottom:6px; border-radius:6px; font-size:11px; font-weight:600; background:var(--gray-100); color:var(--gray-500); text-align:center;">정기 휴무</div>';
+      html += '<div style="padding:6px 8px; margin-bottom:6px; border-radius:6px; font-size:14px; font-weight:600; background:var(--gray-100); color:var(--gray-500); text-align:center;">정기 휴무</div>';
     }
 
     const events = getEventsForDate(dateStr);
@@ -3468,16 +3468,16 @@ function renderWeekView(date) {
     events.forEach(ev => {
       const color = ev.color || calCategoryColors[ev.category] || '#6B7280';
       const catLabel = calCategoryLabels[ev.category] || '';
-      html += `<div onclick="openCalendarModal(null, '${ev.id}')" style="padding:6px 8px; margin-bottom:4px; border-radius:6px; font-size:12px; background:${color}15; border-left:3px solid ${color}; cursor:pointer;" title="${ev.title}">`;
+      html += `<div onclick="openCalendarModal(null, '${ev.id}')" style="padding:6px 8px; margin-bottom:4px; border-radius:6px; font-size:14px; background:${color}15; border-left:3px solid ${color}; cursor:pointer;" title="${ev.title}">`;
       html += `<div style="font-weight:600; margin-bottom:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${ev.title}</div>`;
-      if (ev.time) html += `<span style="font-size:10px; color:var(--gray-500);">${ev.time}</span> `;
-      if (ev.location) html += `<span style="font-size:10px; color:var(--gray-400);">${ev.location}</span>`;
-      if (catLabel) html += `<div style="font-size:9px; color:${color}; margin-top:2px;">${catLabel}</div>`;
+      if (ev.time) html += `<span style="font-size:13px; color:var(--gray-500);">${ev.time}</span> `;
+      if (ev.location) html += `<span style="font-size:13px; color:var(--gray-400);">${ev.location}</span>`;
+      if (catLabel) html += `<div style="font-size:12px; color:${color}; margin-top:2px;">${catLabel}</div>`;
       html += '</div>';
     });
 
     if (events.length === 0 && !isWednesday) {
-      html += '<div style="font-size:11px; color:var(--gray-300); text-align:center; padding:20px 0;">일정 없음</div>';
+      html += '<div style="font-size:14px; color:var(--gray-300); text-align:center; padding:20px 0;">일정 없음</div>';
     }
 
     html += '</div></div>';
@@ -3516,14 +3516,14 @@ function renderEventListForYear(year) {
       : ev.startDate;
 
     return `<tr>
-      <td style="font-size:13px; white-space:nowrap;">${dateDisplay}</td>
-      <td><span style="display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; background:${color}20; color:${color};">${catLabel}</span></td>
+      <td style="font-size:14px; white-space:nowrap;">${dateDisplay}</td>
+      <td><span style="display:inline-block; padding:2px 8px; border-radius:4px; font-size:14px; font-weight:600; background:${color}20; color:${color};">${catLabel}</span></td>
       <td><strong>${ev.title}</strong></td>
-      <td style="font-size:13px; color:var(--gray-500);">${ev.location || '-'}</td>
-      <td style="font-size:13px; color:var(--gray-500);">${ev.time || '-'}</td>
-      <td style="font-size:13px;">${ev.manager || '-'}</td>
+      <td style="font-size:14px; color:var(--gray-500);">${ev.location || '-'}</td>
+      <td style="font-size:14px; color:var(--gray-500);">${ev.time || '-'}</td>
+      <td style="font-size:14px;">${ev.manager || '-'}</td>
       <td>
-        <button class="btn btn-ghost btn-sm" onclick="openCalendarModal(null, '${ev.id}')" style="font-size:12px;">수정</button>
+        <button class="btn btn-ghost btn-sm" onclick="openCalendarModal(null, '${ev.id}')" style="font-size:14px;">수정</button>
       </td>
     </tr>`;
   }).join('');
@@ -3561,14 +3561,14 @@ function renderEventListForWeek(date) {
       : ev.startDate;
 
     return `<tr>
-      <td style="font-size:13px; white-space:nowrap;">${dateDisplay}</td>
-      <td><span style="display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; background:${color}20; color:${color};">${catLabel}</span></td>
+      <td style="font-size:14px; white-space:nowrap;">${dateDisplay}</td>
+      <td><span style="display:inline-block; padding:2px 8px; border-radius:4px; font-size:14px; font-weight:600; background:${color}20; color:${color};">${catLabel}</span></td>
       <td><strong>${ev.title}</strong></td>
-      <td style="font-size:13px; color:var(--gray-500);">${ev.location || '-'}</td>
-      <td style="font-size:13px; color:var(--gray-500);">${ev.time || '-'}</td>
-      <td style="font-size:13px;">${ev.manager || '-'}</td>
+      <td style="font-size:14px; color:var(--gray-500);">${ev.location || '-'}</td>
+      <td style="font-size:14px; color:var(--gray-500);">${ev.time || '-'}</td>
+      <td style="font-size:14px;">${ev.manager || '-'}</td>
       <td>
-        <button class="btn btn-ghost btn-sm" onclick="openCalendarModal(null, '${ev.id}')" style="font-size:12px;">수정</button>
+        <button class="btn btn-ghost btn-sm" onclick="openCalendarModal(null, '${ev.id}')" style="font-size:14px;">수정</button>
       </td>
     </tr>`;
   }).join('');
@@ -3633,13 +3633,13 @@ async function loadMessages() {
     var isMine = (msg.from_id === myId);
     var isAll = msg.is_broadcast;
     var timeStr = new Date(msg.created_at).toLocaleString('ko-KR', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-    var toLabel = isAll ? '<span style="display:inline-block; padding:1px 6px; border-radius:4px; font-size:11px; font-weight:600; background:var(--blue-bg); color:var(--blue);">전체</span>' : (msg.to_name || '');
+    var toLabel = isAll ? '<span style="display:inline-block; padding:1px 6px; border-radius:4px; font-size:14px; font-weight:600; background:var(--blue-bg); color:var(--blue);">전체</span>' : (msg.to_name || '');
 
     var align = isMine ? 'flex-end' : 'flex-start';
     var bubbleClass = isMine ? 'mine' : (isAll ? 'broadcast' : 'others');
 
     return '<div style="display:flex; flex-direction:column; align-items:' + align + '; margin-bottom:16px;">' +
-      '<div style="font-size:11px; color:var(--gray-400); margin-bottom:4px;">' +
+      '<div style="font-size:14px; color:var(--gray-400); margin-bottom:4px;">' +
         '<strong style="color:var(--gray-700);">' + (msg.from_name || '') + '</strong>' +
         ' &rarr; ' + toLabel +
         ' &middot; ' + timeStr +
@@ -3769,8 +3769,8 @@ function renderIPPortfolio() {
     return '<tr><td colspan="6" style="padding:0;"><div style="padding:16px; display:flex; gap:16px; align-items:center; cursor:pointer;">' +
       '<div style="width:60px; height:60px; background:var(--gray-200); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:24px;">&#127908;</div>' +
       '<div style="flex:1;"><div style="font-weight:700;">' + (a.name || '') + '</div>' +
-      '<div style="font-size:12px; color:var(--gray-500);">' + (a.genre || '-') + ' | ' + (a.agency || '-') + '</div>' +
-      '<div style="font-size:12px; color:var(--gray-400); margin-top:4px;">공연 ' + showCount + '회 | 콘텐츠 ' + contentCount + '개</div></div></div></td></tr>';
+      '<div style="font-size:14px; color:var(--gray-500);">' + (a.genre || '-') + ' | ' + (a.agency || '-') + '</div>' +
+      '<div style="font-size:14px; color:var(--gray-400); margin-top:4px;">공연 ' + showCount + '회 | 콘텐츠 ' + contentCount + '개</div></div></div></td></tr>';
   }).join('');
 }
 function getIPStore() {
@@ -3863,7 +3863,7 @@ function renderContractTable() {
   tbody.innerHTML = items.map(c => {
     const statusMap = { negotiating: ['협상중','badge-pending'], signed: ['체결','badge-approved'], expiring: ['만료 예정','badge-pending'], expired: ['만료','badge-rejected'] };
     const [label, cls] = statusMap[c.status] || ['기타','badge-pending'];
-    return '<tr><td style="font-weight:600;">' + c.name + '</td><td>' + (CONTRACT_TYPES[c.type] || c.type) + '</td><td>' + (c.party || '-') + '</td><td style="font-size:12px;">' + (c.startDate || '') + ' ~ ' + (c.endDate || '') + '</td><td>' + (c.revenueShare ? c.revenueShare + '%' : '-') + '</td><td>' + (c.mg ? '₩' + parseInt(c.mg).toLocaleString() : '-') + '</td><td><span class="badge ' + cls + '">' + label + '</span></td></tr>';
+    return '<tr><td style="font-weight:600;">' + c.name + '</td><td>' + (CONTRACT_TYPES[c.type] || c.type) + '</td><td>' + (c.party || '-') + '</td><td style="font-size:14px;">' + (c.startDate || '') + ' ~ ' + (c.endDate || '') + '</td><td>' + (c.revenueShare ? c.revenueShare + '%' : '-') + '</td><td>' + (c.mg ? '₩' + parseInt(c.mg).toLocaleString() : '-') + '</td><td><span class="badge ' + cls + '">' + label + '</span></td></tr>';
   }).join('');
 }
 function openContractModal() {
@@ -3902,7 +3902,7 @@ function renderFinanceTable() {
   const tbody = document.getElementById('finance-table-body');
   if (!tbody) return;
   if (items.length === 0) { tbody.innerHTML = '<tr><td colspan="6" class="empty-state">거래 데이터를 등록하세요.</td></tr>'; return; }
-  tbody.innerHTML = items.map(f => '<tr><td>' + (f.date || '-') + '</td><td><span class="badge ' + (f.type === 'revenue' ? 'badge-approved' : f.type === 'purchase' ? 'badge-pending' : 'badge-rejected') + '">' + (f.type === 'revenue' ? '매출' : f.type === 'purchase' ? '매입' : '비용') + '</span></td><td>' + (f.item || '-') + '</td><td style="font-weight:700; color:' + (f.type === 'revenue' ? 'var(--green)' : 'var(--red)') + ';">₩' + (parseInt(f.amount) || 0).toLocaleString() + '</td><td>' + (f.project || '-') + '</td><td style="font-size:12px;">' + (f.note || '-') + '</td></tr>').join('');
+  tbody.innerHTML = items.map(f => '<tr><td>' + (f.date || '-') + '</td><td><span class="badge ' + (f.type === 'revenue' ? 'badge-approved' : f.type === 'purchase' ? 'badge-pending' : 'badge-rejected') + '">' + (f.type === 'revenue' ? '매출' : f.type === 'purchase' ? '매입' : '비용') + '</span></td><td>' + (f.item || '-') + '</td><td style="font-weight:700; color:' + (f.type === 'revenue' ? 'var(--green)' : 'var(--red)') + ';">₩' + (parseInt(f.amount) || 0).toLocaleString() + '</td><td>' + (f.project || '-') + '</td><td style="font-size:14px;">' + (f.note || '-') + '</td></tr>').join('');
 }
 function openFinanceModal() { closeModal('finance-modal'); document.getElementById('finance-modal').classList.add('active'); }
 function saveFinance() {
@@ -3943,8 +3943,8 @@ function loadApproverSettings() {
   tbody.innerHTML = settings.map((s, i) => {
     return `<tr>
       <td style="font-weight:600;">${s.dept}</td>
-      <td><input type="text" id="approver1-${i}" value="${s.approver1 || ''}" placeholder="이름 입력" style="padding:8px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:13px; width:100%;"></td>
-      <td><input type="text" id="approver2-${i}" value="${s.approver2 || ''}" placeholder="(선택사항)" style="padding:8px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:13px; width:100%;"></td>
+      <td><input type="text" id="approver1-${i}" value="${s.approver1 || ''}" placeholder="이름 입력" style="padding:8px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:14px; width:100%;"></td>
+      <td><input type="text" id="approver2-${i}" value="${s.approver2 || ''}" placeholder="(선택사항)" style="padding:8px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:14px; width:100%;"></td>
     </tr>`;
   }).join('');
 }
@@ -3989,11 +3989,11 @@ async function loadPermissionTable() {
 
     tbody.innerHTML = profiles.map(p => `<tr>
       <td style="font-weight:600;">${p.name || '-'}${p.id === (currentUser && currentUser.id) ? ' (나)' : ''}</td>
-      <td style="font-size:12px;">${p.email || '-'}</td>
+      <td style="font-size:14px;">${p.email || '-'}</td>
       <td>${p.department || '-'}</td>
       <td><span style="color:${roleColors[p.role] || 'inherit'}; font-weight:600;">${roleLabels[p.role] || p.role}</span></td>
       <td>
-        <select onchange="changeUserRole('${p.id}', this.value)" style="padding:6px 10px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:13px;" ${p.id === (currentUser && currentUser.id) ? 'disabled title="본인 권한은 변경할 수 없습니다"' : ''}>
+        <select onchange="changeUserRole('${p.id}', this.value)" style="padding:6px 10px; border:1px solid var(--gray-200); border-radius:6px; font-family:inherit; font-size:14px;" ${p.id === (currentUser && currentUser.id) ? 'disabled title="본인 권한은 변경할 수 없습니다"' : ''}>
           <option value="ceo" ${p.role === 'ceo' ? 'selected' : ''}>대표</option>
           <option value="admin" ${p.role === 'admin' ? 'selected' : ''}>관리자</option>
           <option value="manager" ${p.role === 'manager' ? 'selected' : ''}>팀장</option>
@@ -4260,7 +4260,7 @@ function renderTravel() {
   const purposeMap = { '공연장섭외': '공연장 섭외', '파트너미팅': '파트너 미팅', '투자미팅': '투자 미팅', '아티스트미팅': '아티스트 미팅', '현장답사': '현장 답사', '기타': '기타' };
   tbody.innerHTML = items.map(t => {
     const [label, cls] = statusMap[t.status] || ['계획','badge-pending'];
-    return '<tr><td style="font-weight:600;">' + (t.name || '-') + '</td><td>' + (t.country || '') + ' ' + (t.city || '') + '</td><td style="font-size:12px;">' + (t.startDate || '') + ' ~ ' + (t.endDate || '') + '</td><td>' + (purposeMap[t.purpose] || t.purpose || '-') + '</td><td>' + fmtWon(t.estimatedCost) + '</td><td>' + (t.actualCost ? fmtWon(t.actualCost) : '-') + '</td><td><span class="badge ' + cls + '">' + label + '</span></td><td>' + (t.assignee || '-') + '</td></tr>';
+    return '<tr><td style="font-weight:600;">' + (t.name || '-') + '</td><td>' + (t.country || '') + ' ' + (t.city || '') + '</td><td style="font-size:14px;">' + (t.startDate || '') + ' ~ ' + (t.endDate || '') + '</td><td>' + (purposeMap[t.purpose] || t.purpose || '-') + '</td><td>' + fmtWon(t.estimatedCost) + '</td><td>' + (t.actualCost ? fmtWon(t.actualCost) : '-') + '</td><td><span class="badge ' + cls + '">' + label + '</span></td><td>' + (t.assignee || '-') + '</td></tr>';
   }).join('');
 }
 function openTravelModal() {
@@ -4309,7 +4309,7 @@ function renderCRM() {
   if (items.length === 0) { tbody.innerHTML = '<tr><td colspan="8" class="empty-state">파트너 정보를 등록하세요.</td></tr>'; return; }
   tbody.innerHTML = items.map(c => {
     const [statusLabel, statusCls] = statusMap[c.status] || ['신규','badge-pending'];
-    return '<tr><td style="font-weight:600;">' + (c.company || '-') + '</td><td>' + (typeMap[c.type] || c.type) + '</td><td>' + (c.country || '-') + '</td><td>' + (c.contact || '-') + '</td><td style="font-size:12px;">' + (c.email || c.phone || '-') + '</td><td>' + (c.lastMeeting || '-') + '</td><td><span class="badge ' + statusCls + '">' + statusLabel + '</span></td><td style="font-size:12px; max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">' + (c.memo || '-') + '</td></tr>';
+    return '<tr><td style="font-weight:600;">' + (c.company || '-') + '</td><td>' + (typeMap[c.type] || c.type) + '</td><td>' + (c.country || '-') + '</td><td>' + (c.contact || '-') + '</td><td style="font-size:14px;">' + (c.email || c.phone || '-') + '</td><td>' + (c.lastMeeting || '-') + '</td><td><span class="badge ' + statusCls + '">' + statusLabel + '</span></td><td style="font-size:14px; max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">' + (c.memo || '-') + '</td></tr>';
   }).join('');
 }
 function openCRMModal() {
@@ -4650,7 +4650,7 @@ function renderCountryFilter() {
   container.innerHTML = Object.entries(GLOBAL_HOLIDAYS).map(function(entry) {
     var code = entry[0], country = entry[1];
     var checked = selectedCountries.includes(code);
-    return '<label style="display:inline-flex; align-items:center; gap:4px; padding:4px 10px; background:' + (checked ? 'var(--primary-bg)' : 'var(--gray-50)') + '; border:1px solid ' + (checked ? 'var(--primary)' : 'var(--gray-200)') + '; border-radius:6px; font-size:12px; cursor:pointer; white-space:nowrap;">' +
+    return '<label style="display:inline-flex; align-items:center; gap:4px; padding:4px 10px; background:' + (checked ? 'var(--primary-bg)' : 'var(--gray-50)') + '; border:1px solid ' + (checked ? 'var(--primary)' : 'var(--gray-200)') + '; border-radius:6px; font-size:14px; cursor:pointer; white-space:nowrap;">' +
       '<input type="checkbox" ' + (checked ? 'checked' : '') + ' onchange="toggleCountry(\'' + code + '\', this)" style="display:none;">' +
       country.flag + ' ' + country.name +
     '</label>';
@@ -4698,7 +4698,7 @@ function renderGlobalCal() {
   thead.innerHTML = '<tr style="background:var(--gray-50);"><th style="width:40px; text-align:center;">Day</th><th style="width:40px; text-align:center;">DOW</th>' +
     selectedCountries.map(function(code) {
       var c = GLOBAL_HOLIDAYS[code];
-      return '<th style="min-width:140px; font-size:12px; text-align:center;">' + (c ? c.flag + ' ' + c.name : code) + '</th>';
+      return '<th style="min-width:140px; font-size:14px; text-align:center;">' + (c ? c.flag + ' ' + c.name : code) + '</th>';
     }).join('') + '</tr>';
 
   var daysInMonth = new Date(globalCalYear, globalCalMonth + 1, 0).getDate();
@@ -4723,7 +4723,7 @@ function renderGlobalCal() {
 
     html += '<tr style="' + rowBg + '">';
     html += '<td style="text-align:center; font-weight:700; ' + dayColor + '">' + d + '</td>';
-    html += '<td style="text-align:center; font-size:12px; ' + dayColor + '">' + dayNames[dow] + '</td>';
+    html += '<td style="text-align:center; font-size:14px; ' + dayColor + '">' + dayNames[dow] + '</td>';
 
     selectedCountries.forEach(function(code) {
       var country = GLOBAL_HOLIDAYS[code];
@@ -4732,15 +4732,15 @@ function renderGlobalCal() {
       var dstText = '';
       if (dst && dst.start !== 'none' && globalCalYear === 2026) {
         if (dateKey === dst.start) {
-          dstText = '<div style="font-size:10px; color:#007AFF; margin-top:2px;">\uD83D\uDD50 DST Start (Spring Forward)</div>';
+          dstText = '<div style="font-size:13px; color:#007AFF; margin-top:2px;">\uD83D\uDD50 DST Start (Spring Forward)</div>';
         } else if (dateKey === dst.end) {
-          dstText = '<div style="font-size:10px; color:#007AFF; margin-top:2px;">\uD83D\uDD50 DST End (Fall Back)</div>';
+          dstText = '<div style="font-size:13px; color:#007AFF; margin-top:2px;">\uD83D\uDD50 DST End (Fall Back)</div>';
         }
       }
       if (holiday) {
-        html += '<td style="font-size:12px; padding:6px 8px; background:rgba(255,59,48,0.08); border-left:2px solid var(--primary, #FF3B30);"><strong style="color:var(--primary, #FF3B30);">' + holiday + '</strong>' + dstText + '</td>';
+        html += '<td style="font-size:14px; padding:6px 8px; background:rgba(255,59,48,0.08); border-left:2px solid var(--primary, #FF3B30);"><strong style="color:var(--primary, #FF3B30);">' + holiday + '</strong>' + dstText + '</td>';
       } else if (isRamadan && ['ID','MY','AE','SA'].includes(code)) {
-        html += '<td style="font-size:11px; color:#B8860B; padding:6px 8px;">\uD83C\uDF19 Ramadan' + dstText + '</td>';
+        html += '<td style="font-size:14px; color:#B8860B; padding:6px 8px;">\uD83C\uDF19 Ramadan' + dstText + '</td>';
       } else if (dstText) {
         html += '<td style="padding:6px 8px;">' + dstText + '</td>';
       } else {
@@ -4764,7 +4764,7 @@ function renderGlobalCal() {
     }
   }
   if (dstLegendEl && globalCalYear === 2026) {
-    var legendHtml = '<div style="margin-top:12px; padding:12px 16px; background:#F0F7FF; border:1px solid #B3D4FC; border-radius:8px; font-size:12px;">';
+    var legendHtml = '<div style="margin-top:12px; padding:12px 16px; background:#F0F7FF; border:1px solid #B3D4FC; border-radius:8px; font-size:14px;">';
     legendHtml += '<strong style="color:#007AFF;">\uD83D\uDD50 Daylight Saving Time (DST) 2026</strong>';
     legendHtml += '<div style="display:flex; flex-wrap:wrap; gap:8px 16px; margin-top:8px;">';
     selectedCountries.forEach(function(code) {
